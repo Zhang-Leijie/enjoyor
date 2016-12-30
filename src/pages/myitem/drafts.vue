@@ -1,6 +1,6 @@
 <template>
-	<div class="fund-inlist">
-		<div class="edit addnew">
+	<div class="fund-inlist">		
+		<div class="edit addnew" @click="dialogFormVisible = true">
 			创建项目
 		</div>
 		<el-breadcrumb separator="/">
@@ -103,6 +103,17 @@
 				</tr>
 			</tbody>
 		</table>
+		<el-dialog title="创建项目" v-model="dialogFormVisible">
+		  <el-form>
+		    <el-form-item>
+		      	<el-input placeholder="请输入项目名称" v-model="itemname"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer" style="text-align:center">
+		  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
+		  	<div class="button blue" @click="gocreat()">确定</div>
+		  </div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -128,8 +139,26 @@
 	          value: '选项2',
 	          label: '选项2'
 	        }],
-	        highsearch:true
+	        highsearch:true,
+	        dialogTableVisible: false,
+        	dialogFormVisible: false,
+        	itemname:"",
+	        formLabelWidth: '80px'
 	      }
+	    },
+	    methods:{
+	    	gocreat(){
+	    		if (this.itemname!="") {
+	    			this.dialogFormVisible = false,
+	    			router.push({name: 'my-creat'})
+	    		}
+	    		else{
+	    			this.$message({
+			          message: '请输入项目名',
+			          type: 'warning'
+			        })
+	    		}
+	    	}
 	    }
 	}
 </script>

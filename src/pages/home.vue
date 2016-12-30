@@ -52,7 +52,9 @@
               <el-menu-item index="6-3">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-menu-item index="7"><i class="el-icon-setting"></i>个人中心</el-menu-item>
+          <router-link :to="{name:'personal'}">
+            <el-menu-item index="7"><i class="el-icon-setting"></i>个人中心</el-menu-item>
+          </router-link>
           <el-menu-item index="8"><i class="el-icon-setting"></i>公众号文章</el-menu-item>
         </el-menu>
       </el-col>
@@ -101,6 +103,7 @@ export default {
     padding-left: 260px;
     padding-top: 80px;
     .left-box{
+      overflow: scroll;
       position: absolute;
       top: 0px;
       left: 0px;

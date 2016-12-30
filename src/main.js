@@ -12,3 +12,5 @@ new Vue({
   router,
   render: h => h(App)
 })
+
+window.router = router

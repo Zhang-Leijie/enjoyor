@@ -47,10 +47,22 @@ const routes = [
                 require(['./pages/myitem/drafts.vue'],resolve)
             }
         },{
+            path: "/myitem-creat",
+            name: 'my-creat',
+            component(resolve) {
+                require(['./pages/myitem/creat-fund.vue'],resolve)
+            }
+        },{
             path: "/myitem-draftsfund",
             name: 'my-draftsfund',
             component(resolve) {
                 require(['./pages/myitem/drafts-fund.vue'],resolve)
+            }
+        },{
+            path: "/person",
+            name: 'personal',
+            component(resolve) {
+                require(['./pages/person/person.vue'],resolve)
             }
         },{
 	        path: "/home",

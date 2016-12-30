@@ -1,14 +1,6 @@
 <template>
 	<div class="fund-video">
-		<div class="edit" @click="edit=!edit">
-			<i class="el-icon-edit"></i>
-			编辑
-		</div>
-		<div class="video">
-			<embed src="https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid=n0359d7th83&auto=0" width="870" height="500" align="middle" allowFullScreen="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash">
-			</embed>  
-		</div>
-		<div class="fund-summary" v-show="edit==true">
+		<div class="fund-summary">
 			<div class="sum-item">
 				<div class="item-title">
 					URL地址
@@ -18,7 +10,6 @@
 				</div>
 			</div>
 			<div style="text-align:center">
-				<div class="button grey" style="margin-right:20px;" @click="edit=!edit">取消</div>
 				<div class="button blue" @click="edit=!edit">保存</div>
 			</div>
 		</div>
@@ -36,7 +27,7 @@ export default {
 <style lang="less">
 	.fund-video{
 		position: relative;
-		padding-top: 90px;
+		padding-top: 20px;
 		padding-bottom: 40px;
 		.video{
 			width: 870px;

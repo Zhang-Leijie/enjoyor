@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<div class="fund-summary" v-show="personal==false">
-			<div class="edit">
+			<div class="edit" @click="dialogFormVisible = true">
 				<i class="el-icon-edit"></i>
-				评级
+				编辑
 			</div>
 			<div  class="ratechart" id='ratechart'>
 				
@@ -102,6 +102,44 @@
 				</table>
 			</div>
 		</div>
+		<el-dialog title="项目评分" v-model="dialogFormVisible">
+		  <el-form :model="form">
+		    <el-form-item label="独角兽潜力" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="千亿市场" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="前两名机会" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="银江生态" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="变现造血能力" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="复制和扩张" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="CEO综合" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="团队运营" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="估值性价比" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="融资退出" :label-width="formLabelWidth">
+		      <el-input auto-complete="off"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer" style="text-align:center">
+		  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
+		  	<div class="button blue" @click="dialogFormVisible = false">确定</div>
+		  </div>
+		</el-dialog>
 		<div class="fund-summary" style="padding-top:60px;" v-show="personal==true">
 			<div class="back" @click="personal=!personal">
 				返回
@@ -267,7 +305,20 @@
 	export default {
 	  data () {
 	    return {
-	      personal:false
+	      	personal:false,
+	      	dialogTableVisible: false,
+        	dialogFormVisible: false,
+        	form: {
+	          name: '',
+	          region: '',
+	          date1: '',
+	          date2: '',
+	          delivery: false,
+	          type: [],
+	          resource: '',
+	          desc: ''
+	        },
+	        formLabelWidth: '100px'
 	    }
 	  },
 	  methods:{
