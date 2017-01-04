@@ -5,30 +5,45 @@
         <img src="../assets/logo2.png" class="logoimg">
     </div>
     <div class="logo-box">
-        <input placeholder="请输入用户名" v-model="username" type="number" class="input"></input>
+        <input placeholder="请输入用户名" v-model="username" class="input"></input>
         <input placeholder="请输入登陆密码" v-model="password" type="password" class="input"></input>
         <div class="remember">
             <el-checkbox checked style="color:#4990e2">记住密码</el-checkbox>
         </div>
-        <router-link class="log" v-bind:class="{blue:username!=null&&password!=null}" :to='{name:"home"}'>
+        <div class="log" v-bind:class="{blue:username!=null&&password!=null}" @click="signin">
             登陆
-        </router-link>
+        </div>
     </div>
   </div>
   <div class="sign-foot"></div>
 </div>
 </template>
 <script>
+import {Login} from '../ajax/post.js'
 export default {
-  data() {
-    return {
-        username:null,
-        password:null
+    data() {
+        return {
+            username:null,
+            password:null
+        }
+    },
+    methods: {
+        signin(){
+            Login({
+                userName:this.username,
+                password:this.password
+            }).then((res) => {
+                router.push({name:"home"})
+            }).catch((e) => {
+                swal({
+                    title: "登录失败",
+                    type: 'warn',
+                    text: "账户或密码不正确",
+                    timer: 2000,
+                })
+            })
+        }
     }
-  },
-  methods: {
-    
-  }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -57,7 +72,7 @@ export default {
             border-radius: 20px;
             .input{
                 font-size: 14px;
-                color: #ccc;
+                // color: #ccc;
                 padding: 10px;
                 background-color: #fff !important;
                 margin: 0px auto 20px;

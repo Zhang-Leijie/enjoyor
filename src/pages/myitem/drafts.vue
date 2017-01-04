@@ -78,7 +78,7 @@
 		<table class="tableStyle" style="margin-top:25px;">
 			<thead>
 				<tr>
-					<th>序号</th>
+					<!-- <th>序号</th> -->
 					<th style="width:150px;">项目名称</th>
 					<th>地点</th>
 					<th>项目来源</th>
@@ -87,12 +87,15 @@
 					<th>所属基金</th>
 					<th>分值</th>
 					<th>项目节点</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(i,index) in 10">
-					<td>0{{index+1}}</td>
-					<td><router-link :to="{name:'my-draftsfund'}" class="link">云财经（A股大数据）</router-link></td>
+				<tr v-for="(list,index) in lists">
+					<!-- <td>{{index+1}}</td> -->
+					<td class="fabu">
+						<router-link :to="{name:'my-draftsfund'}" class="link">{{list.project_name}}</router-link>
+					</td>
 					<td>深圳</td>
 					<td>天使投资全合投</td>
 					<td>天使轮</td>
@@ -100,9 +103,19 @@
 					<td>赵基金A</td>
 					<td>88.0</td>
 					<td>投后管理</td>
+					<td class="fabu">发布</td>
 				</tr>
 			</tbody>
 		</table>
+		<el-pagination v-if="intotal"
+	      @size-change="handleSizeChange"
+	      @current-change="handleCurrentChange"
+	      :current-page="currentPage"
+	      :page-size="10"
+	      layout="total , prev, pager, next, jumper"
+	      :total='intotal'
+	      style="margin:20px auto;text-align:center">
+	    </el-pagination>
 		<el-dialog title="创建项目" v-model="dialogFormVisible">
 		  <el-form>
 		    <el-form-item>
@@ -117,9 +130,13 @@
 	</div>
 </template>
 <script>
+	import {Item} from '../../ajax/post.js'
+	import {itemList} from '../../ajax/get.js'
 	export default {
 	    data() {
 	      return {
+	      	lists:'',
+	      	intotal:'',
 	        pickerOptions0: {
 	          disabledDate(time) {
 	            return time.getTime() < Date.now() - 8.64e7;
@@ -143,14 +160,31 @@
 	        dialogTableVisible: false,
         	dialogFormVisible: false,
         	itemname:"",
-	        formLabelWidth: '80px'
+	        formLabelWidth: '80px',
+	        currentPage: 1
 	      }
 	    },
 	    methods:{
+	    	getList(){
+	    		itemList({
+    				project_type:0,
+    				page:1,
+    				line:10
+    			}).then((res) => {
+					this.lists = res.data.list
+					this.intotal = parseInt(res.data.count)
+				})    
+	    	},
 	    	gocreat(){
 	    		if (this.itemname!="") {
-	    			this.dialogFormVisible = false,
-	    			router.push({name: 'my-creat'})
+	    			Item({
+	    				type:0,
+	    				strProject:JSON.stringify({
+	    					project_name:this.itemname
+	    				})
+	    			}).then((res) => {
+						router.push({name: 'my-creat',query:{id:res.data.projectId}})
+					})    			
 	    		}
 	    		else{
 	    			this.$message({
@@ -158,7 +192,25 @@
 			          type: 'warning'
 			        })
 	    		}
-	    	}
+	    	},
+	    	handleSizeChange(val) {
+		        console.log(`每页 ${val} 条`);
+		    },
+		    handleCurrentChange(val) {
+		        this.currentPage = val;
+		        console.log(`当前页: ${val}`);
+		        itemList({
+    				project_type:0,
+    				page:val,
+    				line:10
+    			}).then((res) => {
+					this.lists = res.data.list
+					this.intotal = parseInt(res.data.count)
+				})  
+		    }
+	    },
+	    mounted:function(){
+	    	this.getList()
 	    }
 	}
 </script>
@@ -177,7 +229,8 @@
 			}
 		}
 		.addnew{
-			top: 300px;
+			z-index: 999;
+			top: 120px;
 			right: -20px;
 			opacity: 0.8
 		}
@@ -187,5 +240,11 @@
 		width: 240px;
 		height: 40px;
 		padding: 12px 10px;
+	}
+	.fabu{
+		&:hover{
+			color: #4990e2;
+			cursor: pointer;
+		}
 	}
 </style>

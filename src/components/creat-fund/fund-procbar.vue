@@ -1,5 +1,9 @@
 <template>
 	<div class="clearfix" style="margin-bottom:50px;">
+		<div class="edit" @click="rate">
+			<i class="el-icon-edit"></i>
+			评级
+		</div>
 		<div class="note-process">
 			<div class="unfinish">
 				
@@ -67,12 +71,44 @@
 	</div>
 </template>
 <script>
+import {itemDetail} from '../../ajax/get.js'
+import {Item} from '../../ajax/post.js'
+
 	export default {
-	  data () {
-	    return {
-	    	process:0
-	    }
-	  }
+	  	data () {
+	    	return {
+	    		process:'',
+	    	}
+	  	},
+	  	methods:{
+	  		getInfo(){
+		      	itemDetail({
+					id:this.$route.query.id
+				}).then((res) => {
+					this.process = res.data.project.project_schedule-0+1
+				}) 
+		    },
+		    rate(){
+		    	Item({
+					type:2,
+					strProject:JSON.stringify({
+						id:this.$route.query.id,
+						project_schedule:this.process-0-1
+					})
+				}).then((res) => {
+					this.getInfo()
+					swal({
+		                title: "编辑进度成功",
+		                type: 'success',
+		                text: "编辑进度成功",
+		                timer: 2000,
+		            })
+				}) 
+		    }
+	  	},
+	  	mounted:function(){
+	  		this.getInfo()
+	  	}
 	}
 </script>
 <style lang="less">

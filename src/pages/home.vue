@@ -5,12 +5,12 @@
         <img src="../assets/logo.png" style="height:50px;">
       </div>
       <el-col :span="8" style="width:100%">
-        <el-menu default-active="2" style="background-color:#32323a">
+        <el-menu  style="background-color:#32323a">
           <router-link :to="{name:'main'}">
-            <el-menu-item index="1"><i class="el-icon-menu"></i>主页</el-menu-item>
+            <el-menu-item index="1"><i class="iconfont icon-shouye"></i>主页</el-menu-item>
           </router-link>
           <router-link :to="{name:'fund-list'}">
-            <el-menu-item index="2"><i class="el-icon-menu"></i>基金列表</el-menu-item>
+            <el-menu-item index="2"><i class="iconfont icon-heimingdan"></i>基金列表</el-menu-item>
           </router-link>
           <!-- <el-submenu index="2">
             <template slot="title"><i class="el-icon-message"></i>基金列表</template>
@@ -26,9 +26,9 @@
               </router-link>
             </el-menu-item-group>
           </el-submenu> -->
-          <el-menu-item index="3"><i class="el-icon-setting"></i>未投项目</el-menu-item>
+          <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
           <el-submenu index="4">
-            <template slot="title"><i class="el-icon-message"></i>我的项目</template>
+            <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
             <el-menu-item-group>            
               <el-menu-item index="4-1">已发布项目</el-menu-item>             
               <router-link :to="{name:'my-drafts'}">
@@ -37,7 +37,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
-            <template slot="title"><i class="el-icon-message"></i>基金统计</template>
+            <template slot="title"><i class="iconfont icon-chart"></i>基金统计</template>
             <el-menu-item-group>
               <el-menu-item index="5-1">选项1</el-menu-item>
               <el-menu-item index="5-2">选项2</el-menu-item>
@@ -45,7 +45,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="6">
-            <template slot="title"><i class="el-icon-message"></i>公告中心</template>
+            <template slot="title"><i class="iconfont icon-gonggao"></i>公告中心</template>
             <el-menu-item-group>
               <el-menu-item index="6-1">选项1</el-menu-item>
               <el-menu-item index="6-2">选项2</el-menu-item>
@@ -53,9 +53,9 @@
             </el-menu-item-group>
           </el-submenu>
           <router-link :to="{name:'personal'}">
-            <el-menu-item index="7"><i class="el-icon-setting"></i>个人中心</el-menu-item>
+            <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
           </router-link>
-          <el-menu-item index="8"><i class="el-icon-setting"></i>公众号文章</el-menu-item>
+          <el-menu-item index="8"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
         </el-menu>
       </el-col>
     </div>
@@ -64,8 +64,8 @@
           <img src="../assets/touxiang.png" style="width:100%">
         </div>
         <div class="head-word">
-          <span class="name">林木木</span><br>
-          <span class="position">投资经理（上海）</span>
+          <span class="name">林木木</span><i class="iconfont icon-tuichu" style="margin-left:10px;color:#888;cursor:pointer"></i><br>
+          <span class="position">投资经理（上海）</span>        
         </div>
         <div class="head-input">
           <input placeholder="请输入查询内容">
@@ -203,5 +203,8 @@ export default {
       width: 100%;
       height: 100%;
     }
+  }
+  .iconfont{
+    margin-right: 15px;
   }
 </style>

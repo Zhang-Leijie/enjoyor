@@ -8,62 +8,79 @@
 		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;margin-top:25px;">
 		    <el-tab-pane label="项目概要">
 		    	<div class="fund-box">
-		    		<F_Summary></F_Summary>
+		    		<f-summary :info="info" v-if="info.id"></f-summary>
+		    		<!-- <f-summary></f-summary> -->
 		    	</div>
 			</el-tab-pane>
 		    <el-tab-pane label="项目资料">
 		    	<div class="fund-box">
-		    		<F_Data></F_Data>
+		    		<f-data :info="info" v-if="info.id"></f-data>
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="项目笔记">
 		    	<div class="fund-box">
-		    		<F_Note></F_Note>
+		    		<f-note :info="info" v-if="info.id"></f-note>
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="项目评级">
 		    	<div class="fund-box">
-		    		<F_Rate></F_Rate>
+		    		<f-rate></f-rate>
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="项目视频">
 		    	<div class="fund-box">
-		    		<F_Video></F_Video>
+		    		<f-video></f-video>
 		    	</div>
 		    </el-tab-pane>
 		    <el-tab-pane label="项目进展">
 		    	<div class="fund-box">
-		    		<F_Process></F_Process>
+		    		<f-process></f-process>
 		    	</div>
 		    </el-tab-pane>
 	  	</el-tabs>
 	</div>
 </template>
 <script>
-  import  F_Summary from '../../components/creat-fund/fund-summary'
-  import  F_Data from '../../components/creat-fund/fund-data'
-  import  F_Note from '../../components/creat-fund/fund-note'
-  import  F_Probar from '../../components/creat-fund/fund-procbar'
-  import  F_Rate from '../../components/creat-fund/fund-rate'
-  import  F_Video from '../../components/creat-fund/fund-video'
-  import  F_Process from '../../components/creat-fund/fund-process'
+  import {itemDetail,getUserList} from '../../ajax/get.js'
+  import  fSummary from '../../components/creat-fund/fund-summary'
+  import  fData from '../../components/creat-fund/fund-data'
+  import  fNote from '../../components/creat-fund/fund-note'
+  import  fProbar from '../../components/creat-fund/fund-procbar'
+  import  fRate from '../../components/creat-fund/fund-rate'
+  import  fVideo from '../../components/creat-fund/fund-video'
+  import  fProcess from '../../components/creat-fund/fund-process'
   export default {
+  	data() {
+	    return {
+	      	info:{},
+	    }
+	},
     methods: {
       handleRemove(tab) {
         
       },
       handleClick(tab, event) {
         
-      }
+      },
+      getInfo(){
+	      	itemDetail({
+				id:this.$route.query.id
+			}).then((res) => {
+				this.info = res.data.project
+			}) 
+	   }
+    },
+    mounted:function(){
+    	this.getInfo()
     },
     components: {
-	    F_Summary,
-	    F_Data,
-	    F_Note,
-	    F_Probar,
-	    F_Rate,
-	    F_Video,
-	    F_Process
+	    "f-summary":fSummary,
+	    "f-data":fData,
+	    "f-note":fNote,
+	    "f-rate":fRate,
+	    "f-video":fVideo,
+	    "f-process":fProcess,
+	    // F_Probar,
 	}
   };
 </script>

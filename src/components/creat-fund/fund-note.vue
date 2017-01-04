@@ -1,9 +1,5 @@
 <template>
 	<div class="fund-note">
-		<div class="edit">
-			<i class="el-icon-edit"></i>
-			评级
-		</div>
 		<div class="edit" style="z-index:999;position:fixed;top:500px;right:0px;opacity:0.8" @click="dialogFormVisible = true">
 			发表评论
 		</div>
@@ -118,7 +114,7 @@
 		  </el-form>
 		  <div v-if="form.region==1">
 			  	<el-date-picker v-model="value1" type="date" placeholder="选择日期" class="pl-input">
-		    	</el-date-picker>
+		    	</el-date-picker >
 		    	<el-input placeholder="请输入会议地点" class="pl-input"></el-input>
 		    	<el-input placeholder="请输入访谈对象" class="pl-input"></el-input>
 		    	<el-input placeholder="参与者" class="pl-input"></el-input>
@@ -135,33 +131,46 @@
 	</div>
 </template>
 <script>
-  import  F_Probar from './fund-procbar'
-  export default {
-  	data () {
-	    return {
-	        value1: '',
-	      	dialogTableVisible: false,
-        	dialogFormVisible: false,
-        	form: {
-	          name: '',
-	          region: '',
-	          date1: '',
-	          date2: '',
-	          delivery: false,
-	          type: [],
-	          resource: '',
-	          desc: ''
-	        },
-	        formLabelWidth: '80px'
-	    }
-	},
-    methods: {
-      
-    },
-    components: {
-	    F_Probar
-	}
-  };
+	import {itemDetail,getUser} from '../../ajax/get.js'
+	import {Item} from '../../ajax/post.js'
+  	import  F_Probar from './fund-procbar'
+	export default {
+		props: {
+			info: {
+				type: Object
+			}
+		},
+	  	data () {
+		    return {
+		        value1: '',
+		      	dialogTableVisible: false,
+	        	dialogFormVisible: false,
+	        	form: {
+		          name: '',
+		          region: '',
+		          date1: '',
+		          date2: '',
+		          delivery: false,
+		          type: [],
+		          resource: '',
+		          desc: ''
+		        },
+		        formLabelWidth: '80px'
+		    }
+		},
+	    methods: {
+	    	getuser(){
+	    			getUser().then((res) => {				
+				}) 
+	    	}	        
+	    },
+	    mounted:function(){
+	    	this.getuser()
+	    },
+	    components: {
+		    F_Probar
+		}
+	};
 </script>
 <style lang="less">
 	.el-dialog.el-dialog--small{
@@ -172,10 +181,10 @@
 	}
 	.pl-input{
 		&:nth-child(2n){
-			margin-right: 15px;
+			margin-left: 5px;
 		}
 		display: inline-block;
-		width: 250px;
+		width: 255px;
 		height: 40px;
 		// float: left;
 		margin-bottom: 20px;
