@@ -217,7 +217,6 @@ export default {
 	},
   data () {
     return {
-    	// info:'',
     	value2:'',
     	value1:null,
     	options1:[],
@@ -346,7 +345,7 @@ export default {
 					share_other:this.info.share_other
 				})			
 			}).then((res) => {
-				this.getInfodata()
+				// this.getInfodata()
 				swal({
 	                title: "修改成功",
 	                type: 'success',

@@ -47,10 +47,22 @@ const routes = [
                 require(['./pages/myitem/drafts.vue'],resolve)
             }
         },{
+            path: "/myitem-pop",
+            name: 'my-pop',
+            component(resolve) {
+                require(['./pages/myitem/pop.vue'],resolve)
+            }
+        },{
             path: "/myitem-creat",
             name: 'my-creat',
             component(resolve) {
                 require(['./pages/myitem/creat-fund.vue'],resolve)
+            }
+        },{
+            path: "/myitem-popedit",
+            name: 'my-popedit',
+            component(resolve) {
+                require(['./pages/myitem/pop-fund.vue'],resolve)
             }
         },{
             path: "/myitem-draftsfund",

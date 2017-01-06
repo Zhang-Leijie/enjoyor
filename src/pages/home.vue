@@ -29,8 +29,10 @@
           <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
           <el-submenu index="4">
             <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
-            <el-menu-item-group>            
-              <el-menu-item index="4-1">已发布项目</el-menu-item>             
+            <el-menu-item-group>   
+              <router-link :to="{name:'my-pop'}">         
+                <el-menu-item index="4-1">已发布项目</el-menu-item>
+              </router-link>         
               <router-link :to="{name:'my-drafts'}">
                 <el-menu-item index="4-2">我的草稿箱</el-menu-item>
               </router-link>

@@ -6,21 +6,53 @@
 					URL地址
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:600px;"></el-input>
+					<el-input placeholder="" class="edit-input" style="width:600px;" v-model="url"></el-input>
 				</div>
 			</div>
 			<div style="text-align:center">
-				<div class="button blue" @click="edit=!edit">保存</div>
+				<div class="button blue" @click="popUrl">保存</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+import {Item} from '../../ajax/post.js'
 export default {
+	props: {
+		info: {
+			type: Object
+		}
+	},
   data () {
     return {
-      	edit:false
+      	url:''
     }
+  },
+  methods:{
+  	geturl(){
+  		if (this.info.video) {
+  			this.url = this.info.video.url
+  		}
+  	},
+  	popUrl(){
+  		Item({
+			type:3,
+			strProject:JSON.stringify({
+				id:this.$route.query.id,
+				video:{url:this.url}
+			})			
+		}).then((res) => {
+			swal({
+                title: "修改成功",
+                type: 'success',
+                text: "修改成功",
+                timer: 2000,
+            })
+		}) 
+  	}
+  },
+  mounted:function(){
+  	this.geturl()
   }
 }
 </script>

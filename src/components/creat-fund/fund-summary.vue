@@ -375,7 +375,7 @@ export default {
 					project_stage:this.info.project_stage
 				})			
 			}).then((res) => {
-				this.getInfo()
+				// this.getInfo()
 				swal({
 	                title: "修改成功",
 	                type: 'success',

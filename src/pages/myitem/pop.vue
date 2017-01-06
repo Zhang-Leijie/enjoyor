@@ -1,12 +1,9 @@
 <template>
-	<div class="fund-inlist">		
-		<div class="edit addnew" @click="dialogFormVisible = true">
-			创建项目
-		</div>
+	<div class="fund-inlist">
 		<el-breadcrumb separator="/">
 		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
-		  	<el-breadcrumb-item>我的草稿箱</el-breadcrumb-item>
+		  	<el-breadcrumb-item>已发布项目</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="tableType">
 			列表形式: <span>默认</span><span>项目图标</span> <span>投资基金</span> <span>投资评级</span> 
@@ -87,14 +84,14 @@
 					<th>所属基金</th>
 					<th>分值</th>
 					<th>项目节点</th>
-					<th>操作</th>
+					<!-- <th>操作</th> -->
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="(list,index) in lists">
 					<!-- <td>{{index+1}}</td> -->
 					<td class="fabu">
-						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
+						<router-link :to="{name: 'my-popedit',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
 					</td>
 					<td>{{list.project_address}}</td>
 					<td>{{list.project_resource}}</td>
@@ -102,10 +99,10 @@
 					<td>{{list.createUser.userName}}</td>
 					<td v-if="list.foundation">{{list.foundation.name}}</td>
 					<td v-else></td>
-					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10}}</td>
+					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
-					<td class="fabu" @click="fabu(list.id)">发布</td>
+					<!-- <td class="fabu" @click="fabu">发布</td> -->
 				</tr>
 			</tbody>
 		</table>
@@ -167,25 +164,12 @@
 	      }
 	    },
 	    methods:{
-	    	fabu(id){
-	    		Item({
-    				type:4,
-    				strProject:JSON.stringify({
-    					id:id
-    				})
-    			}).then((res) => {
-					swal({
-	                    title: "发布成功",
-	                    type: 'success',
-	                    text: "发布成功",
-	                    timer: 2000,
-	                })
-	                this.getList()
-				}) 
+	    	fabu(){
+
 	    	},
 	    	getList(){
 	    		itemList({
-    				project_type:0,
+    				project_type:4,
     				page:1,
     				line:10
     			}).then((res) => {

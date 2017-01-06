@@ -3,7 +3,7 @@
 		<el-breadcrumb separator="/">
 		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
-		  	<el-breadcrumb-item :to="{ name: 'my-drafts' }">我的草稿箱</el-breadcrumb-item>
+		  	<el-breadcrumb-item :to="{ name: 'my-pop' }">我发布的项目</el-breadcrumb-item>
 		  	<el-breadcrumb-item>项目</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;margin-top:25px;">

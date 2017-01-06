@@ -37,7 +37,8 @@ export const Factory_ = (server_url) => (method) => (url) => (params, loginSilen
         } else if(res.code==2){
             router.push({name: 'sign-in'})
         }else {
-            return Promise.reject(new Error(res.detail))
+            console.log("error")
+            // return Promise.reject(new Error(res.code))
         }
     }).catch((e) => {
         if (e.message == LOGIN_ERROR && !loginSilent) {
