@@ -1,36 +1,58 @@
 <template>
 	<div class="fund-video">
-		<div class="edit" @click="edit=!edit">
-			<i class="el-icon-edit"></i>
-			编辑
-		</div>
-		<div class="video">
-			<embed src="https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid=n0359d7th83&auto=0" width="870" height="500" align="middle" allowFullScreen="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash">
+		<router-link :to="{name: 'my-creat',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_edit==1">
+			<div class="edit">
+				<i class="el-icon-edit"></i>
+				编辑
+			</div>
+		</router-link>
+		<div class="video" v-if="url">
+			<embed :src="url" width="870" height="500" align="middle" allowFullScreen="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash">
 			</embed>  
-		</div>
-		<div class="fund-summary" v-show="edit==true">
-			<div class="sum-item">
-				<div class="item-title">
-					URL地址
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:600px;"></el-input>
-				</div>
-			</div>
-			<div style="text-align:center">
-				<div class="button grey" style="margin-right:20px;" @click="edit=!edit">取消</div>
-				<div class="button blue" @click="edit=!edit">保存</div>
-			</div>
 		</div>
 	</div>
 </template>
 <script>
 export default {
-  data () {
-    return {
-      	edit:false
-    }
-  }
+	props: {
+		info: {
+			type: Object
+		},
+		user:{
+			type: Object
+		}
+	},
+  	data () {
+	    return {
+	    	url:null
+	    }
+  	},
+  	methods:{
+	  	geturl(){
+	  		if (this.info.video) {
+	  			this.url = this.info.video.url
+	  		}
+	  	},
+	  	popUrl(){
+	  		Item({
+				type:3,
+				strProject:JSON.stringify({
+					id:this.$route.query.id,
+					video:{url:this.url}
+				})			
+			}).then((res) => {
+				swal({
+	                title: "修改成功",
+	                type: 'success',
+	                text: "修改成功",
+	                timer: 2000,
+	            })
+			}) 
+	  	}
+	},
+	mounted:function(){
+	  	this.geturl()
+	}
 }
 </script>
 <style lang="less">

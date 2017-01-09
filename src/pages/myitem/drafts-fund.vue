@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的草稿箱</el-breadcrumb-item>
 		</el-breadcrumb>

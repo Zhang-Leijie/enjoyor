@@ -6,16 +6,19 @@
     </div>
     <div class="logo-box">
         <input placeholder="请输入用户名" v-model="username" class="input"></input>
-        <input placeholder="请输入登陆密码" v-model="password" type="password" class="input"></input>
-        <div class="remember">
+        <input placeholder="请输入登陆密码" v-model="password" type="password" class="input" style="margin-bottom:60px;"></input>
+        <!-- <div class="remember">
             <el-checkbox checked style="color:#4990e2">记住密码</el-checkbox>
-        </div>
-        <div class="log" v-bind:class="{blue:username!=null&&password!=null}" @click="signin">
-            登陆
+        </div> -->
+        <div class="log" v-bind:class="{blue:username!=''&&password!=''}" @click="signin">
+            登 录
         </div>
     </div>
   </div>
-  <div class="sign-foot"></div>
+  <div class="sign-foot">
+      <div style="text-align:center;color:#ccc;line-height:30px;">版权所有 © 2015 银江股份有限公司版权所有</div>
+      <div style="text-align:center;color:#4990e2;line-height:30px;">浙ICP备09109232 号</div>
+  </div>
 </div>
 </template>
 <script>
@@ -23,32 +26,56 @@ import {Login} from '../ajax/post.js'
 export default {
     data() {
         return {
-            username:null,
-            password:null
+            username:'',
+            password:''
         }
     },
     methods: {
         signin(){
-            Login({
-                userName:this.username,
-                password:this.password
-            }).then((res) => {
-                router.push({name:"home"})
-            }).catch((e) => {
+            if (this.username==""&&this.password=="") {
                 swal({
                     title: "登录失败",
-                    type: 'warn',
-                    text: "账户或密码不正确",
+                    type: 'warning',
+                    text: "请输入账号或密码",
                     timer: 2000,
                 })
-            })
+            }
+            else{
+                Login({
+                    userName:this.username,
+                    password:this.password
+                }).then((res) => {
+                    console.log(res)
+                    if (res.userId==0) {
+                        swal({
+                            title: "登录失败",
+                            type: 'warning',
+                            text: "账户或密码不正确",
+                            timer: 2000,
+                        })
+                    }
+                    else{
+                        router.push({name:"home"}) 
+                    }                               
+                }).catch((e) => {
+                    
+                })
+            }
         }
     }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
+    .sign-in-box{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;  
+        bottom: 0px;
+    }
     .sign-box{
+        z-index: 100;
         position: absolute;
         top: 0px;
         left: 0px;
@@ -56,6 +83,8 @@ export default {
         bottom: 140px;
         background: url("../assets/beijing.png");
         background-size: cover;
+        // background-attachment:fixed;
+        background-position:center;
         .logoimg{
             height: 30px;
             margin-top: 20px;
@@ -66,8 +95,9 @@ export default {
             text-align: center;
             width: 500px;
             height: 278px;
-            margin: 210px auto;
-            background-color: #f1f2f7;
+            margin: auto auto;
+            margin-top:17%;
+            background-color: rgba(241, 242, 248, 0.8);
             // opacity: 0.6;
             border-radius: 20px;
             .input{
@@ -79,6 +109,7 @@ export default {
                 height: 40px;
                 width: 340px;
                 display: block;
+                border: none;
             }
             .remember{
                 width: 340px;
@@ -103,7 +134,8 @@ export default {
         }
     }
     .sign-foot{
-        background-color: #2c4d6d;
+        padding-top: 40px;
+        background: linear-gradient(to bottom, #335474 0%,#2c4d6d 100%);
         position: absolute;
         left: 0px;
         right: 0px;

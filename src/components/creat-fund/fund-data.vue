@@ -6,7 +6,7 @@
 					融资纪录
 				</div>
 				<div class="item-content item-single">
-					<textarea class="pl-textarea" v-model="info.finance_record"></textarea>
+					<textarea placeholder="请输入融资纪录" class="pl-textarea" v-model="info.finance_record"></textarea>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -14,7 +14,12 @@
 					所属基金
 				</div>
 				<div class="item-content item-single" >
+
 					<el-select v-model="value1" placeholder="请选择" class="edit-input" v-if="options1!=[]">
+						<el-option
+					      label="未归属"
+					      value="10000">
+					    </el-option>
 					    <el-option
 					      v-for="item in options1"
 					      :label="item.name"
@@ -28,7 +33,7 @@
 					公司股本总额
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.money_totalShare"></el-input>
+					<el-input placeholder="请输入公司股本总额" class="edit-input" v-model="info.money_totalShare"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -36,7 +41,7 @@
 					每股价格
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.money_eachShare"></el-input>
+					<el-input placeholder="请输入每股价格" class="edit-input" v-model="info.money_eachShare"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -44,7 +49,7 @@
 					投资／认购数量
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.subscription_amount"></el-input>
+					<el-input placeholder="请输入投资／认购数量" class="edit-input" v-model="info.subscription_amount"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -52,7 +57,7 @@
 					投资／认购金额
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.subscription_money"></el-input>
+					<el-input placeholder="请输入投资／认购金额" class="edit-input" v-model="info.subscription_money"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -74,7 +79,7 @@
 					项目地点
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.project_address"></el-input>
+					<el-input placeholder="请输入项目地点" class="edit-input" v-model="info.project_address"></el-input>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -83,7 +88,7 @@
 						项目介绍人
 					</div>
 					<div class="item-content item-single">
-						<el-input placeholder="" class="edit-input" v-model="info.project_introducer"></el-input>		
+						<el-input placeholder="请输入项目介绍人" class="edit-input" v-model="info.project_introducer"></el-input>		
 					</div>
 				</div>
 				<div class="sum-item sum-double clearfix">
@@ -91,7 +96,7 @@
 						联系方式
 					</div>
 					<div class="item-content item-single">
-						<el-input placeholder="" class="edit-input" v-model="info.project_introducer_tel"></el-input>		
+						<el-input placeholder="请输入联系方式" class="edit-input" v-model="info.project_introducer_tel"></el-input>		
 					</div>
 				</div>
 			</div>
@@ -103,20 +108,20 @@
 					<img src="../../assets/beijing.png" style="width:210px;height:140px;border:5px solid #d4dbe1">
 				</div>
 			</div> -->
-			<div class="sum-item">
+			<!-- <div class="sum-item">
 				<div class="item-title">
 					评级纪录
 				</div>
 				<div class="item-content">
-					<textarea class="pl-textarea" v-model="info.project_evaluates"></textarea>
+					<textarea class="pl-textarea" placeholder="请输入评级纪录" v-model="info.project_evaluates"></textarea>
 				</div>
-			</div>
+			</div> -->
 			<div class="sum-item">
 				<div class="item-title">
 					投后估值
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.valuation_afterInvest"></el-input>	
+					<el-input placeholder="请输入投后估值" class="edit-input" v-model="info.valuation_afterInvest"></el-input>	
 				</div>
 			</div>
 			<div class="sum-item">
@@ -124,7 +129,7 @@
 					估值商讨状态
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.valuation_state"></el-input>		
+					<el-input placeholder="请输入估值商讨状态" class="edit-input" v-model="info.valuation_state"></el-input>		
 				</div>
 			</div>
 			<div class="sum-item">
@@ -132,7 +137,7 @@
 					本轮投资总额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.money_thisTime"></el-input>			
+					<el-input placeholder="请输入本轮投资总额" class="edit-input" v-model="info.money_thisTime"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item">
@@ -140,7 +145,7 @@
 					占股
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.share_common"></el-input>		
+					<el-input placeholder="请输入占股" class="edit-input" v-model="info.share_common"></el-input>		
 				</div>
 			</div>
 			<div class="sum-item">
@@ -148,7 +153,7 @@
 					领投方
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.investment_leader"></el-input>
+					<el-input placeholder="请输入领投方" class="edit-input" v-model="info.investment_leader"></el-input>
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -156,7 +161,7 @@
 					银江资本投资
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.enjoyor"></el-input>			
+					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.enjoyor"></el-input>		
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -164,7 +169,7 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.investment_enjoyor"></el-input>				
+					<el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_enjoyor"></el-input>				
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -172,7 +177,7 @@
 					占股
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.share_enjoyor"></el-input>			
+					<el-input placeholder="请输入占股" class="edit-input" style="width:150px;" v-model="info.share_enjoyor"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -180,7 +185,7 @@
 					其他投资方
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.other"></el-input>			
+					<el-input placeholder="请输入其他投资方" class="edit-input" style="width:150px;" v-model="info.other"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -188,7 +193,7 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.investment_other"></el-input>				
+					<el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_other"></el-input>				
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -196,7 +201,37 @@
 					占股
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.share_other"></el-input>	
+					<el-input placeholder="请输入占股" class="edit-input" style="width:150px;" v-model="info.share_other"></el-input>	
+				</div>
+			</div>
+			<div style="text-align:center;margin-bottom:15px;">
+				<div class="button blue" @click="addother" style="width:150px;">添加投资方</div>
+			</div>
+			<div v-for="(i,index) in other">
+				<div class="sum-item sum-trible">
+					<div class="item-title">
+						其他投资方
+					</div>
+					<div class="item-content item-single">
+						{{i.other}}		
+					</div>
+				</div>
+				<div class="sum-item sum-trible">
+					<div class="item-title item-title2">
+						投资金额
+					</div>
+					<div class="item-content item-single">
+						{{i.investment_other}}			
+					</div>
+				</div>
+				<div class="sum-item sum-trible">
+					<div class="item-title item-title2">
+						占股
+					</div>
+					<div class="item-content item-single">
+						{{i.share_other}}
+						<i class="el-icon-close" style="cursor:pointer;margin-left:20px;" @click="deletea(index)" ></i>
+					</div>
 				</div>
 			</div>
 			<div style="text-align:center">
@@ -217,6 +252,8 @@ export default {
 	},
   data () {
     return {
+    	other:[],
+    	num:2,
     	value2:'',
     	value1:null,
     	options1:[],
@@ -226,9 +263,6 @@ export default {
 		  }, {
 		      value: '管理或合作基金',
 		      label: '管理或合作基金'
-		  }, {
-		      value: '创业比赛',
-		      label: '创业比赛'
 		  }, {
 		      value: '创业比赛',
 		      label: '创业比赛'
@@ -275,12 +309,45 @@ export default {
     }
   },
   	methods: {
+  		deletea(num){
+  			console.log(1)
+  			this.other.splice(num, 1);
+  		},
+  		addother(){
+  			var x = this.info.other
+  			var y = this.info.investment_other
+  			var z = this.info.share_other
+  			this.other.push({
+  				project:{
+  					id:this.$route.query.id
+  				},
+  				other:x,
+  				investment_other:y,
+  				share_other:z
+  			})
+  			this.info.other = ''
+  			this.info.investment_other = ''
+  			this.info.share_other = ''
+  		},
   		getInfoin(){
   			if (this.info.foundation) {
 				this.value1 = this.info.foundation.id
 			}
 			if (this.info.project_resource) {
 				this.value2 = this.info.project_resource
+			}
+			if (this.info.investment_others) {
+				var self = this
+				this.info.investment_others.forEach(function(list){
+					self.other.push({
+		  				project:{
+		  					id:self.$route.query.id
+		  				},
+		  				other:list.other,
+		  				investment_other:list.investment_other,
+		  				share_other:list.share_other,
+		  			})
+				})
 			}
 	    },
 	    getInfodata(){
@@ -309,13 +376,20 @@ export default {
 	    },
 	    save(){
 	    	var fundation
-	    	if (this.value1==null) {
+	    	if (this.value1==null||this.value1==10000) {
 	    		fundation = null
 	    	}
 	    	else{
 	    		fundation={
 	    			id:this.value1
 	    		}
+	    	}
+	    	var other
+	    	if (this.other.length==0) {
+	    		other = null
+	    	}
+	    	else{
+	    		other = this.other
 	    	}
 	      	Item({
 				type:1,
@@ -340,9 +414,9 @@ export default {
 					enjoyor:this.info.enjoyor,
 					investment_enjoyor:this.info.investment_enjoyor,
 					share_enjoyor:this.info.share_enjoyor,
-					other:this.info.other,
-					investment_other:this.info.investment_other,
-					share_other:this.info.share_other
+					// other:this.info.other,
+					investment_others:other,
+					// share_other:this.info.share_other
 				})			
 			}).then((res) => {
 				// this.getInfodata()

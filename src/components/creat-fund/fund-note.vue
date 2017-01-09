@@ -11,7 +11,7 @@
 						<img :src="i.photo.url" style="width:100%;height:100%">
 					</div>
 					<div class="cont-word" style="margin-top:2px;">
-						<span class="name">{{i.user.userName}}</span>
+						<span class="name">{{i.user.name}}</span>
 						<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
 						<span>{{i.create_time}}</span>
 					</div>
@@ -45,7 +45,7 @@
 						<img :src="i.photo.url" style="width:100%;height:100%">
 					</div>
 					<div class="cont-word" style="margin-top:2px;">
-						<span class="name">{{i.user.userName}}</span>
+						<span class="name">{{i.user.name}}</span>
 						<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
 						<span>{{i.create_time}}</span>
 					</div>
@@ -77,10 +77,10 @@
 		    	<el-input placeholder="请输入会议地点" class="pl-input" v-model="form.address"></el-input>
 		    	<el-input placeholder="请输入访谈对象" class="pl-input" v-model="form.object"></el-input>
 		    	<el-input placeholder="参与者" class="pl-input" v-model="form.member"></el-input>
-		    	<textarea class="pl-textarea" v-model="form.content">
+		    	<textarea class="pl-textarea" v-model="form.content" placeholder="请输入评论">
     	  </div>
     	  <div v-if="form.type==0">
-    	  		<textarea class="pl-textarea" v-model="form.content"></textarea>
+    	  		<textarea class="pl-textarea" v-model="form.content" placeholder="请输入评论"></textarea>
     	  </div> 	  
 		  <div slot="footer" class="dialog-footer" style="text-align:center">
 		  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
@@ -179,6 +179,11 @@
 	                    text: "评论成功",
 	                    timer: 2000,
 	                })
+	                this.form.content = ''
+	                this.form.date = ''
+	                this.form.address = ''
+	                this.form.member = ''
+	                this.form.object = ''
 				})
 	    	}        
 	    },

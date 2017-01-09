@@ -2,7 +2,7 @@
 	<div class="clearfix" style="margin-bottom:50px;">
 		<div class="edit" @click="rate">
 			<i class="el-icon-edit"></i>
-			评级
+			节点保存
 		</div>
 		<div class="note-process">
 			<div class="unfinish">
@@ -78,6 +78,7 @@ import {Item} from '../../ajax/post.js'
 	  	data () {
 	    	return {
 	    		process:'',
+	    		state:''
 	    	}
 	  	},
 	  	methods:{
@@ -86,6 +87,7 @@ import {Item} from '../../ajax/post.js'
 					id:this.$route.query.id
 				}).then((res) => {
 					this.process = res.data.project.project_schedule-0+1
+					this.state = res.data.project.state
 				}) 
 		    },
 		    rate(){

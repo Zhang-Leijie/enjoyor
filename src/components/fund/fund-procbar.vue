@@ -1,5 +1,11 @@
 <template>
 	<div class="clearfix" style="margin-bottom:50px;">
+		<router-link :to="{name: 'my-creat',query:{id:$route.query.id}}" class="link" v-if="user==1">
+			<div class="edit">
+				<i class="el-icon-edit"></i>
+				编辑
+			</div>
+		</router-link>
 		<div class="note-process">
 			<div class="unfinish">
 				
@@ -8,55 +14,55 @@
 				
 			</div>
 			<div class="finish-cont">
-				<div class="process-cir process-border" style="float:left" @click="process=1">
+				<div class="process-cir process-border" style="float:left">
 					<i class="el-icon-check" v-if="process>0"></i>
 					<div class="process-word">
 						项目录入
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=2">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>1"></i>
 					<div class="process-word">
 						同意立项
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=3">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>2"></i>
 					<div class="process-word">
 						同意上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=4">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>3"></i>
 					<div class="process-word" style="left:-40%">
 						已上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=5">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>4"></i>
 					<div class="process-word">
 						同意投资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=6">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>5"></i>
 					<div class="process-word">
 						协议签订
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=7">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>6"></i>
 					<div class="process-word" style="left:-10%">
 						出资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=8">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;">
 					<i class="el-icon-check" v-if="process>7"></i>
 					<div class="process-word">
 						投后管理
 					</div>
 				</div>
-				<div class="process-cir" @click="process=9">
+				<div class="process-cir">
 					<i class="el-icon-check" v-if="process>8"></i>
 					<div class="process-word">
 						退出投资
@@ -67,12 +73,51 @@
 	</div>
 </template>
 <script>
+import {itemDetail,getUser} from '../../ajax/get.js'
+import {Item} from '../../ajax/post.js'
+
 	export default {
-	  data () {
-	    return {
-	    	process:0
-	    }
-	  }
+	  	data () {
+	    	return {
+	    		process:'',
+	    		user:''
+	    	}
+	  	},
+	  	methods:{
+	  		getInfo(){
+		      	itemDetail({
+					id:this.$route.query.id
+				}).then((res) => {
+					this.process = res.data.project.project_schedule-0+1
+				}) 
+		    },
+		    rate(){
+		    	Item({
+					type:2,
+					strProject:JSON.stringify({
+						id:this.$route.query.id,
+						project_schedule:this.process-0-1
+					})
+				}).then((res) => {
+					this.getInfo()
+					swal({
+		                title: "编辑进度成功",
+		                type: 'success',
+		                text: "编辑进度成功",
+		                timer: 2000,
+		            })
+				}) 
+		    },
+		    getuser(){
+			   		getUser().then((res) => {
+						this.user = res.data.user.role.authority.project_edit
+					})
+			}
+	  	},
+	  	mounted:function(){
+	  		this.getuser()
+	  		this.getInfo()
+	  	}
 	}
 </script>
 <style lang="less">

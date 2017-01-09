@@ -41,6 +41,12 @@ const routes = [
                 require(['./pages/fund/fund-inlist.vue'],resolve)
             }
         },{
+            path: "/fund-unlist",
+            name: 'fund-unlist',
+            component(resolve) {
+                require(['./pages/fund/fund-unlist.vue'],resolve)
+            }
+        },{
             path: "/myitem-drafts",
             name: 'my-drafts',
             component(resolve) {
@@ -77,8 +83,26 @@ const routes = [
                 require(['./pages/person/person.vue'],resolve)
             }
         },{
+            path: "/user-add",
+            name: 'add-user',
+            component(resolve) {
+                require(['./pages/user/adduser.vue'],resolve)
+            }
+        },{
+            path: "/user-list",
+            name: 'list-user',
+            component(resolve) {
+                require(['./pages/user/userlist.vue'],resolve)
+            }
+        },{
+            path: "/user-edit",
+            name: 'edit-user',
+            component(resolve) {
+                require(['./pages/user/edituser.vue'],resolve)
+            }
+        },{
 	        path: "/home",
-	        redirect: '/main'
+	        redirect: '/fund-list'
     	}]
     }, {
         path: "/",

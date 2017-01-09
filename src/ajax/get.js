@@ -12,7 +12,11 @@ export const getFoundationList = factory('/getFoundationList')
 export const getUser = factory('/getUser')
 //项目评级值总和列表
 export const getRateList = factory('/getEvaluateAvgList')
+//获取项目评级列表
+export const getRatePList = factory('/getEvaluateList')
 //获取笔记列表
 export const getNoteList = factory('/getNoteList')
 //获取项目文件
 export const getProjectFile = factory('/getProjectFile')
+//获取角色列表
+export const getRoleList = factory('/getRoleList')

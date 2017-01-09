@@ -1,11 +1,14 @@
 <template>
 	<div>
-		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		<el-breadcrumb separator="/" style="float:left">
+		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
 		  	<el-breadcrumb-item :to="{ name: 'my-drafts' }">我的草稿箱</el-breadcrumb-item>
 		  	<el-breadcrumb-item>项目</el-breadcrumb-item>
 		</el-breadcrumb>
+		<a href="javascript:history.back(-1)">
+			<div class="blue button" style="float:right">返回</div>
+		</a>
 		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;margin-top:25px;">
 		    <el-tab-pane label="项目概要">
 		    	<div class="fund-box">

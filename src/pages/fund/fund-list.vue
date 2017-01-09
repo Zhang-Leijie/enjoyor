@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>基金列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<table class="tableStyle" style="margin-top:25px;">
@@ -16,18 +16,40 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(i,index) in 10">
-					<td>0{{index+1}}</td>
-					<td><router-link :to="{name:'fund-inlist'}" class="link">基金A</router-link></td>
-					<td>张三</td>
-					<td>100000000</td>
-					<td>30</td>
-					<td>100</td>
+				<tr v-for="(i,index) in lists">
+					<td>{{index+1}}</td>
+					<td><router-link :to="{name:'fund-inlist',query:{id:i.id,name:i.name}}" class="link">{{i.name}}</router-link></td>
+					<td>{{i.responsibility}}</td>
+					<td>{{i.money}}</td>
+					<td>{{i.list_project.length}}</td>
+					<td>{{i.list_user.length}}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </template>
+<script>
+	import {Item} from '../../ajax/post.js'
+	import {getFoundationList} from '../../ajax/get.js'
+	export default {
+		data() {
+	      	return {
+	      		lists:''
+	      	}
+	    },
+	    methods:{
+	    	getfundlist(){
+		    	var self = this
+		    	getFoundationList().then((res) => {
+					this.lists = res.data.list
+				}) 
+		    }
+	    },
+	    mounted:function(){
+	    	this.getfundlist()
+	    }
+	}
+</script>
 <style lang="less">
 	.link{
 		&:hover{

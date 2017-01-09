@@ -5,141 +5,197 @@
 			评级
 		</div>
 		<F_Probar></F_Probar>
-		<div class="uploadcontent clearfix">
-			<el-upload
-  				action="/uploadFile"
-  				:on-success="handlesuccess"
-  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block">
-				<div class="upload_block">
-					<div class="upload_none" v-if="!xmjb">
-						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-						<div>未上传</div>
-						<div class="up_hover">
-							<div class="white button">上传</div>
-						</div>
+		<div class="uploadcontent clearfix">	
+			<div class="upload_block">
+				<div class="upload_none" v-if="!xmjb">
+					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+					<div>未上传</div>
+					<div class="up_hover">
+							<div class="white button">
+								<el-upload
+				  				action="/uploadFile"
+				  				:on-success="handlesuccess"
+				  				style="width:100%">
+								上传
+								</el-upload>
+							</div>					
 					</div>
-					<div class="upload_none" v-else>
-						<div class="upload_img">
-							<img src="../../assets/touxiang.png">
-						</div>
-						<div class="up_hover" style="padding-top:10px;">
-							<div class="white button" style="margin:10px auto">上传</div>
-							<a class="white button" :href='xmjb.fileUrl' style="margin:10px auto">下载</a>
-						</div>
-					</div>
-					<div class="upload_name">项目简报</div>
 				</div>
-			</el-upload>
-			<el-upload
-  				action="/uploadFile"
-  				:on-success="handlesuccess2"
-  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block">
-				<div class="upload_block">
-					<div class="upload_none" v-if="!syjhs">
-						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-						<div>未上传</div>
-						<div class="up_hover">
-							<div class="white button">上传</div>
-						</div>
+				<div class="upload_none" v-else>
+					<div class="upload_img">
+						<img :src="xmjb.img">
 					</div>
-					<div class="upload_none" v-else>
-						<div class="upload_img">
-							<img src="../../assets/touxiang.png">
+					<div class="up_hover" style="padding-top:10px;">
+						<div class="white button" style="margin:10px auto">
+							<el-upload
+				  				action="/uploadFile"
+				  				:on-success="handlesuccess"
+				  				style="width:100%">
+							上传
+							</el-upload>
 						</div>
-						<div class="up_hover">
-							<a class="white button" :href='syjhs.fileUrl'>下载</a>
-						</div>
+						<a class="white button" target="_blank" :href='xmjb.fileUrl' style="margin:10px auto">下载</a>
 					</div>
-					<div class="upload_name">商业计划书</div>
 				</div>
-			</el-upload>
-			<el-upload
-  				action="/uploadFile"
-  				:on-success="handlesuccess3"
-  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block">
-				<div class="upload_block">
-					<div class="upload_none" v-if="!ts">
-						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-						<div>未上传</div>
-						<div class="up_hover">
-							<div class="white button">上传</div>
-						</div>
+				<div class="upload_name">项目简报</div>
+			</div>
+			<div class="upload_block">
+				<div class="upload_none" v-if="!syjhs">
+					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+					<div>未上传</div>
+					<div class="up_hover">
+						<div class="white button">
+							<el-upload
+			  				action="/uploadFile"
+			  				:on-success="handlesuccess2"
+			  				:show-upload-list="false" style="width:100%">
+			  					上传
+			  				</el-upload>
+			  			</div>
 					</div>
-					<div class="upload_none" v-else>
-						<div class="upload_img">
-							<img src="../../assets/touxiang.png">
-						</div>
-						<div class="up_hover">
-							<a class="white button" :href='ts.fileUrl'>下载</a>
-						</div>
-					</div>
-					<div class="upload_name">TS协议框架</div>
 				</div>
-			</el-upload>
+				<div class="upload_none" v-else>
+					<div class="upload_img">
+						<img :src="syjhs.img">
+					</div>
+					<div class="up_hover" style="padding-top:10px;">
+						<div class="white button" style="margin:10px auto">
+							<el-upload
+				  				action="/uploadFile"
+				  				:on-success="handlesuccess2"
+				  				:show-upload-list="false"
+				  				style="width:100%">
+								上传
+							</el-upload>
+						</div>
+						<a class="white button" target="_blank" :href='syjhs.fileUrl' style="margin:10px auto">下载</a>
+					</div>
+				</div>
+				<div class="upload_name">商业计划书</div>
+			</div>
+			<div class="upload_block">
+				<div class="upload_none" v-if="!ts">
+					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+					<div>未上传</div>
+					<div class="up_hover">
+						<div class="white button">
+							<el-upload
+			  				action="/uploadFile"
+			  				:on-success="handlesuccess3"
+			  				:show-upload-list="false" style="width:100%;">
+			  					上传
+			  				</el-upload>
+			  			</div>
+					</div>
+				</div>
+				<div class="upload_none" v-else>
+					<div class="upload_img">
+						<img :src="ts.img">
+					</div>
+					<div class="up_hover" style="padding-top:10px;">
+						<div class="white button" style="margin:10px auto">
+							<el-upload
+				  				action="/uploadFile"
+				  				:on-success="handlesuccess3"
+				  				:show-upload-list="false"
+				  				style="width:100%;">
+								上传
+							</el-upload>
+						</div>
+						<a class="white button" target="_blank" :href='ts.fileUrl' style="margin:10px auto">下载</a>
+					</div>
+				</div>
+				<div class="upload_name">TS协议框架</div>
+			</div>		
 			<div style="float:left">
 				<div class="clearfix">
-					<el-upload
-		  				action="/uploadFile"
-		  				:on-success="handlesuccess4"
-		  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block clearfix">
-						<div class="upload_block">
-							<div class="upload_none" v-if="jdbg.length!=0" >
-								<div class="upload_img">
-									<img src="../../assets/touxiang.png">
-								</div>
-								<div class="up_hover">
-									<a class="white button" :href='1'>下载</a>
-								</div>
+					<div class="upload_block">
+						<div class="upload_none" v-if="jdbg.length!=0" >
+							<div class="upload_img">
+								<img :src="jdbg[0].img">
 							</div>
-							<div class="upload_none" v-else>
-								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-								<div>未上传</div>
-								<div class="up_hover">
-									<div class="white button">上传</div>
+							<div class="up_hover" :class="{pa:value}">
+								<div class="white button" :class="{ma:value}">
+									<el-upload
+						  				action="/uploadFile"
+						  				:on-success="handlesuccess4"
+						  				:show-upload-list="false"
+						  				style="width:100%;">
+										上传
+									</el-upload>
 								</div>
-							</div>				
-							<div class="upload_name">尽调报告</div>
+								<a class="white button" v-if="value" :href='value' style="margin:10px auto" target="_blank">下载</a>
+							</div>
 						</div>
-					</el-upload>
+						<div class="upload_none" v-else>
+							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+							<div>未上传</div>
+							<div class="up_hover">
+								<div class="white button">
+									<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess4"
+					  				:show-upload-list="false" style="width:80px;">
+					  				上传
+					  				</el-upload>
+					  			</div>
+							</div>
+						</div>				
+						<div class="upload_name">尽调报告</div>
+					</div>
 				</div>
 				<div>
+					<span style="font-size:14px;text-align:center">历史文件：</span>
 					<el-select v-model="value" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-if="jdbg"
 					      v-for="item in jdbg"
 					      :label="item.label"
-					      :value="item.value">
+					      :value="item.value"
+					      >
 					    </el-option>
 					</el-select>
 				</div>
 			</div>
 			<div style="float:left">
 				<div class="clearfix">
-					<el-upload
-		  				action="/uploadFile"
-		  				:on-success="handlesuccess5"
-		  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block clearfix">
-						<div class="upload_block">
-							<div class="upload_none" v-if="zsxy.length!=0" >
-								<div class="upload_img">
-									<img src="../../assets/touxiang.png">
-								</div>
-								<div class="up_hover">
-									<a class="white button" :href='1'>下载</a>
-								</div>
+					<div class="upload_block">
+						<div class="upload_none" v-if="zsxy.length!=0" >
+							<div class="upload_img">
+								<img :src="zsxy[0].img">
 							</div>
-							<div class="upload_none" v-else>
-								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-								<div>未上传</div>
-								<div class="up_hover">
-									<div class="white button">上传</div>
+							<div class="up_hover" :class="{pa:value2}">
+								<div class="white button" :class="{ma:value2}">
+									<el-upload
+						  				action="/uploadFile"
+						  				:on-success="handlesuccess5"
+						  				:show-upload-list="false"
+						  				style="width:100%;">
+										上传
+									</el-upload>
 								</div>
-							</div>				
-							<div class="upload_name">正式协议进展</div>
+								<a class="white button" v-if="value2" :href='value2' style="margin:10px auto" target="_blank">下载</a>
+							</div>
 						</div>
-					</el-upload>
+						<div class="upload_none" v-else>
+							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+							<div>未上传</div>
+							<div class="up_hover">
+								<div class="white button">
+									<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess5"
+					  				:show-upload-list="false" style="width:80px;">
+					  				上传
+					  				</el-upload>
+					  			</div>
+							</div>
+						</div>				
+						<div class="upload_name">正式协议</div>
+					</div>
 				</div>
 				<div>
+					<span style="font-size:14px;text-align:center">历史文件：</span>
 					<el-select v-model="value2" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in zsxy"
@@ -151,31 +207,43 @@
 			</div>
 			<div style="float:left">
 				<div class="clearfix">
-					<el-upload
-		  				action="/uploadFile"
-		  				:on-success="handlesuccess6"
-		  				:show-upload-list="false" style="float:left;width:130px;" class="upload_block clearfix">
-						<div class="upload_block">
-							<div class="upload_none" v-if="thgl.length!=0" >
-								<div class="upload_img">
-									<img src="../../assets/touxiang.png">
-								</div>
-								<div class="up_hover">
-									<a class="white button" :href='1'>下载</a>
-								</div>
+					<div class="upload_block">
+						<div class="upload_none" v-if="thgl.length!=0" >
+							<div class="upload_img">
+								<img :src="thgl[0].img">
 							</div>
-							<div class="upload_none" v-else>
-								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-								<div>未上传</div>
-								<div class="up_hover">
-									<div class="white button">上传</div>
+							<div class="up_hover" :class="{pa:value3}">
+								<div class="white button" :class="{ma:value3}">
+									<el-upload
+						  				action="/uploadFile"
+						  				:on-success="handlesuccess6"
+						  				:show-upload-list="false"
+						  				style="width:100%;">
+										上传
+									</el-upload>
 								</div>
-							</div>				
-							<div class="upload_name">投后管理</div>
+								<a class="white button" v-if="value3" :href='value3' style="margin:10px auto" target="_blank">下载</a>
+							</div>
 						</div>
-					</el-upload>
+						<div class="upload_none" v-else>
+							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+							<div>未上传</div>
+							<div class="up_hover">
+								<div class="white button">
+									<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess6"
+					  				:show-upload-list="false" style="width:80px;">
+					  				上传
+					  				</el-upload>
+					  			</div>
+							</div>
+						</div>				
+						<div class="upload_name">投后管理</div>
+					</div>
 				</div>
 				<div>
+					<span style="font-size:14px;text-align:center">历史文件：</span>
 					<el-select v-model="value3" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in thgl"
@@ -187,31 +255,43 @@
 			</div>
 			<div style="float:left">
 				<div class="clearfix">
-					<el-upload
-		  				action="/uploadFile"
-		  				:on-success="handlesuccess7"
-		  				:show-upload-list="false" style="float:left;width:130px;margin-right:0px" class="upload_block clearfix">
-						<div class="upload_block" style="margin-right:0px;">
-							<div class="upload_none" v-if="tztc.length!=0" >
-								<div class="upload_img">
-									<img src="../../assets/touxiang.png">
-								</div>
-								<div class="up_hover">
-									<a class="white button" :href='1'>下载</a>
-								</div>
+					<div class="upload_block" style="margin-right:0px;">
+						<div class="upload_none" v-if="tztc.length!=0" >
+							<div class="upload_img">
+								<img :src="tztc[0].img">
 							</div>
-							<div class="upload_none" v-else>
-								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-								<div>未上传</div>
-								<div class="up_hover">
-									<div class="white button">上传</div>
+							<div class="up_hover" :class="{pa:value4}">
+								<div class="white button" :class="{ma:value4}">
+									<el-upload
+						  				action="/uploadFile"
+						  				:on-success="handlesuccess7"
+						  				:show-upload-list="false"
+						  				style="width:100%;">
+										上传
+									</el-upload>
 								</div>
-							</div>				
-							<div class="upload_name">投资退出盈利</div>
+								<a class="white button" v-if="value4" :href='value4' style="margin:10px auto" target="_blank">下载</a>
+							</div>
 						</div>
-					</el-upload>
+						<div class="upload_none" v-else>
+							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+							<div>未上传</div>
+							<div class="up_hover">
+								<div class="white button">
+									<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess7"
+					  				:show-upload-list="false" style="width:80px;">
+					  				上传
+					  				</el-upload>
+					  			</div>
+							</div>
+						</div>				
+						<div class="upload_name">投资退出盈利</div>
+					</div>
 				</div>
 				<div>
+					<span style="font-size:14px;text-align:center">历史文件：</span>
 					<el-select v-model="value4" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in tztc"
@@ -231,6 +311,25 @@
 	import { getProjectFile } from '../../ajax/get.js'
 	import { File } from '../../ajax/post.js'
   	import  F_Probar from './fund-procbar'
+
+  	function doctype(name){
+		var img
+		var x = name.split('.')[1]
+		if (x == 'pdf') {
+			img = '../static/img/PDF.png'
+		}
+		else if(x=='docx'||x=='doc'){
+			img = '../static/img/word.png'
+		}
+		else if(x=='xls'||x=='xlsx'){
+			img = '../static/img/excel.png'
+		}
+		else{
+			img = '../static/img/qita.png'
+		}
+		return img
+	}
+
   export default {
   	data() {
       return {
@@ -238,17 +337,39 @@
       	syjhs:null,
       	ts:null,
       	jdbg:[],
+      	jdbgurl:null,
       	zsxy:[],
       	thgl:[],
       	tztc:[],
-        value: '',
-        value2: '',
-        value3: '',
-        value4: ''
+        value: null,
+        value2: null,
+        value3: null,
+        value4: null
       }
     },
     methods: {
     	postfile(){
+    		var xmjbid
+    		if (this.xmjb) {
+    			xmjbid = {id:this.xmjb.id}
+    		}
+    		else{
+    			xmjbid = null
+    		}
+    		var syjhsid
+    		if (this.syjhs) {
+    			syjhsid = {id:this.syjhs.id}
+    		}
+    		else{
+    			syjhsid = null
+    		}
+    		var tsid
+    		if (this.ts) {
+    			tsid = {id:this.ts.id}
+    		}
+    		else{
+    			tsid = null
+    		}
     		var jdbgid = []
     		this.jdbg.forEach(function(list){
     			jdbgid.push({id:list.id})
@@ -268,9 +389,9 @@
     		File({
     			strProjectFile:JSON.stringify({
     				project:{id:this.$route.query.id},
-    				briefing:{id:this.xmjb.id},
-    				proposal:{id:this.syjhs.id},
-    				agreement:{id:this.ts.id},
+    				briefing:xmjbid,
+    				proposal:syjhsid,
+    				agreement:tsid,
     				reports:jdbgid,
     				schedules:zsxyid,
     				manages:thglid,
@@ -288,40 +409,92 @@
     	},
 	    handlesuccess(response, file, fileList){
 	      	console.log(response, file, fileList)
+	      	var img = doctype(response.data.fileUrl)
 	      	this.xmjb={
 	      		id:response.data.fileId,
-	      		fileUrl:response.data.fileUrl
+	      		fileUrl:response.data.fileUrl,
+	      		img:img
 	      	}
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess2(response, file, fileList){
 	      	console.log(response, file, fileList)
+	      	var img = doctype(response.data.fileUrl)
 	      	this.syjhs={
 	      		id:response.data.fileId,
-	      		fileUrl:response.data.fileUrl
+	      		fileUrl:response.data.fileUrl,
+	      		img:img
 	      	}
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess3(response, file, fileList){
 	      	console.log(response, file, fileList)
+	      	var img = doctype(response.data.fileUrl)
 	      	this.ts={
 	      		id:response.data.fileId,
-	      		fileUrl:response.data.fileUrl
+	      		fileUrl:response.data.fileUrl,
+	      		img:img
 	      	}
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess4(response, file, fileList){
 	      	console.log(response, file, fileList)
-	      	this.jdbg.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId})
+	      	var img = doctype(response.data.fileUrl)
+	      	this.jdbg.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId,img:img})
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess5(response, file, fileList){
 	      	console.log(response, file, fileList)
-	      	this.zsxy.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId})
+	      	var img = doctype(response.data.fileUrl)
+	      	this.zsxy.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId,img:img})
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess6(response, file, fileList){
 	      	console.log(response, file, fileList)
-	      	this.thgl.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId})
+	      	var img = doctype(response.data.fileUrl)
+	      	this.thgl.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId,img:img})
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    handlesuccess7(response, file, fileList){
 	      	console.log(response, file, fileList)
-	      	this.tztc.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId})
+	      	var img = doctype(response.data.fileUrl)
+	      	this.tztc.push({label:response.data.fileName,value:response.data.fileUrl,id:response.data.fileId,img:img})
+	      	swal({
+                title: "上传成功",
+                type: 'success',
+                text: "上传成功",
+                timer: 2000,
+            })
 	    },
 	    getfile(){
 	      	getProjectFile({
@@ -329,60 +502,72 @@
 	      	}).then((res) => {
 	      		var info = res.data.projectFile
 	      		if (info.briefing) {
+	      			var img = doctype(info.briefing.url)
 		      		this.xmjb={
 			      		id:info.briefing.id,
-			      		fileUrl:info.briefing.url
+			      		fileUrl:info.briefing.url,
+			      		img:img
 			      	}
 		      	}
 		      	if (info.proposal) {
+		      		var img = doctype(info.proposal.url)
 			      	this.syjhs={
 			      		id:info.proposal.id,
-			      		fileUrl:info.proposal.url
+			      		fileUrl:info.proposal.url,
+			      		img:img
 			      	}
 		      	}
 		      	if (info.agreement) {
+		      		var img = doctype(info.agreement.url)
 			      	this.ts={
 			      		id:info.agreement.id,
-			      		fileUrl:info.agreement.url
+			      		fileUrl:info.agreement.url,
+			      		img:img
 			      	}
 		      	}
 		      	if (info.reports.length!=0) {
 		      		this.jdbg = []
 		      		var self = this
-		      		info.reports.forEach(function(list){
+		      		info.reports.reverse().forEach(function(list){
+		      			var img = doctype(list.url)
 		      			self.jdbg.push({
-			      			label:list.fileName,value:list.url,id:list.id
+			      			label:list.fileName,value:list.url,id:list.id,img:img
 			      		})
 		      		})	      		
 		      	}
 		      	if (info.schedules.length!=0) {
 		      		this.zsxy = []
 		      		var self = this
-		      		info.schedules.forEach(function(list){
+		      		info.schedules.reverse().forEach(function(list){
+		      			var img = doctype(list.url)
 		      			self.zsxy.push({
-			      			label:list.fileName,value:list.url,id:list.id
+			      			label:list.fileName,value:list.url,id:list.id,img:img
 			      		})
 		      		})	      		
 		      	}
 		      	if (info.manages.length!=0) {
 		      		this.thgl = []
 		      		var self = this
-		      		info.manages.forEach(function(list){
+		      		info.manages.reverse().forEach(function(list){
+		      			var img = doctype(list.url)
 		      			self.thgl.push({
-			      			label:list.fileName,value:list.url,id:list.id
+			      			label:list.fileName,value:list.url,id:list.id,img:img
 			      		})
 		      		})	      		
 		      	}
 		      	if (info.profits.length!=0) {
 		      		this.tztc = []
 		      		var self = this
-		      		info.profits.forEach(function(list){
+		      		info.profits.reverse().forEach(function(list){
+		      			var img = doctype(list.url)
 		      			self.tztc.push({
-			      			label:list.fileName,value:list.url,id:list.id
+			      			label:list.fileName,value:list.url,id:list.id,img:img
 			      		})
 		      		})	      		
 		      	}
-			}) 
+			}).catch((e) => {
+                
+            })
 	    }
     },
     mounted:function(){
@@ -454,4 +639,22 @@
 			}
 		}
 	}
+	.el-upload__inner{
+		width: 100%;
+	}
+	.ma{
+		margin:10px auto !important;
+	}
+	.pa{
+		padding-top:10px !important;
+	}
+	.el-upload__files {
+	    height: 0px;
+	    /* margin: 0 0 10px; */
+	    padding: 0;
+	    list-style: none;
+	}
+	// .el-upload__file{
+	// 	margin-top: -60px;
+	// }
 </style>

@@ -1,12 +1,9 @@
 <template>
-	<div class="fund-inlist">		
-		<div class="edit addnew" @click="dialogFormVisible = true">
-			创建项目
-		</div>
+	<div class="fund-inlist">
 		<el-breadcrumb separator="/">
 		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
-		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
-		  	<el-breadcrumb-item>我的草稿箱</el-breadcrumb-item>
+		  	<el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item>项目列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- <div class="tableType">
 			列表形式: <span>默认</span><span>项目图标</span> <span>投资基金</span> <span>投资评级</span> 
@@ -84,7 +81,7 @@
 		<table class="tableStyle" style="margin-top:25px;">
 			<thead>
 				<tr>
-					<!-- <th>序号</th> -->
+					<th>序号</th>
 					<th style="width:150px;">项目名称</th>
 					<th>地点</th>
 					<th>项目来源</th>
@@ -98,9 +95,9 @@
 			</thead>
 			<tbody>
 				<tr v-for="(list,index) in lists">
-					<!-- <td>{{index+1}}</td> -->
+					<td>{{index+1}}</td>
 					<td class="fabu">
-						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
 					</td>
 					<td>{{list.project_address}}</td>
 					<td>{{list.project_resource}}</td>
@@ -112,8 +109,7 @@
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
 					<td>
-						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">编辑</router-link>
-						<span @click="fabu(list.id)" class="link" style="cursor:pointer">发布</span>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">查看</router-link>
 					</td>
 				</tr>
 			</tbody>
@@ -127,17 +123,6 @@
 	      :total='intotal'
 	      style="margin:20px auto;text-align:center">
 	    </el-pagination>
-		<el-dialog title="创建项目" v-model="dialogFormVisible">
-		  <el-form>
-		    <el-form-item>
-		      	<el-input placeholder="请输入项目名称" v-model="itemname"></el-input>
-		    </el-form-item>
-		  </el-form>
-		  <div slot="footer" class="dialog-footer" style="text-align:center">
-		  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
-		  	<div class="button blue" @click="gocreat()">确定</div>
-		  </div>
-		</el-dialog>
 	</div>
 </template>
 <script>
@@ -151,11 +136,12 @@
 	      		timeB:null,
 	      		timeE:null,
 	      		schedule:null,
-	      		project_type:0,
+	      		project_type:1,
 	      		address:null,
 	      		resource:null,
 	      		userId:null
 	      	},
+	      	currentPage: 1,
 	      	lists:'',
 	      	intotal:'',
 	        pickerOptions0: {
@@ -170,19 +156,6 @@
 	        svalue3: '',
 	        svalue4: '',
 	        svalue5: '',
-	        options: [{
-	          value: '选项1',
-	          label: '选项1'
-	        }, {
-	          value: '选项2',
-	          label: '选项2'
-	        }],
-	        highsearch:true,
-	        dialogTableVisible: false,
-        	dialogFormVisible: false,
-        	itemname:"",
-	        formLabelWidth: '80px',
-	        currentPage: 1,
 	        options1:[{
 	        	value: '0',
 	          	label: '项目录入'
@@ -270,7 +243,15 @@
 			      value: '股东/高管推送',
 			      label: '股东/高管推送'
 			  }],
-			options4:[]
+			options4:[],
+	        options: [{
+	          value: '选项1',
+	          label: '选项1'
+	        }, {
+	          value: '选项2',
+	          label: '选项2'
+	        }],
+	        highsearch:true
 	      }
 	    },
 	    methods:{
@@ -280,30 +261,29 @@
 		      		timeB:null,
 		      		timeE:null,
 		      		schedule:null,
-		      		project_type:0,
+		      		project_type:1,
 		      		address:null,
 		      		resource:null,
 		      		userId:null
 		      	}
 		      	this.getList()
 	    	},
-	    	fabu(id){
-	    		Item({
-    				type:4,
-    				strProject:JSON.stringify({
-    					id:id
-    				})
+	    	handleSizeChange(val) {
+		        console.log(`每页 ${val} 条`);
+		    },
+		    handleCurrentChange(val) {
+		        this.currentPage = val;
+		        console.log(`当前页: ${val}`);
+		        itemList({
+    				project_type:0,
+    				page:val,
+    				line:10
     			}).then((res) => {
-					swal({
-	                    title: "发布成功",
-	                    type: 'success',
-	                    text: "发布成功",
-	                    timer: 2000,
-	                })
-	                this.getList()
-				}) 
-	    	},
-	    	getUserList(){
+					this.lists = res.data.list
+					this.intotal = parseInt(res.data.count)
+				})  
+		    },
+		    getUserList(){
 		    	getUserList({
 					type:3
 				}).then((res) => {
@@ -336,7 +316,7 @@
 					timeE = FormatDate(this.search.timeE);
 				}
 				var data={
-					project_type:0,
+					project_type:1,
 					page:1,
     				line:10
 				}
@@ -400,9 +380,10 @@
 	    	},
 	    	getList(){
 	    		itemList({
-    				project_type:0,
+    				project_type:1,
     				page:1,
-    				line:10
+    				line:10,
+    				foundationId:this.$route.query.id
     			}).then((res) => {
     				res.data.list.forEach(function(list){
     					if (list.project_schedule==0) {
@@ -436,40 +417,7 @@
 					this.lists = res.data.list
 					this.intotal = parseInt(res.data.count)
 				})    
-	    	},
-	    	gocreat(){
-	    		if (this.itemname!="") {
-	    			Item({
-	    				type:0,
-	    				strProject:JSON.stringify({
-	    					project_name:this.itemname
-	    				})
-	    			}).then((res) => {
-						router.push({name: 'my-creat',query:{id:res.data.projectId}})
-					})    			
-	    		}
-	    		else{
-	    			this.$message({
-			          message: '请输入项目名',
-			          type: 'warning'
-			        })
-	    		}
-	    	},
-	    	handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
-		    },
-		    handleCurrentChange(val) {
-		        this.currentPage = val;
-		        console.log(`当前页: ${val}`);
-		        itemList({
-    				project_type:0,
-    				page:val,
-    				line:10
-    			}).then((res) => {
-					this.lists = res.data.list
-					this.intotal = parseInt(res.data.count)
-				})  
-		    }
+	    	}
 	    },
 	    mounted:function(){
 	    	this.getList()
@@ -491,14 +439,51 @@
 				cursor: pointer;
 			}
 		}
-		.addnew{
-			position: fixed;
-			top: 400px !important;
-			right: 0px !important;
-			z-index: 999;
-			top: 120px;
-			right: -20px;
-			opacity: 0.8
+		.inlist-search{
+			margin-top: 20px;
+		}
+		.inlist-highsearch{
+			width: 100%;
+			min-height: 200px;
+			background-color: #fff;
+			margin-top: 20px;
+			padding: 20px;
+			position: relative;
+			.searinfo{
+				margin-right: 20px;
+				display: inline-block;
+				width: 240px;
+				height: 40px;
+			}
+			.searinfo2{
+				margin-top: 15px;
+				margin-right: 20px;
+				display: inline-block;
+				width: 168px;
+				height: 40px;
+			}
+			.btns{
+				width: 100%;
+				margin-top: 20px;
+				text-align: center;
+			}
+			.close{
+				top: -20px;
+				right: -20px;
+				position: absolute;
+				background-color: #4990e2;
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				border: 10px solid #f1f2f7;
+				text-align: center;
+				.i-close{
+					cursor: pointer;
+					font-size: 20px;
+					color: #fff;
+					margin-top: 10px;
+				}
+			}
 		}
 	}
 	.fund-input{
@@ -506,12 +491,6 @@
 		width: 240px;
 		height: 40px;
 		padding: 12px 10px;
-	}
-	.fabu{
-		&:hover{
-			color: #4990e2;
-			cursor: pointer;
-		}
 	}
 	.link{
 		&:hover{

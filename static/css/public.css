@@ -324,6 +324,7 @@
   border-radius: 20px;
 }
 .sum-item .item-content {
+  min-height: 40px;
   font-size: 14px;
   color: #333;
   width: 100%;

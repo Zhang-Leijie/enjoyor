@@ -26,10 +26,12 @@
               </router-link>
             </el-menu-item-group>
           </el-submenu> -->
-          <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
-          <el-submenu index="4">
+          <router-link :to="{name:'fund-unlist'}" v-if="type.type!=1">      
+            <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
+          </router-link> 
+          <el-submenu index="4" v-if="type.type!=1&&authority.project_edit==1">
             <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
-            <el-menu-item-group>   
+            <el-menu-item-group>
               <router-link :to="{name:'my-pop'}">         
                 <el-menu-item index="4-1">已发布项目</el-menu-item>
               </router-link>         
@@ -41,23 +43,34 @@
           <el-submenu index="5">
             <template slot="title"><i class="iconfont icon-chart"></i>基金统计</template>
             <el-menu-item-group>
-              <el-menu-item index="5-1">选项1</el-menu-item>
-              <el-menu-item index="5-2">选项2</el-menu-item>
-              <el-menu-item index="5-3">选项3</el-menu-item>
+              <el-menu-item index="5-1" @click.native="alert">选项1</el-menu-item>
+              <el-menu-item index="5-2" @click.native="alert">选项2</el-menu-item>
+              <el-menu-item index="5-3" @click.native="alert">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="6">
             <template slot="title"><i class="iconfont icon-gonggao"></i>公告中心</template>
             <el-menu-item-group>
-              <el-menu-item index="6-1">选项1</el-menu-item>
-              <el-menu-item index="6-2">选项2</el-menu-item>
-              <el-menu-item index="6-3">选项3</el-menu-item>
+              <el-menu-item index="6-1" @click.native="alert">选项1</el-menu-item>
+              <el-menu-item index="6-2" @click.native="alert">选项2</el-menu-item>
+              <el-menu-item index="6-3" @click.native="alert">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <router-link :to="{name:'personal'}">
-            <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
+            <el-menu-item index="7" ><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
           </router-link>
-          <el-menu-item index="8"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
+          <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
+          <el-submenu index="9">
+            <template slot="title"><i class="iconfont icon-gonggao"></i>帐号管理</template>
+            <el-menu-item-group>
+              <router-link :to="{name:'add-user'}">
+                <el-menu-item index="9-1">新建帐号</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'list-user'}">
+                <el-menu-item index="9-2">账号列表</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </el-col>
     </div>
@@ -66,15 +79,17 @@
           <img src="../assets/touxiang.png" style="width:100%">
         </div>
         <div class="head-word">
-          <span class="name">林木木</span><i class="iconfont icon-tuichu" style="margin-left:10px;color:#888;cursor:pointer"></i><br>
-          <span class="position">投资经理（上海）</span>        
+          <span class="name">{{userA.name}}</span>
+          <i class="iconfont icon-tuichu" style="margin-left:10px;color:#888;cursor:pointer" @click="logout"></i>
+          <br>
+          <span class="position">{{userA.position}}（{{userA.address}}）</span>    
         </div>
-        <div class="head-input">
+        <!-- <div class="head-input">
           <input placeholder="请输入查询内容">
           <div class="input-btn">
             查询 <i class="el-icon-search"></i>
           </div>
-        </div>
+        </div> -->
     </div>
     <div class="content-box">
         <router-view></router-view>
@@ -82,17 +97,54 @@
   </div>
 </template>
 <script>
+import {getUser} from '../ajax/get.js'
+
+import {Logout} from '../ajax/post.js'
+
 export default {
   data() {
     return {
-      
+      userA:'',
+      type:'',
+      authority:''
     }
   },
   methods: {
-    
+    alert(){
+      swal({
+        title: "",
+        type: 'success',
+        text: "正在开发中，敬请期待",
+        timer: 2000,
+      })
+    },
+    getuser(){
+        getUser().then((res) => {
+          this.userA = res.data.user
+          this.type = res.data.user.role
+          this.authority = res.data.user.role.authority
+        })
+    },
+    logout(){
+      swal({
+        title: "",
+        text: "确定注销？",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        closeOnConfirm: true,
+        html: false
+      }, function(){
+        Logout().then((res) => {
+            router.push({name: 'sign-in'})
+          })
+      })    
+    }
   },
   mounted:function() {
-    
+    this.getuser()
   }
 }
 </script>

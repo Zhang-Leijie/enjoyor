@@ -1,6 +1,10 @@
 <template>
 	<div class="fund-video">
 		<div class="fund-summary">
+			<div class="video" v-if="url">
+				<embed :src="url2" width="870" height="500" align="middle" allowFullScreen="true" allowScriptAccess="sameDomain" type="application/x-shockwave-flash">
+				</embed>  
+			</div>
 			<div class="sum-item">
 				<div class="item-title">
 					URL地址
@@ -25,13 +29,15 @@ export default {
 	},
   data () {
     return {
-      	url:''
+      	url:'',
+      	url2:''
     }
   },
   methods:{
   	geturl(){
   		if (this.info.video) {
   			this.url = this.info.video.url
+  			this.url2 = this.info.video.url
   		}
   	},
   	popUrl(){
@@ -42,6 +48,7 @@ export default {
 				video:{url:this.url}
 			})			
 		}).then((res) => {
+			this.url2 = this.url
 			swal({
                 title: "修改成功",
                 type: 'success',

@@ -5,13 +5,14 @@
 				<div class="item-title">
 					项目LOGO
 				</div>
-				<div class="item-content" >
+				<div class="item-content">
 					<el-upload
   						action="/uploadFile"
   						:on-preview="handlePreview"
   						:on-remove="handleRemove"
   						:on-success="handlesuccess"
-  						:show-upload-list="false">
+  						:default-file-list="fileList"
+  						>
 						<div class="uploadimg" v-if="!photourl">
 							<i class="el-icon-plus"></i>
 						</div>
@@ -26,7 +27,7 @@
 					项目名称
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input" v-model="info.project_name"></el-input>
+					<el-input placeholder="请输入项目名称" class="edit-input" v-model="info.project_name"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -34,7 +35,7 @@
 					项目简介
 				</div>
 				<div class="item-content item-single" >
-					<textarea class="pl-textarea" v-model="info.project_introduction"></textarea>
+					<textarea placeholder="请输入项目简介" class="pl-textarea" v-model="info.project_introduction"></textarea>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -45,12 +46,12 @@
 					{{info.project_code}}
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item" v-if="info.evaluateAvg">
 				<div class="item-title">
 					项目评级
 				</div>
-				<div class="item-content item-single" >
-					未评级
+				<div class="item-content" style="padding-top:40px;">
+					<img :src="info.evaluateAvg.fileEvaluate.url" style="width:100px;height:100px">
 				</div>
 			</div>
 			<div class="sum-item">
@@ -72,7 +73,7 @@
 					项目估值
 				</div>
 				<div class="item-content item-single" >
-					<el-input class="edit-input" v-model="info.valuation"></el-input>
+					<el-input class="edit-input" v-model="info.valuation" placeholder="请输入项目估值"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -80,7 +81,7 @@
 					行业／领域
 				</div>
 				<div class="item-content" >
-					<el-input placeholder="" class="edit-input" style="display:inline-block" v-model="labelval"></el-input>
+					<el-input placeholder="请输入行业／领域" class="edit-input" style="display:inline-block" v-model="labelval"></el-input>
 					<div class="blue button" @click="addLabel">添加</div><br>
 					<!-- <span class="item-label">共享经济</span>
 					<span class="item-label">共享经济</span> -->
@@ -107,17 +108,26 @@
 					      v-for="item in options2"
 					      :label="item.username"
 					      :value="item.id"
-					      @click.native="addteam(item.id,item.image,item.username,item.rolename)">
+					      @click.native="addteam(item.id,item.image,item.username,item.rolename,item.address)">
 					    </el-option>
 					</el-select>
 					<!-- <div class="button blue" style="display:block;margin-top:10px;">添加</div><br> -->
+					<div class="item-team clearfix">
+						<div class="head-image">
+				          <img :src="info.createUser.photo.url" style="width:100%">
+				        </div>
+				        <div class="head-word">
+				          <span class="name">{{info.createUser.name}}</span><br>
+				          <span class="position">{{info.createUser.position}}({{info.createUser.address}})</span>
+				        </div>
+			        </div>
 					<div class="item-team clearfix" v-for="(i,index) in team">
 						<div class="head-image">
 				          <img :src="i.img" style="width:100%">
 				        </div>
 				        <div class="head-word">
 				          <span class="name">{{i.username}}</span><br>
-				          <span class="position">{{i.role}}</span>
+				          <span class="position">{{i.role}}({{i.address}})</span>
 				        </div>
 				        <i class="el-icon-close" style="cursor:pointer" @click="delteam(index)"></i>
 			        </div>
@@ -125,10 +135,30 @@
 			</div>
 			<div class="sum-item">
 				<div class="item-title">
+					商业计划书
+				</div>
+				<div class="item-content" style="padding-top:40px;" v-show="pdf">
+					<div style="text-align:center">  
+						  <span>页数: <span id="page_num"></span> / <span id="page_count"></span></span>	    
+					</div>
+
+					<div style="margin-top:20px;position:relative">
+						<div id="prev" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer">
+							<i class="el-icon-arrow-left"></i>
+						</div>
+						<div id="next" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer">
+							<i class="el-icon-arrow-right"></i>
+						</div>
+						<canvas id="the-canvas" style="border:1px solid black;width:100%;"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="sum-item">
+				<div class="item-title">
 					立项理由
 				</div>
 				<div class="item-content item-single">
-					<textarea class="pl-textarea" v-model="info.project_reason"></textarea>
+					<textarea class="pl-textarea" v-model="info.project_reason" placeholder="请输入立项理由"></textarea>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -136,7 +166,7 @@
 					公司名称
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_name"></el-input>
+					<el-input placeholder="请输入公司名称" class="edit-input" v-model="info.company_name"></el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -144,7 +174,7 @@
 					公司网站
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_web"></el-input>				
+					<el-input placeholder="请输入公司网站" class="edit-input" v-model="info.company_web"></el-input>				
 				</div>
 			</div>
 			<div class="sum-item">
@@ -152,7 +182,7 @@
 					公司app
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_app"></el-input>	
+					<el-input placeholder="请输入公司app" class="edit-input" v-model="info.company_app"></el-input>	
 				</div>
 			</div>
 			<div class="sum-item">
@@ -160,7 +190,7 @@
 					公司公众号
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_public"></el-input>			
+					<el-input placeholder="请输入公司公众号" class="edit-input" v-model="info.company_public"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -168,7 +198,7 @@
 					公司创始人
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_founder"></el-input>			
+					<el-input placeholder="请输入公司创始人" class="edit-input" v-model="info.company_founder"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -176,7 +206,7 @@
 					联系方式
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_tel"></el-input>			
+					<el-input placeholder="请输入联系方式" class="edit-input" v-model="info.company_tel"></el-input>			
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -184,7 +214,7 @@
 					公司联系人
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.company_contact"></el-input>		
+					<el-input placeholder="请输入公司联系人" class="edit-input" v-model="info.company_contact"></el-input>		
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -192,7 +222,7 @@
 					联系方式
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" v-model="info.contact_phone"></el-input>	
+					<el-input placeholder="请输入联系方式" class="edit-input" v-model="info.contact_phone"></el-input>	
 				</div>
 			</div>
 			<div style="text-align:center">
@@ -202,7 +232,7 @@
 	</div>
 </template>
 <script>
-import {itemDetail,getUserList} from '../../ajax/get.js'
+import {itemDetail,getUserList,getProjectFile} from '../../ajax/get.js'
 import {Item} from '../../ajax/post.js'
 
 export default {
@@ -213,6 +243,8 @@ export default {
 	},
 	data () {
 	    return {
+	    	fileList:[],
+	    	pdf:'',
 	    	team:[],
 	    	value2:'',
 	    	options2:[],
@@ -259,20 +291,137 @@ export default {
 			      label: '子基金'
 			}],
 			value: '',
-			fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+			
 		    }
 	},
   	methods: {
+  		getfile(){
+	      	getProjectFile({
+	      		projectId:this.$route.query.id
+	      	}).then((res) => {
+	      		this.pdf = res.data.projectFile.proposal.url
+
+	      		var url = res.data.projectFile.proposal.url;
+			  var pdfDoc = null,
+			      pageNum = 1,
+			      pageRendering = false,
+			      pageNumPending = null,
+			      scale = 0.8,
+			      canvas = document.getElementById('the-canvas'),
+			      ctx = canvas.getContext('2d');
+			  function renderPage(num) {
+			    pageRendering = true;
+			    // Using promise to fetch the page
+			    pdfDoc.getPage(num).then(function(page) {
+			      var viewport = page.getViewport(scale);
+			      canvas.height = viewport.height;
+			      canvas.width = viewport.width;
+
+			      // Render PDF page into canvas context
+			      var renderContext = {
+			        canvasContext: ctx,
+			        viewport: viewport
+			      };
+			      var renderTask = page.render(renderContext);
+
+			      // Wait for rendering to finish
+			      renderTask.promise.then(function () {
+			        pageRendering = false;
+			        if (pageNumPending !== null) {
+			          // New page rendering is pending
+			          renderPage(pageNumPending);
+			          pageNumPending = null;
+			        }
+			      });
+			    });
+
+			    // Update page counters
+			    document.getElementById('page_num').textContent = pageNum;
+			  }
+
+			  /**
+			   * If another page rendering in progress, waits until the rendering is
+			   * finised. Otherwise, executes rendering immediately.
+			   */
+			  function queueRenderPage(num) {
+			    if (pageRendering) {
+			      pageNumPending = num;
+			    } else {
+			      renderPage(num);
+			    }
+			  }
+
+			  function onPrevPage() {
+			    if (pageNum <= 1) {
+			      return;
+			    }
+			    pageNum--;
+			    queueRenderPage(pageNum);
+			  }
+			  document.getElementById('prev').addEventListener('click', onPrevPage);
+
+			  /**
+			   * Displays next page.
+			   */
+			  function onNextPage() {
+			    if (pageNum >= pdfDoc.numPages) {
+			      return;
+			    }
+			    pageNum++;
+			    queueRenderPage(pageNum);
+			  }
+			  document.getElementById('next').addEventListener('click', onNextPage);
+
+			  /**
+			   * Asynchronously downloads PDF.
+			   */
+			  PDFJS.getDocument(url).then(function (pdfDoc_) {
+			    pdfDoc = pdfDoc_;
+			    document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+			    // Initial/first page rendering
+			    renderPage(pageNum);
+			  });
+			}).catch((e) => {
+                
+            })
+	    },
   		delteam(num){
   			console.log(num)
   			this.team.splice(num, 1);
   		},
-  		addteam(id,img,username,role){
-  			this.team.push({id:id,img:img,username:username,role:role})
+  		addteam(id,img,username,role,address){
+  			var add = 0
+  			this.team.forEach(function(list){
+  				if(list.id==id){
+  					add = 1
+  				} 
+  			})
+  			if (add==0) {
+  				this.team.push({id:id,img:img,username:username,role:role,address:address})
+  			}
+  			else{
+  				swal({
+	                title: "已添加该用户",
+	                type: 'warning',
+	                text: "已添加该用户",
+	                timer: 2000,
+	            })
+  			} 			
   		},
   		addLabel(){
-  			this.tags.push({name:this.labelval})
-  			this.labelval = ""
+  			if (this.labelval=='') {
+  				swal({
+	                title: "请输入标签",
+	                type: 'warning',
+	                text: "请输入标签",
+	                timer: 2000,
+	            })
+  			}
+  			else{
+  				this.tags.push({name:this.labelval})
+  				this.labelval = ""
+  			}			
   		},
 	    handleRemove(file, fileList) {
 	        console.log(file, fileList);
@@ -280,8 +429,12 @@ export default {
 	    handlePreview(file) {
 	        console.log(file);
 	    },
+	    handleprogress(event, file, fileList){
+	    	this.fileList=[]
+	    },
 	    handlesuccess(response, file, fileList){
 	      	console.log(response, file, fileList)
+	      	this.fileList=[]
 	      	this.photoid = response.data.fileId
 	      	this.photourl = response.data.fileUrl
 	    },
@@ -313,7 +466,7 @@ export default {
 						photo = "../static/img/touxiang.png"
 					}
 
-					self.team.push({id:list.id,img:photo,username:list.userName,role:list.role.roleName})
+					self.team.push({id:list.id,img:photo,username:list.name,role:list.role.roleName,address:list.address})
 				})
 			}
 	    },
@@ -330,7 +483,7 @@ export default {
 					else{
 						photo = "../static/img/touxiang.png"
 					}
-					self.options2.push({id:list.id,username:list.userName,rolename:list.role.roleName,image:photo})
+					self.options2.push({address:list.address,id:list.id,username:list.name,rolename:list.role.roleName,image:photo})
 				})
 			})  
 	    },
@@ -386,8 +539,15 @@ export default {
       	}
     },
     mounted:function(){
+    	this.getfile()
     	this.getInfoin()
     	this.getUser()
     }
 }
 </script>
+<style lang="less">
+	.el-upload__files{
+		height: 30px !important;
+		overflow:hidden;
+	}
+</style>
