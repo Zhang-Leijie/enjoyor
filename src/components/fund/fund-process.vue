@@ -1,6 +1,30 @@
 <template>
-	<div class="fund-note">
+	<div class="fund-note" style="padding-left:0px;padding-right:0px">
 		<F_Probar></F_Probar>
+		<div class="sum-item">
+			<div class="item-title">
+				协议签署日期
+			</div>
+			<div class="item-content item-single">
+				{{info.sign_date}}	
+			</div>
+		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				付款日期
+			</div>
+			<div class="item-content item-single">
+				{{info.pay_date}}	
+			</div>
+		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				付款金额
+			</div>
+			<div class="item-content item-single">
+				{{info.pay_money}}
+			</div>
+		</div>
 		<div class="uploadcontent clearfix">	
 			<div class="upload_block">
 				<div class="upload_none" v-if="!xmjb">
@@ -172,7 +196,11 @@
 	import { getProjectFile } from '../../ajax/get.js'
 	import { File } from '../../ajax/post.js'
   	import  F_Probar from './fund-procbar'
-
+  	function localdata(time){
+  		var d = new Date(time);
+    	var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    	return sd
+  	}
   	function doctype(name){
 		var img
 		var x = name.split('.')[1]
@@ -217,6 +245,14 @@
       }
     },
     methods: {
+    	getdata(){
+    		if (this.info.pay_date) {
+    			this.info.pay_date = localdata(this.info.pay_date)
+    		}
+    		if (this.info.sign_date) {
+    			this.info.sign_date = localdata(this.info.sign_date)
+    		}
+    	},
     	postfile(){
     		var xmjbid
     		if (this.xmjb) {
@@ -431,6 +467,7 @@
     },
     mounted:function(){
     	this.getfile()
+    	this.getdata()
     },
     components: {
 	    F_Probar

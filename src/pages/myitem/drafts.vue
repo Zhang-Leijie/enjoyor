@@ -114,6 +114,7 @@
 					<td>
 						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">编辑</router-link>
 						<span @click="fabu(list.id)" class="link" style="cursor:pointer">发布</span>
+						<span @click="deleteitem(list.id)" class="link" style="cursor:pointer">删除</span>
 					</td>
 				</tr>
 			</tbody>
@@ -141,7 +142,7 @@
 	</div>
 </template>
 <script>
-	import {Item} from '../../ajax/post.js'
+	import {Item, deleteProject} from '../../ajax/post.js'
 	import {itemList,getUserList} from '../../ajax/get.js'
 	export default {
 	    data() {
@@ -274,6 +275,19 @@
 	      }
 	    },
 	    methods:{
+	    	deleteitem(id){
+	    		deleteProject({
+    				projectId:id
+    			}).then((res) => {
+					swal({
+	                    title: "删除成功",
+	                    type: 'success',
+	                    text: "删除成功",
+	                    timer: 2000,
+	                })
+	                this.getList()
+				})
+	    	},
 	    	reset(){
 	    		this.search={
 		      		namecode:null,

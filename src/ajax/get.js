@@ -20,3 +20,5 @@ export const getNoteList = factory('/getNoteList')
 export const getProjectFile = factory('/getProjectFile')
 //获取角色列表
 export const getRoleList = factory('/getRoleList')
+//评级所有历史记录
+export const getEvaluateRecordList = factory('/getEvaluateRecordList')

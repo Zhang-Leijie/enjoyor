@@ -81,7 +81,7 @@ export default {
         left: 0px;
         right: 0px;
         bottom: 140px;
-        background: url("../assets/beijing.png");
+        background: url("../assets/beijing.jpg");
         background-size: cover;
         // background-attachment:fixed;
         background-position:center;

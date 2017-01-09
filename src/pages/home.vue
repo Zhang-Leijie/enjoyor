@@ -6,9 +6,9 @@
       </div>
       <el-col :span="8" style="width:100%">
         <el-menu  style="background-color:#32323a">
-          <router-link :to="{name:'main'}">
-            <el-menu-item index="1"><i class="iconfont icon-shouye"></i>主页</el-menu-item>
-          </router-link>
+          <!-- <router-link :to="{name:'main'}"> -->
+            <el-menu-item index="1" @click.native="alert"><i class="iconfont icon-shouye"></i>主页</el-menu-item>
+          <!-- </router-link> -->
           <router-link :to="{name:'fund-list'}">
             <el-menu-item index="2"><i class="iconfont icon-heimingdan"></i>基金列表</el-menu-item>
           </router-link>
@@ -29,7 +29,7 @@
           <router-link :to="{name:'fund-unlist'}" v-if="type.type!=1">      
             <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
           </router-link> 
-          <el-submenu index="4" v-if="type.type!=1&&authority.project_edit==1">
+          <el-submenu index="4" v-if="type.type!=1&&authority.project_create==1">
             <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
             <el-menu-item-group>
               <router-link :to="{name:'my-pop'}">         
@@ -56,12 +56,12 @@
               <el-menu-item index="6-3" @click.native="alert">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <router-link :to="{name:'personal'}">
-            <el-menu-item index="7" ><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
-          </router-link>
+          <!-- <router-link :to="{name:'personal'}"> -->
+            <el-menu-item index="7" @click.native="alert"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
+          <!-- </router-link> -->
           <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
-          <el-submenu index="9">
-            <template slot="title"><i class="iconfont icon-gonggao"></i>帐号管理</template>
+          <el-submenu index="9" v-if="type.type==2">
+            <template slot="title"><i class="el-icon-setting"></i>帐号管理</template>
             <el-menu-item-group>
               <router-link :to="{name:'add-user'}">
                 <el-menu-item index="9-1">新建帐号</el-menu-item>

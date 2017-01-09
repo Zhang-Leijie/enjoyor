@@ -109,34 +109,34 @@
 		<el-dialog title="项目评分" v-model="dialogFormVisible">
 		  <el-form :model="form">
 		    <el-form-item label="独角兽潜力" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="千亿市场" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_two" placeholder="请输入千亿市场评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_two" placeholder="请输入千亿市场评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="前两名机会" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_three" placeholder="请输入前两名机会评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_three" placeholder="请输入前两名机会评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="银江生态" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_four" placeholder="请输入银江生态评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_four" placeholder="请输入银江生态评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="变现造血能力" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_five" placeholder="请输入变现造血能力评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_five" placeholder="请输入变现造血能力评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="复制和扩张" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_six" placeholder="请输入复制和扩张评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_six" placeholder="请输入复制和扩张评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="CEO综合" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_seven" placeholder="请输入CEO综合评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_seven" placeholder="请输入CEO综合评分(满分15分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="团队运营" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_eight" placeholder="请输入团队运营评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_eight" placeholder="请输入团队运营评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="估值性价比" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_nine" placeholder="请输入估值性价比评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_nine" placeholder="请输入估值性价比评分(满分10分)"></el-input>
 		    </el-form-item>
 		    <el-form-item label="融资退出" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_ten" placeholder="请输入融资退出评分"></el-input>
+		      <el-input auto-complete="off" v-model="itemown_ten" placeholder="请输入融资退出评分(满分15分)"></el-input>
 		    </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer" style="text-align:center">
@@ -201,7 +201,7 @@
 	require('echarts/lib/component/tooltip');
 	require('echarts/lib/component/title');
 	import { Rate } from '../../ajax/post.js'
-	import { getRateList, getRatePList} from '../../ajax/get.js'
+	import { getRateList, getRatePList, getEvaluateRecordList} from '../../ajax/get.js'
 	export default {
 		props: {
 			info: {
@@ -257,7 +257,7 @@
 		},
 		methods:{
 			checkperson(id){
-				getRatePList({
+				getEvaluateRecordList({
 		      		projectId:this.$route.query.id,
 		      		userId:id,
 		      		number:0
@@ -348,7 +348,8 @@
 			           	axisTick:{
 			           		show:false,
 			           		interval:0
-			           	}
+			           	},
+			           	max:'15'
 			        },
 			        backgroundColor:{
 			        	color:'#ceeffa'

@@ -1,11 +1,37 @@
 <template>
-	<div class="fund-note">
+	<div class="fund-note" style="padding-left:0px;padding-right:0px">
 		<div class="edit">
 			<i class="el-icon-edit"></i>
 			评级
 		</div>
 		<F_Probar></F_Probar>
-		<div class="uploadcontent clearfix">	
+		<div class="sum-item">
+			<div class="item-title">
+				协议签署日期
+			</div>
+			<div class="item-content item-single">
+				<el-date-picker v-model="info.sign_date" type="date" placeholder="选择日期" class="pl-input">
+		    	</el-date-picker>		
+			</div>
+		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				付款日期
+			</div>
+			<div class="item-content item-single">
+				<el-date-picker type="date" placeholder="选择日期" class="pl-input" v-model="info.pay_date">
+		    	</el-date-picker>		
+			</div>
+		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				付款金额
+			</div>
+			<div class="item-content item-single">
+				<el-input placeholder="请输入付款金额" class="edit-input" style="width:150px;" v-model="info.pay_money"></el-input>	
+			</div>
+		</div>
+		<div class="uploadcontent clearfix" style="padding:20px">	
 			<div class="upload_block">
 				<div class="upload_none" v-if="!xmjb">
 					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
@@ -15,6 +41,7 @@
 								<el-upload
 				  				action="/uploadFile"
 				  				:on-success="handlesuccess"
+				  				:default-file-list="fileList1"
 				  				style="width:100%">
 								上传
 								</el-upload>
@@ -30,6 +57,7 @@
 							<el-upload
 				  				action="/uploadFile"
 				  				:on-success="handlesuccess"
+				  				:default-file-list="fileList1"
 				  				style="width:100%">
 							上传
 							</el-upload>
@@ -48,7 +76,8 @@
 							<el-upload
 			  				action="/uploadFile"
 			  				:on-success="handlesuccess2"
-			  				:show-upload-list="false" style="width:100%">
+			  				:default-file-list="fileList2"
+			  				 style="width:100%">
 			  					上传
 			  				</el-upload>
 			  			</div>
@@ -63,7 +92,7 @@
 							<el-upload
 				  				action="/uploadFile"
 				  				:on-success="handlesuccess2"
-				  				:show-upload-list="false"
+				  				:default-file-list="fileList2"
 				  				style="width:100%">
 								上传
 							</el-upload>
@@ -82,7 +111,8 @@
 							<el-upload
 			  				action="/uploadFile"
 			  				:on-success="handlesuccess3"
-			  				:show-upload-list="false" style="width:100%;">
+			  				:default-file-list="fileList3"
+			  				 style="width:100%;">
 			  					上传
 			  				</el-upload>
 			  			</div>
@@ -97,7 +127,7 @@
 							<el-upload
 				  				action="/uploadFile"
 				  				:on-success="handlesuccess3"
-				  				:show-upload-list="false"
+				  				:default-file-list="fileList3"
 				  				style="width:100%;">
 								上传
 							</el-upload>
@@ -119,7 +149,7 @@
 									<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess4"
-						  				:show-upload-list="false"
+						  				:default-file-list="fileList4"
 						  				style="width:100%;">
 										上传
 									</el-upload>
@@ -135,7 +165,8 @@
 									<el-upload
 					  				action="/uploadFile"
 					  				:on-success="handlesuccess4"
-					  				:show-upload-list="false" style="width:80px;">
+					  				:default-file-list="fileList4"
+					  				 style="width:80px;">
 					  				上传
 					  				</el-upload>
 					  			</div>
@@ -169,7 +200,7 @@
 									<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess5"
-						  				:show-upload-list="false"
+						  				:default-file-list="fileList5"
 						  				style="width:100%;">
 										上传
 									</el-upload>
@@ -185,7 +216,8 @@
 									<el-upload
 					  				action="/uploadFile"
 					  				:on-success="handlesuccess5"
-					  				:show-upload-list="false" style="width:80px;">
+					  				:default-file-list="fileList5"
+					  				 style="width:80px;">
 					  				上传
 					  				</el-upload>
 					  			</div>
@@ -217,7 +249,7 @@
 									<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess6"
-						  				:show-upload-list="false"
+						  				:default-file-list="fileList6"
 						  				style="width:100%;">
 										上传
 									</el-upload>
@@ -233,7 +265,8 @@
 									<el-upload
 					  				action="/uploadFile"
 					  				:on-success="handlesuccess6"
-					  				:show-upload-list="false" style="width:80px;">
+					  				:default-file-list="fileList6"
+					  				 style="width:80px;">
 					  				上传
 					  				</el-upload>
 					  			</div>
@@ -265,7 +298,7 @@
 									<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess7"
-						  				:show-upload-list="false"
+						  				:default-file-list="fileList7"
 						  				style="width:100%;">
 										上传
 									</el-upload>
@@ -281,7 +314,8 @@
 									<el-upload
 					  				action="/uploadFile"
 					  				:on-success="handlesuccess7"
-					  				:show-upload-list="false" style="width:80px;">
+					  				:default-file-list="fileList7"
+					  				 style="width:80px;">
 					  				上传
 					  				</el-upload>
 					  			</div>
@@ -331,8 +365,22 @@
 	}
 
   export default {
+  	props: {
+		info: {
+			type: Object
+		}
+	},
   	data() {
       return {
+      	valued1:'',
+      	valued2:'',
+      	fileList1:[],
+      	fileList2:[],
+      	fileList3:[],
+      	fileList4:[],
+      	fileList5:[],
+      	fileList6:[],
+      	fileList7:[],
       	xmjb:null,
       	syjhs:null,
       	ts:null,
@@ -348,6 +396,20 @@
       }
     },
     methods: {
+    	// getdata(){
+    	// 	if (this.info.sign_date==null) {
+    	// 		this.valued1 = ''
+    	// 	}
+    	// 	else{
+    	// 		this.valued1 = this.info.sign_date
+    	// 	}
+    	// 	if (this.info.pay_date==null) {
+    	// 		this.valued2 = ''
+    	// 	}
+    	// 	else{
+    	// 		this.valued2 = this.info.pay_date
+    	// 	}
+    	// },
     	postfile(){
     		var xmjbid
     		if (this.xmjb) {
@@ -395,8 +457,11 @@
     				reports:jdbgid,
     				schedules:zsxyid,
     				manages:thglid,
-    				profits:tztcid
-    			})
+    				profits:tztcid,
+    			}),
+    			signDate:this.info.sign_date,
+    			payDate:this.info.pay_date,
+    			payMoney:this.info.pay_money
 	      	}).then((res) => {
 	      		swal({
                     title: "上传成功",
@@ -421,6 +486,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList1=[]
 	    },
 	    handlesuccess2(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -436,6 +502,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList2=[]
 	    },
 	    handlesuccess3(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -451,6 +518,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList3=[]
 	    },
 	    handlesuccess4(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -462,6 +530,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList4=[]
 	    },
 	    handlesuccess5(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -473,6 +542,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList5=[]
 	    },
 	    handlesuccess6(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -484,6 +554,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList6=[]
 	    },
 	    handlesuccess7(response, file, fileList){
 	      	console.log(response, file, fileList)
@@ -495,6 +566,7 @@
                 text: "上传成功",
                 timer: 2000,
             })
+            this.fileList7=[]
 	    },
 	    getfile(){
 	      	getProjectFile({
@@ -572,6 +644,7 @@
     },
     mounted:function(){
     	this.getfile()
+    	// this.getdata()
     },
     components: {
 	    F_Probar

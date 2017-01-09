@@ -1,5 +1,26 @@
 <template>
-	<div class="fund-summary">
+	<div class="fund-summary" style="background-color:white;border: 1px solid #d3dce6;box-shadow: 0 0 4px 0 rgba(44, 77, 109, 0.2)">
+		<div class="sum-item">
+			<div class="item-title">
+				头像
+			</div>
+			<div class="item-content">
+				<el-upload
+						action="/uploadFile"
+						:on-preview="handlePreview"
+						:on-remove="handleRemove"
+						:on-success="handlesuccess"
+						:default-file-list="fileList"
+						>
+					<div class="uploadimg" v-if="!photourl">
+						<i class="el-icon-plus"></i>
+					</div>
+					<div class="uploadimg" v-else>
+						<img :src="photourl" style="width:100%;height:100%;border-radius:50%">
+					</div>
+				</el-upload>
+			</div>
+		</div>
 		<div class="sum-item">
 			<div class="item-title">
 				用户名
@@ -83,6 +104,9 @@ import {getFoundationList,getRoleList} from '../../ajax/get.js'
 export default {
     data() {
         return {
+        	photoid:null,
+	    	photourl:'',
+	    	fileList:[],
         	value:'',
             lists:'',
             roles:'',
@@ -96,6 +120,21 @@ export default {
         }
     },
     methods: {
+    	handleRemove(file, fileList) {
+	        console.log(file, fileList);
+	    },
+	    handlePreview(file) {
+	        console.log(file);
+	    },
+	    handleprogress(event, file, fileList){
+	    	this.fileList=[]
+	    },
+	    handlesuccess(response, file, fileList){
+	      	console.log(response, file, fileList)
+	      	this.fileList=[]
+	      	this.photoid = response.data.fileId
+	      	this.photourl = response.data.fileUrl
+	    },
         getfundlist(){
 	    	getFoundationList().then((res) => {
 	    		res.data.list.forEach(function(list){
@@ -132,6 +171,11 @@ export default {
 	    	if (this.value) {
 	    		data.role = {
 	    			id:this.value
+	    		}
+	    	}
+	    	if (this.photoid) {
+	    		data.photo = {
+	    			id:this.photoid
 	    		}
 	    	}
 	    	var self = this

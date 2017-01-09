@@ -14,3 +14,5 @@ export const Note = factory('/saveorupdateNote')
 export const File = factory('/saveorupdateProjectFile')
 //新增用户
 export const saveUser = factory('/saveorupdateUser')
+//删除草稿箱项目
+export const deleteProject = factory('/deleteProject')

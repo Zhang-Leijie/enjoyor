@@ -38,7 +38,7 @@
 		    </el-tab-pane>
 		    <el-tab-pane label="项目进展">
 		    	<div class="fund-box">
-		    		<f-process></f-process>
+		    		<f-process :info="info"></f-process>
 		    	</div>
 		    </el-tab-pane>
 	  	</el-tabs>
