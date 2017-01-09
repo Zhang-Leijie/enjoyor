@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="person">
 		<el-breadcrumb separator="/">
 		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>个人中心</el-breadcrumb-item>
@@ -11,27 +11,27 @@
 				</div>
 				<div class="item-content">
 					<div class="info-box">
-						<img src="../../assets/touxiang.png" >
-							<el-form :model="formAlignRight" label-width="120px">
-							  	<el-form-item label="姓名">
-							    	林木木
-							  	</el-form-item>
-							  	<el-form-item label="角色">
-							    	投资经理
-							  	</el-form-item>
-							  	<el-form-item label="地区">
-							    	上海
-							  	</el-form-item>
-							  	<el-form-item label="手机号">
-							    	150****1111
-							  	</el-form-item>
-							  	<el-form-item label="微信号">
-							    	绑定
-							  	</el-form-item>
-							  	<el-form-item label="备注">
-							    	银江资本
-							  	</el-form-item>
-							</el-form>
+						<img :src="url">
+						<el-form :model="formAlignRight" label-width="120px">
+						  	<el-form-item label="姓名">
+						    	{{user.name}}
+						  	</el-form-item>
+						  	<el-form-item label="职位">
+						    	{{user.position}}
+						  	</el-form-item>
+						  	<el-form-item label="地区">
+						    	{{user.address}}
+						  	</el-form-item>
+						  	<el-form-item label="手机号">
+						    	{{user.phone}}
+						  	</el-form-item>
+						  	<!-- <el-form-item label="微信号">
+						    	绑定
+						  	</el-form-item> -->
+						  	<!-- <el-form-item label="备注">
+						    	银江资本
+						  	</el-form-item> -->
+						</el-form>
 					</div>
 				</div>
 			</div>
@@ -47,41 +47,23 @@
 				<div class="item-title">
 					我的点评
 				</div>
-				<div class="item-content" >
+				<div class="item-content" v-for="i in list.type0">
 					<div style="margin-bottom:10px;">
 						<div class="block-cont n-margin">
 							<div class="cont-img">
-								<img src="../../assets/touxiang.png" style="width:100%;height:100%">
+								<img :src="i.user.photo.url" style="width:100%;height:100%">
 							</div>
 							<div class="cont-word" style="margin-top:2px;">
-								<span class="name">林森</span>
-								<span style="margin-left:10px;">投资总监（上海）</span><br>
-								<span>2016/11/30 12:38</span>
+								<span class="name">{{i.user.name}}</span>
+								<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
+								<span>{{i.create_time}}</span>
 							</div>
 							<div class="note-label note-label2">
-								投资点评
+								{{i.commentTab.name}}
 							</div>
 						</div>
 						<div class="right-cont">
-							云财经跟进：1、律师需要跟进关于对赌条款的理解；2、深度跟踪云财经和爱股票的导流，并协助黄拓总拓展渠道（黄总偏技术，需要打磨）；3、云财经需要合伙人级别的市场、商务及产品的人员，我们应
-						</div>
-					</div>
-					<div style="margin-bottom:10px;">
-						<div class="block-cont n-margin">
-							<div class="cont-img">
-								<img src="../../assets/touxiang.png" style="width:100%;height:100%">
-							</div>
-							<div class="cont-word" style="margin-top:2px;">
-								<span class="name">林森</span>
-								<span style="margin-left:10px;">投资总监（上海）</span><br>
-								<span>2016/11/30 12:38</span>
-							</div>
-							<div class="note-label note-label2">
-								投资点评
-							</div>
-						</div>
-						<div class="right-cont">
-							云财经跟进：1、律师需要跟进关于对赌条款的理解；2、深度跟踪云财经和爱股票的导流，并协助黄拓总拓展渠道（黄总偏技术，需要打磨）；3、云财经需要合伙人级别的市场、商务及产品的人员，我们应
+							{{i.content}}
 						</div>
 					</div>
 				</div>
@@ -90,37 +72,135 @@
 		<el-dialog title="重置密码" v-model="dialogFormVisible">
 		  	<el-form :model="formAlignRight">
 			  	<el-form-item style="text-align:center">
-		      		<el-input auto-complete="off" class="edit-input" placeholder="原密码" type="password"></el-input>
+		      		<el-input auto-complete="off" class="edit-input" placeholder="原密码" type="password" v-model="oldpass"></el-input>
 		    	</el-form-item>
 		    	<el-form-item>
-		      		<el-input auto-complete="off" class="edit-input" placeholder="新密码" type="password"></el-input>
+		      		<el-input auto-complete="off" class="edit-input" placeholder="新密码" type="password" v-model="newpass"></el-input>
 		   		 </el-form-item>
 		    	<el-form-item>
-		      		<el-input auto-complete="off" class="edit-input" placeholder="再次输入新密码" type="password"></el-input>
+		      		<el-input auto-complete="off" class="edit-input" placeholder="再次输入新密码" type="password"v-model="newpass2"></el-input>
 		    	</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer" style="text-align:center">
 			  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
-			  	<div class="button blue" @click="dialogFormVisible = false">确定</div>
+			  	<div class="button blue" @click="changepass()">确定</div>
 			</div>
 		</el-dialog>
 	</div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        formAlignRight: {
-          name: '',
-          region: '',
-          type: ''
-        },
-        dialogFormVisible: false
-      };
-    }
-  }
+	import {updatePassword} from '../../ajax/post.js'
+	import {getUser,getNoteList} from '../../ajax/get.js'
+	export default {
+	    data() {
+	      return {
+	      	oldpass:'',
+	      	newpass:'',
+	      	newpass2:'',
+	      	list:'',
+	      	url:'',
+	      	position:'',
+	      	user:'',
+	        formAlignRight: {
+	          name: '',
+	          region: '',
+	          type: ''
+	        },
+	        dialogFormVisible: false
+	      };
+	    },
+	    methods:{
+	    	changepass(){
+	    		if (this.oldpass=="") {
+		    		swal({
+	                    title: "",
+	                    type: 'warning',
+	                    text: "请输入原密码",
+	                    timer: 2000,
+	                })
+		    	}
+		    	else if (this.newpass=="") {
+		    		swal({
+	                    title: "",
+	                    type: 'warning',
+	                    text: "请输入新密码",
+	                    timer: 2000,
+	                })
+		    	}
+		    	else if (this.newpass2=="") {
+		    		swal({
+	                    title: "",
+	                    type: 'warning',
+	                    text: "请确认",
+	                    timer: 2000,
+	                })
+		    	}
+		    	else if(this.newpass!=this.newpass2){
+		    		swal({
+	                    title: "",
+	                    type: 'warning',
+	                    text: "确认密码有误",
+	                    timer: 2000,
+	                })
+		    	}
+		    	else{
+		    		updatePassword({
+		    			userId:this.user.id,
+		    			prePass:this.oldpass,
+		    			password:this.newpass
+		    		}).then((res) => {
+		    			if (res) {
+		    				swal({
+			                    title: "",
+			                    type: 'success',
+			                    text: "修改成功",
+			                    timer: 2000,
+			                })
+		    			}
+		    			else{
+		    				swal({
+			                    title: "",
+			                    type: 'warning',
+			                    text: "原密码输入有误",
+			                    timer: 2000,
+			                })
+		    			}
+		    			this.dialogFormVisible = false
+					}) 
+		    	}	
+	    	},
+	    	getnote(){
+	    		getNoteList({
+	    			userId:this.user.id,
+	    			number:0
+	    		}).then((res) => {
+	    			this.list = res.data
+				}) 
+	    	},
+	    	getuser(){
+		        getUser().then((res) => {
+		          this.user = res.data.user
+		          this.url = res.data.user.photo.url
+		          this.position = res.data.user.role.roleName
+		          this.getnote()
+		        })
+		    }
+	    },
+	    mounted:function(){
+	    	this.getuser()
+	    }
+	}
 </script>
 <style lang="less">
+	.person{
+		.edit-input.el-input{
+			margin: 0 auto;
+			width: 350px;
+		}
+		.el-dialog__body{
+			padding-bottom: 0px;
+		}
+	}
 	.person-box{
 		width: 100%;
 		min-height: 200px;
@@ -168,11 +248,5 @@
 		border: 4px solid #f1f2f7;
 		// min-height: 100px;
 	}
-	.edit-input.el-input{
-		margin: 0 auto;
-		width: 350px;
-	}
-	.el-dialog__body{
-		padding-bottom: 0px;
-	}
+	
 </style>

@@ -16,3 +16,5 @@ export const File = factory('/saveorupdateProjectFile')
 export const saveUser = factory('/saveorupdateUser')
 //删除草稿箱项目
 export const deleteProject = factory('/deleteProject')
+//修改密码
+export const updatePassword = factory('/updatePassword')

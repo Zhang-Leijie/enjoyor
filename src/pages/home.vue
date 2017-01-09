@@ -61,7 +61,7 @@
           </router-link>
           <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
           <el-submenu index="9" v-if="type.type==2">
-            <template slot="title"><i class="el-icon-setting"></i>帐号管理</template>
+            <template slot="title"><i class="el-icon-setting" style="margin-right:18px;"></i>帐号管理</template>
             <el-menu-item-group>
               <router-link :to="{name:'add-user'}">
                 <el-menu-item index="9-1">新建帐号</el-menu-item>
@@ -76,7 +76,7 @@
     </div>
     <div class="top-box">
         <div class="head-image">
-          <img src="../assets/touxiang.png" style="width:100%">
+          <img :src="url" style="width:100%">
         </div>
         <div class="head-word">
           <span class="name">{{userA.name}}</span>
@@ -106,7 +106,8 @@ export default {
     return {
       userA:'',
       type:'',
-      authority:''
+      authority:'',
+      url:''
     }
   },
   methods: {
@@ -123,6 +124,7 @@ export default {
           this.userA = res.data.user
           this.type = res.data.user.role
           this.authority = res.data.user.role.authority
+          this.url = res.data.user.photo.url
         })
     },
     logout(){
