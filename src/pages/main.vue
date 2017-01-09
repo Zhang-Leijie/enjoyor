@@ -3,77 +3,73 @@
 		<div class="main-block">
 			<div class="block-head" style="background-color:#474e57">
 				新增项目评级
-				<div class="head-btn">
-					<span><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
-					<span style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
+				<div class="head-btn" v-if="recordList.length > 0">
+					<span  @click="$refs.record.swiper.slidePrev()"><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
+					<span  @click="$refs.record.swiper.slideNext()" style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
 				</div>
 			</div>
-			<div class="block-cont">
-				<div class="cont-img">
-					<img src="../assets/touxiang.png" style="width:100%;height:100%">
-				</div>
-				<div class="cont-word" style="margin-top:-7px;">
-					<span class="name">林森</span>
-					<span style="margin-left:10px;">投资总监（上海）</span><br>
-					<span>2016第4季评估</span>
-					<span style="margin-left:20px;">总分：<span style="color:#4990e2;font-weight:bold">85.9</span></span>
-					<span style="margin-left:20px;">级别：<span style="color:#d0011b;font-weight:bold">A</span></span><br>
-					<span>项目名称：刚刚好（基金A）</span>
-				</div>
-				<div class="cont-time">
-					2016/11/30 12:38
-				</div>
-			</div>
+			<swiper v-if="recordList.length > 0" ref="record">
+		        <swiper-slide v-for="r in recordList">
+		        	<div class="block-cont">
+						<div class="cont-img">
+							<img :src="r.user.photo.url" style="width:100%;height:100%">
+						</div>
+						<div class="cont-word" style="margin-top:-7px;">
+							<span class="name">{{r.user.name}}</span>
+							<span style="margin-left:10px;">{{r.user.position}}</span><br>
+							<span>{{r.quarter | getSeason}}评估</span>
+							<span style="margin-left:20px;">总分：<span style="color:#4990e2;font-weight:bold">{{r.item_all | getScore}}</span></span>
+							<span style="margin-left:20px;">级别：<span style="color:#d0011b;font-weight:bold">A</span></span><br>
+							<span>项目名称：{{r.project.project_name}}</span>
+						</div>
+						<div class="cont-time">
+							{{r.updateTime}}
+						</div>
+					</div>
+		        </swiper-slide>
+		    </swiper>
 		</div>
 		<div class="main-block">
 			<div class="block-head" style="background-color:#474e57">
 				新增项目评论
-				<div class="head-btn">
-					<span><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
-					<span style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
+				<div class="head-btn" v-if="noteList.length > 0">
+					<span @click="$refs.note.swiper.slidePrev()"><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
+					<span @click="$refs.note.swiper.slideNext()" style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
 				</div>
 			</div>
-			<div class="block-cont">
-				<div class="cont-img">
-					<img src="../assets/touxiang.png" style="width:100%;height:100%">
-				</div>
-				<div class="cont-word" style="margin-top:-7px;">
-					<span class="name">林森</span>
-					<span style="margin-left:10px;">投资总监（上海）</span><br>
-					<span>请国龙提取它的15年财务报表和今年的前三季度报表...</span><br>
-					<span>项目名称：刚刚好（基金A）</span>
-				</div>
-				<div class="cont-time">
-					2016/11/30 12:38
-				</div>
-			</div>
+			<swiper v-if="noteList.length > 0" ref="note">
+		        <swiper-slide v-for="n in noteList">
+		        	<div class="block-cont">
+						<div class="cont-img">
+							<img :src="n.user.photo.url" style="width:100%;height:100%">
+						</div>
+						<div class="cont-word" style="margin-top:-7px;">
+							<span class="name">{{n.user.name}}</span>
+							<span style="margin-left:10px;">{{n.user.position}}</span><br>
+							<span>{{n.content | shorten}}</span><br>
+							<span>项目名称：{{n.project.project_name}}</span>
+						</div>
+						<div class="cont-time">
+							{{n.create_time}}
+						</div>
+					</div>
+		        </swiper-slide>
+		    </swiper>
 		</div>
 		<div class="main-block">
 			<div class="block-head" style="background-color:#5ac0de">
 				新增项目
 			</div>
-			<div class="block-cont">
+			<div class="block-cont" v-for="p in projects">
 				<div class="cont-img img-item">
-					<img src="../assets/item1.png" style="width:100%;height:100%">
+					<img :src="p.logo.url" style="width:100%;height:100%">
 				</div>
 				<div class="cont-word" style="margin-top:0px;">
-					<router-link class="name" style="color:#5ac0de" :to="{name:'fund-detail'}">刚刚好</router-link><span class="name">（基金A）</span><br>
-					<span>企业级服务 工具+交流</span>
+					<router-link class="name" style="color:#5ac0de" :to="{name:'fund-detail'}">{{p.project_name}}</router-link><span class="name">（{{p.foundation.name}}）</span><br>
+					<span>{{p.project_introduction | shorten}}</span>
 				</div>
 				<div class="cont-time">
-					2016/11/30
-				</div>
-			</div>
-			<div class="block-cont">
-				<div class="cont-img img-item">
-					<img src="../assets/item1.png" style="width:100%;height:100%">
-				</div>
-				<div class="cont-word" style="margin-top:0px;">
-					<span class="name" style="color:#5ac0de">刚刚好</span><span class="name">（基金A）</span><br>
-					<span>企业级服务 工具+交流</span>
-				</div>
-				<div class="cont-time">
-					2016/11/30
+					{{p.invest_current | dateFormat}}
 				</div>
 			</div>
 		</div>
@@ -126,6 +122,64 @@
 		</div>
 	</div>
 </template>
+<script>
+	import {getEvaluateRecordList, getNoteList, itemList} from '../ajax/get.js'
+
+ 	export default {
+		data () {
+			return {
+				recordList: [],
+				noteList: [],
+				projects: []
+			}
+		},		
+		mounted () {
+			getEvaluateRecordList({
+				number: 5
+			}).then((res)=>{
+				this.recordList = res.data && (res.data.list || [])
+			})
+			getNoteList({
+				number: 6
+			}).then((res)=>{
+				let type1 = res.data && (res.data.type1 || [])
+				let type0 = res.data && (res.data.type0 || [])
+
+				this.noteList = [].concat(type1.slice(0, 3), type0.slice(0, 3))
+			})
+			itemList({
+				project_type: 2
+			}).then((res)=>{
+				this.projects = res.data && (res.data.list || []).slice(0, 5)
+			})
+		},
+		filters: {
+			getScore(_s){
+				var s = parseFloat(_s)
+				s /= 10
+				s = s.toFixed(1)
+				return s
+			},
+			getSeason(_s){
+				var s = _s.replace('-', '年')
+				s += '季度'
+				return s
+			},
+			shorten(s){
+				if (s.length < 15) {
+					return s 
+				}
+				return s.slice(0,15) + '...'
+			},
+			dateFormat(_date){
+				var date = new Date(_date)
+
+				return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getUTCDate()}`
+
+			}
+		}
+	}
+</script>
 <style lang="less">
 	.main-block{
 		margin-bottom: 10px;
