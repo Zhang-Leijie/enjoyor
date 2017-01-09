@@ -6,9 +6,9 @@
       </div>
       <el-col :span="8" style="width:100%">
         <el-menu  style="background-color:#32323a">
-          <!-- <router-link :to="{name:'main'}"> -->
-            <el-menu-item index="1" @click.native="alert"><i class="iconfont icon-shouye"></i>主页</el-menu-item>
-          <!-- </router-link> -->
+          <router-link :to="{name:'main'}">
+            <el-menu-item index="1"><i class="iconfont icon-shouye"></i>主页</el-menu-item>
+          </router-link>
           <router-link :to="{name:'fund-list'}">
             <el-menu-item index="2"><i class="iconfont icon-heimingdan"></i>基金列表</el-menu-item>
           </router-link>
@@ -56,9 +56,9 @@
               <el-menu-item index="6-3" @click.native="alert">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <!-- <router-link :to="{name:'personal'}"> -->
-            <el-menu-item index="7" @click.native="alert"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
-          <!-- </router-link> -->
+          <router-link :to="{name:'personal'}">
+            <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
+          </router-link>
           <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
           <el-submenu index="9" v-if="type.type==2">
             <template slot="title"><i class="el-icon-setting"></i>帐号管理</template>
