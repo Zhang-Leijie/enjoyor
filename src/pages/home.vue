@@ -41,7 +41,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
-            <template slot="title"><i class="iconfont icon-chart"></i>基金统计</template>
+            <template slot="title"><i class="iconfont icon-chart"></i>基金统计(正在建设中)</template>
             <el-menu-item-group>
               <el-menu-item index="5-1" @click.native="alert">选项1</el-menu-item>
               <el-menu-item index="5-2" @click.native="alert">选项2</el-menu-item>
@@ -49,7 +49,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="6">
-            <template slot="title"><i class="iconfont icon-gonggao"></i>公告中心</template>
+            <template slot="title"><i class="iconfont icon-gonggao"></i>公告中心(正在建设中)</template>
             <el-menu-item-group>
               <el-menu-item index="6-1" @click.native="alert">选项1</el-menu-item>
               <el-menu-item index="6-2" @click.native="alert">选项2</el-menu-item>
@@ -59,7 +59,7 @@
           <router-link :to="{name:'personal'}">
             <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
           </router-link>
-          <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
+          <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章(正在建设中)</el-menu-item>
           <el-submenu index="9" v-if="type.type==2">
             <template slot="title"><i class="el-icon-setting" style="margin-right:18px;"></i>帐号管理</template>
             <el-menu-item-group>

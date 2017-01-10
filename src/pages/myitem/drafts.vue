@@ -84,7 +84,7 @@
 		<table class="tableStyle" style="margin-top:25px;">
 			<thead>
 				<tr>
-					<!-- <th>序号</th> -->
+					<th>序号</th>
 					<th style="width:150px;">项目名称</th>
 					<th>地点</th>
 					<th>项目来源</th>
@@ -98,7 +98,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="(list,index) in lists">
-					<!-- <td>{{index+1}}</td> -->
+					<td>{{index+1}}</td>
 					<td class="fabu">
 						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
 					</td>
@@ -275,18 +275,32 @@
 	      }
 	    },
 	    methods:{
+
 	    	deleteitem(id){
-	    		deleteProject({
-    				projectId:id
-    			}).then((res) => {
-					swal({
-	                    title: "删除成功",
-	                    type: 'success',
-	                    text: "删除成功",
-	                    timer: 2000,
-	                })
-	                this.getList()
-				})
+	    		var self= this
+	    		swal({
+			        title: "",
+			        text: "确定删除？",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "是",
+			        cancelButtonText: "否",
+			        closeOnConfirm: true,
+			        html: false
+			    }, function(){
+			        deleteProject({
+	    				projectId:id
+	    			}).then((res) => {
+						swal({
+		                    title: "删除成功",
+		                    type: 'success',
+		                    text: "删除成功",
+		                    timer: 2000,
+		                })
+		                self.getList()
+					})
+			    })
 	    	},
 	    	reset(){
 	    		this.search={

@@ -39,7 +39,7 @@
 						<a class="white button" target="_blank" :href='xmjb.fileUrl'>下载</a>
 					</div>
 				</div>
-				<div class="upload_name">项目简报</div>
+				<div class="upload_name">项目简报<div style="width:140px">更新时间：<span v-if="xmjb">{{xmjb.time}}</span></div></div>
 			</div>
 			<div class="upload_block">
 				<div class="upload_none" v-if="!syjhs">
@@ -54,7 +54,7 @@
 						<a class="white button" target="_blank" :href='syjhs.fileUrl'>下载</a>
 					</div>
 				</div>
-				<div class="upload_name">商业计划书</div>
+				<div class="upload_name">商业计划书<div style="width:140px">更新时间：<span v-if="syjhs">{{syjhs.time}}</span></div></div>
 			</div>
 			<div class="upload_block">
 				<div class="upload_none" v-if="!ts">
@@ -69,7 +69,7 @@
 						<a class="white button" target="_blank" :href='ts.fileUrl'>下载</a>
 					</div>
 				</div>
-				<div class="upload_name">TS协议框架</div>
+				<div class="upload_name">TS协议框架<div style="width:140px">更新时间：<span v-if="ts">{{ts.time}}</span></div></div>
 			</div>		
 			<div style="float:left">
 				<div class="clearfix">
@@ -95,11 +95,12 @@
 					    <el-option
 					      v-if="jdbg"
 					      v-for="item in jdbg"
-					      :label="item.label"
+					      :label="item.time+'---'+item.label"
 					      :value="item.value"
 					      >
 					    </el-option>
 					</el-select>
+					<div style="font-size:14px">更新时间:<span v-if="jdbg.length!=0">{{jdbg[0].time}}</span></div>
 				</div>
 			</div>
 			<div style="float:left">
@@ -117,7 +118,8 @@
 							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
 							<div>未上传</div>
 						</div>				
-						<div class="upload_name">正式协议进展</div>
+						<div class="upload_name">正式协议</div>
+
 					</div>
 				</div>
 				<div>
@@ -125,10 +127,11 @@
 					<el-select v-model="value2" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in zsxy"
-					      :label="item.label"
+					      :label="item.time+'---'+item.label"
 					      :value="item.value">
 					    </el-option>
 					</el-select>
+					<div style="font-size:14px">更新时间:<span v-if="zsxy.length!=0">{{zsxy[0].time}}</span></div>
 				</div>
 			</div>
 			<div style="float:left">
@@ -154,10 +157,11 @@
 					<el-select v-model="value3" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in thgl"
-					      :label="item.label"
+					      :label="item.time+'---'+item.label"
 					      :value="item.value">
 					    </el-option>
 					</el-select>
+					<div style="font-size:14px">更新时间:<span v-if="thgl.length!=0">{{thgl[0].time}}</span></div>
 				</div>
 			</div>
 			<div style="float:left">
@@ -183,10 +187,11 @@
 					<el-select v-model="value4" placeholder="请选择" style="width:130px">
 					    <el-option
 					      v-for="item in tztc"
-					      :label="item.label"
+					      :label="item.time+'---'+item.label"
 					      :value="item.value">
 					    </el-option>
 					</el-select>
+					<div style="font-size:14px">更新时间:<span v-if="tztc.length!=0">{{tztc[0].time}}</span></div>
 				</div>
 			</div>
 		</div>
@@ -396,28 +401,34 @@
 	      		projectId:this.$route.query.id
 	      	}).then((res) => {
 	      		var info = res.data.projectFile
+	      		var time = localdata(info.briefing.update_current)
 	      		if (info.briefing) {
 	      			var img = doctype(info.briefing.url)
 		      		this.xmjb={
 			      		id:info.briefing.id,
 			      		fileUrl:info.briefing.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.proposal) {
 		      		var img = doctype(info.proposal.url)
+		      		var time = localdata(info.proposal.update_current)
 			      	this.syjhs={
 			      		id:info.proposal.id,
 			      		fileUrl:info.proposal.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.agreement) {
 		      		var img = doctype(info.agreement.url)
+		      		var time = localdata(info.agreement.update_current)
 			      	this.ts={
 			      		id:info.agreement.id,
 			      		fileUrl:info.agreement.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.reports.length!=0) {
@@ -425,8 +436,9 @@
 		      		var self = this
 		      		info.reports.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = localdata(list.update_current)
 		      			self.jdbg.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -435,8 +447,9 @@
 		      		var self = this
 		      		info.schedules.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = localdata(list.update_current)
 		      			self.zsxy.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -445,8 +458,9 @@
 		      		var self = this
 		      		info.manages.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = localdata(list.update_current)
 		      			self.thgl.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -455,8 +469,9 @@
 		      		var self = this
 		      		info.profits.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = localdata(list.update_current)
 		      			self.tztc.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}

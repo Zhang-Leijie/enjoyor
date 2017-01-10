@@ -83,6 +83,14 @@
 				<el-input placeholder="请输入手机号码" class="edit-input" v-model="phone"></el-input>
 			</div>
 		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				用户备注
+			</div>
+			<div class="item-content item-single">
+				<el-input placeholder="用户备注" class="edit-input" v-model="note"></el-input>
+			</div>
+		</div>
 		<div class="sum-item" v-if="value==5">
 			<div class="item-title">
 				选择基金
@@ -116,6 +124,7 @@ export default {
             posi:null,
             local:null,
             phone:null,
+            note:null,
             fund:[]
         }
     },
@@ -167,6 +176,9 @@ export default {
 	    	}
 	    	if (this.phone) {
 	    		data.phone = this.phone
+	    	}
+	    	if(this.note){
+	    		data.remark = this.note
 	    	}
 	    	if (this.value) {
 	    		data.role = {

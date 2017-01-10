@@ -1,9 +1,9 @@
 <template>
 	<div class="fund-note" style="padding-left:0px;padding-right:0px">
-		<div class="edit">
+		<!-- <div class="edit">
 			<i class="el-icon-edit"></i>
 			评级
-		</div>
+		</div> -->
 		<F_Probar></F_Probar>
 		<div class="sum-item">
 			<div class="item-title">
@@ -31,310 +31,318 @@
 				<el-input placeholder="请输入付款金额" class="edit-input" style="width:150px;" v-model="info.pay_money"></el-input>	
 			</div>
 		</div>
-		<div class="uploadcontent clearfix" style="padding:20px">	
-			<div class="upload_block">
-				<div class="upload_none" v-if="!xmjb">
-					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-					<div>未上传</div>
-					<div class="up_hover">
+		<div class="uploadcontent clearfix" style="padding:20px">
+			<div class="clearfix">
+				<div class="upload_block">
+					<div class="upload_none" v-if="!xmjb">
+						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+						<div>未上传</div>
+						<div class="up_hover">
+								<div class="white button">
+									<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess"
+					  				:default-file-list="fileList1"
+					  				style="width:100%">
+									上传
+									</el-upload>
+								</div>					
+						</div>
+					</div>
+					<div class="upload_none" v-else>
+						<div class="upload_img">
+							<img :src="xmjb.img">
+						</div>
+						<div class="up_hover" style="padding-top:10px;">
+							<div class="white button" style="margin:10px auto">
+								<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess"
+					  				:default-file-list="fileList1"
+					  				style="width:100%">
+								上传
+								</el-upload>
+							</div>
+							<a class="white button" target="_blank" :href='xmjb.fileUrl' style="margin:10px auto">下载</a>
+						</div>
+					</div>
+					<div class="upload_name">项目简报<br><div style="width:140px">更新时间：<span v-if="xmjb">{{xmjb.time}}</span></div></div>
+				</div>
+				<div class="upload_block">
+					<div class="upload_none" v-if="!syjhs">
+						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+						<div>未上传</div>
+						<div class="up_hover">
 							<div class="white button">
 								<el-upload
 				  				action="/uploadFile"
-				  				:on-success="handlesuccess"
-				  				:default-file-list="fileList1"
-				  				style="width:100%">
-								上传
-								</el-upload>
-							</div>					
-					</div>
-				</div>
-				<div class="upload_none" v-else>
-					<div class="upload_img">
-						<img :src="xmjb.img">
-					</div>
-					<div class="up_hover" style="padding-top:10px;">
-						<div class="white button" style="margin:10px auto">
-							<el-upload
-				  				action="/uploadFile"
-				  				:on-success="handlesuccess"
-				  				:default-file-list="fileList1"
-				  				style="width:100%">
-							上传
-							</el-upload>
-						</div>
-						<a class="white button" target="_blank" :href='xmjb.fileUrl' style="margin:10px auto">下载</a>
-					</div>
-				</div>
-				<div class="upload_name">项目简报</div>
-			</div>
-			<div class="upload_block">
-				<div class="upload_none" v-if="!syjhs">
-					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-					<div>未上传</div>
-					<div class="up_hover">
-						<div class="white button">
-							<el-upload
-			  				action="/uploadFile"
-			  				:on-success="handlesuccess2"
-			  				:default-file-list="fileList2"
-			  				 style="width:100%">
-			  					上传
-			  				</el-upload>
-			  			</div>
-					</div>
-				</div>
-				<div class="upload_none" v-else>
-					<div class="upload_img">
-						<img :src="syjhs.img">
-					</div>
-					<div class="up_hover" style="padding-top:10px;">
-						<div class="white button" style="margin:10px auto">
-							<el-upload
-				  				action="/uploadFile"
 				  				:on-success="handlesuccess2"
 				  				:default-file-list="fileList2"
-				  				style="width:100%">
-								上传
-							</el-upload>
+				  				 style="width:100%">
+				  					上传
+				  				</el-upload>
+				  			</div>
 						</div>
-						<a class="white button" target="_blank" :href='syjhs.fileUrl' style="margin:10px auto">下载</a>
 					</div>
+					<div class="upload_none" v-else>
+						<div class="upload_img">
+							<img :src="syjhs.img">
+						</div>
+						<div class="up_hover" style="padding-top:10px;">
+							<div class="white button" style="margin:10px auto">
+								<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess2"
+					  				:default-file-list="fileList2"
+					  				style="width:100%">
+									上传
+								</el-upload>
+							</div>
+							<a class="white button" target="_blank" :href='syjhs.fileUrl' style="margin:10px auto">下载</a>
+						</div>
+					</div>
+					<div class="upload_name">商业计划书<div style="width:140px">更新时间：<span v-if="syjhs">{{syjhs.time}}</span></div></div>
 				</div>
-				<div class="upload_name">商业计划书</div>
-			</div>
-			<div class="upload_block">
-				<div class="upload_none" v-if="!ts">
-					<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-					<div>未上传</div>
-					<div class="up_hover">
-						<div class="white button">
-							<el-upload
-			  				action="/uploadFile"
-			  				:on-success="handlesuccess3"
-			  				:default-file-list="fileList3"
-			  				 style="width:100%;">
-			  					上传
-			  				</el-upload>
-			  			</div>
-					</div>
-				</div>
-				<div class="upload_none" v-else>
-					<div class="upload_img">
-						<img :src="ts.img">
-					</div>
-					<div class="up_hover" style="padding-top:10px;">
-						<div class="white button" style="margin:10px auto">
-							<el-upload
+				<div class="upload_block">
+					<div class="upload_none" v-if="!ts">
+						<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+						<div>未上传</div>
+						<div class="up_hover">
+							<div class="white button">
+								<el-upload
 				  				action="/uploadFile"
 				  				:on-success="handlesuccess3"
 				  				:default-file-list="fileList3"
-				  				style="width:100%;">
-								上传
-							</el-upload>
+				  				 style="width:100%;">
+				  					上传
+				  				</el-upload>
+				  			</div>
 						</div>
-						<a class="white button" target="_blank" :href='ts.fileUrl' style="margin:10px auto">下载</a>
 					</div>
-				</div>
-				<div class="upload_name">TS协议框架</div>
-			</div>		
-			<div style="float:left">
-				<div class="clearfix">
-					<div class="upload_block">
-						<div class="upload_none" v-if="jdbg.length!=0" >
-							<div class="upload_img">
-								<img :src="jdbg[0].img">
+					<div class="upload_none" v-else>
+						<div class="upload_img">
+							<img :src="ts.img">
+						</div>
+						<div class="up_hover" style="padding-top:10px;">
+							<div class="white button" style="margin:10px auto">
+								<el-upload
+					  				action="/uploadFile"
+					  				:on-success="handlesuccess3"
+					  				:default-file-list="fileList3"
+					  				style="width:100%;">
+									上传
+								</el-upload>
 							</div>
-							<div class="up_hover" :class="{pa:value}">
-								<div class="white button" :class="{ma:value}">
-									<el-upload
+							<a class="white button" target="_blank" :href='ts.fileUrl' style="margin:10px auto">下载</a>
+						</div>
+					</div>
+					<div class="upload_name">TS协议框架<div style="width:140px">更新时间：<span v-if="ts">{{ts.time}}</span></div></div>
+				</div>
+			</div>
+			<div class="clearfix" style="margin-top:20px;">
+				<div style="float:left">
+					<div class="clearfix">
+						<div class="upload_block">
+							<div class="upload_none" v-if="jdbg.length!=0" >
+								<div class="upload_img">
+									<img :src="jdbg[0].img">
+								</div>
+								<div class="up_hover" :class="{pa:value}">
+									<div class="white button" :class="{ma:value}">
+										<el-upload
+							  				action="/uploadFile"
+							  				:on-success="handlesuccess4"
+							  				:default-file-list="fileList4"
+							  				style="width:100%;">
+											上传
+										</el-upload>
+									</div>
+									<a class="white button" v-if="value" :href='value' style="margin:10px auto" target="_blank">下载</a>
+								</div>
+							</div>
+							<div class="upload_none" v-else>
+								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+								<div>未上传</div>
+								<div class="up_hover">
+									<div class="white button">
+										<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess4"
 						  				:default-file-list="fileList4"
-						  				style="width:100%;">
-										上传
-									</el-upload>
+						  				 style="width:80px;">
+						  				上传
+						  				</el-upload>
+						  			</div>
 								</div>
-								<a class="white button" v-if="value" :href='value' style="margin:10px auto" target="_blank">下载</a>
-							</div>
+							</div>				
+							<div class="upload_name">尽调报告</div>
 						</div>
-						<div class="upload_none" v-else>
-							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-							<div>未上传</div>
-							<div class="up_hover">
-								<div class="white button">
-									<el-upload
-					  				action="/uploadFile"
-					  				:on-success="handlesuccess4"
-					  				:default-file-list="fileList4"
-					  				 style="width:80px;">
-					  				上传
-					  				</el-upload>
-					  			</div>
-							</div>
-						</div>				
-						<div class="upload_name">尽调报告</div>
+					</div>
+					<div>
+						<span style="font-size:14px;text-align:center">历史文件：</span>
+						<el-select v-model="value" placeholder="请选择" style="width:130px">
+						    <el-option
+						      v-if="jdbg"
+						      v-for="item in jdbg"
+						      :label="item.time+'---'+item.label"
+						      :value="item.value"
+						      >
+						    </el-option>
+						</el-select>
+						<div style="font-size:14px">更新时间:<span v-if="jdbg.length!=0">{{jdbg[0].time}}</span></div>
 					</div>
 				</div>
-				<div>
-					<span style="font-size:14px;text-align:center">历史文件：</span>
-					<el-select v-model="value" placeholder="请选择" style="width:130px">
-					    <el-option
-					      v-if="jdbg"
-					      v-for="item in jdbg"
-					      :label="item.label"
-					      :value="item.value"
-					      >
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
-			<div style="float:left">
-				<div class="clearfix">
-					<div class="upload_block">
-						<div class="upload_none" v-if="zsxy.length!=0" >
-							<div class="upload_img">
-								<img :src="zsxy[0].img">
+				<div style="float:left">
+					<div class="clearfix">
+						<div class="upload_block">
+							<div class="upload_none" v-if="zsxy.length!=0" >
+								<div class="upload_img">
+									<img :src="zsxy[0].img">
+								</div>
+								<div class="up_hover" :class="{pa:value2}">
+									<div class="white button" :class="{ma:value2}">
+										<el-upload
+							  				action="/uploadFile"
+							  				:on-success="handlesuccess5"
+							  				:default-file-list="fileList5"
+							  				style="width:100%;">
+											上传
+										</el-upload>
+									</div>
+									<a class="white button" v-if="value2" :href='value2' style="margin:10px auto" target="_blank">下载</a>
+								</div>
 							</div>
-							<div class="up_hover" :class="{pa:value2}">
-								<div class="white button" :class="{ma:value2}">
-									<el-upload
+							<div class="upload_none" v-else>
+								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+								<div>未上传</div>
+								<div class="up_hover">
+									<div class="white button">
+										<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess5"
 						  				:default-file-list="fileList5"
-						  				style="width:100%;">
-										上传
-									</el-upload>
+						  				 style="width:80px;">
+						  				上传
+						  				</el-upload>
+						  			</div>
 								</div>
-								<a class="white button" v-if="value2" :href='value2' style="margin:10px auto" target="_blank">下载</a>
-							</div>
+							</div>				
+							<div class="upload_name">正式协议</div>
 						</div>
-						<div class="upload_none" v-else>
-							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-							<div>未上传</div>
-							<div class="up_hover">
-								<div class="white button">
-									<el-upload
-					  				action="/uploadFile"
-					  				:on-success="handlesuccess5"
-					  				:default-file-list="fileList5"
-					  				 style="width:80px;">
-					  				上传
-					  				</el-upload>
-					  			</div>
-							</div>
-						</div>				
-						<div class="upload_name">正式协议</div>
+					</div>
+					<div>
+						<span style="font-size:14px;text-align:center">历史文件：</span>
+						<el-select v-model="value2" placeholder="请选择" style="width:130px">
+						    <el-option
+						      v-for="item in zsxy"
+						      :label="item.time+'---'+item.label"
+						      :value="item.value">
+						    </el-option>
+						</el-select>
+						<div style="font-size:14px">更新时间:<span v-if="zsxy.length!=0">{{zsxy[0].time}}</span></div>
 					</div>
 				</div>
-				<div>
-					<span style="font-size:14px;text-align:center">历史文件：</span>
-					<el-select v-model="value2" placeholder="请选择" style="width:130px">
-					    <el-option
-					      v-for="item in zsxy"
-					      :label="item.label"
-					      :value="item.value">
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
-			<div style="float:left">
-				<div class="clearfix">
-					<div class="upload_block">
-						<div class="upload_none" v-if="thgl.length!=0" >
-							<div class="upload_img">
-								<img :src="thgl[0].img">
+				<div style="float:left">
+					<div class="clearfix">
+						<div class="upload_block">
+							<div class="upload_none" v-if="thgl.length!=0" >
+								<div class="upload_img">
+									<img :src="thgl[0].img">
+								</div>
+								<div class="up_hover" :class="{pa:value3}">
+									<div class="white button" :class="{ma:value3}">
+										<el-upload
+							  				action="/uploadFile"
+							  				:on-success="handlesuccess6"
+							  				:default-file-list="fileList6"
+							  				style="width:100%;">
+											上传
+										</el-upload>
+									</div>
+									<a class="white button" v-if="value3" :href='value3' style="margin:10px auto" target="_blank">下载</a>
+								</div>
 							</div>
-							<div class="up_hover" :class="{pa:value3}">
-								<div class="white button" :class="{ma:value3}">
-									<el-upload
+							<div class="upload_none" v-else>
+								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+								<div>未上传</div>
+								<div class="up_hover">
+									<div class="white button">
+										<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess6"
 						  				:default-file-list="fileList6"
-						  				style="width:100%;">
-										上传
-									</el-upload>
+						  				 style="width:80px;">
+						  				上传
+						  				</el-upload>
+						  			</div>
 								</div>
-								<a class="white button" v-if="value3" :href='value3' style="margin:10px auto" target="_blank">下载</a>
-							</div>
+							</div>				
+							<div class="upload_name">投后管理</div>
 						</div>
-						<div class="upload_none" v-else>
-							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-							<div>未上传</div>
-							<div class="up_hover">
-								<div class="white button">
-									<el-upload
-					  				action="/uploadFile"
-					  				:on-success="handlesuccess6"
-					  				:default-file-list="fileList6"
-					  				 style="width:80px;">
-					  				上传
-					  				</el-upload>
-					  			</div>
-							</div>
-						</div>				
-						<div class="upload_name">投后管理</div>
+					</div>
+					<div>
+						<span style="font-size:14px;text-align:center">历史文件：</span>
+						<el-select v-model="value3" placeholder="请选择" style="width:130px">
+						    <el-option
+						      v-for="item in thgl"
+						      :label="item.time+'---'+item.label"
+						      :value="item.value">
+						    </el-option>
+						</el-select>
+						<div style="font-size:14px">更新时间:<span v-if="thgl.length!=0">{{thgl[0].time}}</span></div>
 					</div>
 				</div>
-				<div>
-					<span style="font-size:14px;text-align:center">历史文件：</span>
-					<el-select v-model="value3" placeholder="请选择" style="width:130px">
-					    <el-option
-					      v-for="item in thgl"
-					      :label="item.label"
-					      :value="item.value">
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
-			<div style="float:left">
-				<div class="clearfix">
-					<div class="upload_block" style="margin-right:0px;">
-						<div class="upload_none" v-if="tztc.length!=0" >
-							<div class="upload_img">
-								<img :src="tztc[0].img">
+				<div style="float:left">
+					<div class="clearfix">
+						<div class="upload_block" style="margin-right:0px;">
+							<div class="upload_none" v-if="tztc.length!=0" >
+								<div class="upload_img">
+									<img :src="tztc[0].img">
+								</div>
+								<div class="up_hover" :class="{pa:value4}">
+									<div class="white button" :class="{ma:value4}">
+										<el-upload
+							  				action="/uploadFile"
+							  				:on-success="handlesuccess7"
+							  				:default-file-list="fileList7"
+							  				style="width:100%;">
+											上传
+										</el-upload>
+									</div>
+									<a class="white button" v-if="value4" :href='value4' style="margin:10px auto" target="_blank">下载</a>
+								</div>
 							</div>
-							<div class="up_hover" :class="{pa:value4}">
-								<div class="white button" :class="{ma:value4}">
-									<el-upload
+							<div class="upload_none" v-else>
+								<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
+								<div>未上传</div>
+								<div class="up_hover">
+									<div class="white button">
+										<el-upload
 						  				action="/uploadFile"
 						  				:on-success="handlesuccess7"
 						  				:default-file-list="fileList7"
-						  				style="width:100%;">
-										上传
-									</el-upload>
+						  				 style="width:80px;">
+						  				上传
+						  				</el-upload>
+						  			</div>
 								</div>
-								<a class="white button" v-if="value4" :href='value4' style="margin:10px auto" target="_blank">下载</a>
-							</div>
+							</div>				
+							<div class="upload_name">投资退出盈利</div>
 						</div>
-						<div class="upload_none" v-else>
-							<i class="el-icon-upload" style="font-size:70px;margin-top:20px;"></i>
-							<div>未上传</div>
-							<div class="up_hover">
-								<div class="white button">
-									<el-upload
-					  				action="/uploadFile"
-					  				:on-success="handlesuccess7"
-					  				:default-file-list="fileList7"
-					  				 style="width:80px;">
-					  				上传
-					  				</el-upload>
-					  			</div>
-							</div>
-						</div>				
-						<div class="upload_name">投资退出盈利</div>
+					</div>
+					<div>
+						<span style="font-size:14px;text-align:center">历史文件：</span>
+						<el-select v-model="value4" placeholder="请选择" style="width:130px">
+						    <el-option
+						      v-for="item in tztc"
+						      :label="item.time+'---'+item.label"
+						      :value="item.value">
+						    </el-option>
+						</el-select>
+						<div style="font-size:14px">更新时间:<span v-if="tztc.length!=0">{{tztc[0].time}}</span></div>
 					</div>
 				</div>
-				<div>
-					<span style="font-size:14px;text-align:center">历史文件：</span>
-					<el-select v-model="value4" placeholder="请选择" style="width:130px">
-					    <el-option
-					      v-for="item in tztc"
-					      :label="item.label"
-					      :value="item.value">
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
+			</div>	
 		</div>
 		<div style="text-align:center">
 			<div class="button blue" style="margin:10px auto;" @click='postfile'>保存</div>
@@ -345,7 +353,9 @@
 	import { getProjectFile } from '../../ajax/get.js'
 	import { File } from '../../ajax/post.js'
   	import  F_Probar from './fund-procbar'
-
+  	function   formatDate(time)   {  
+  	  return new Date(parseInt(time)).toLocaleString().substr(0,10)
+    }    
   	function doctype(name){
 		var img
 		var x = name.split('.')[1]
@@ -575,26 +585,32 @@
 	      		var info = res.data.projectFile
 	      		if (info.briefing) {
 	      			var img = doctype(info.briefing.url)
+	      			var time = formatDate(info.briefing.update_current)
 		      		this.xmjb={
 			      		id:info.briefing.id,
 			      		fileUrl:info.briefing.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.proposal) {
 		      		var img = doctype(info.proposal.url)
+		      		var time = formatDate(info.proposal.update_current)
 			      	this.syjhs={
 			      		id:info.proposal.id,
 			      		fileUrl:info.proposal.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.agreement) {
 		      		var img = doctype(info.agreement.url)
+		      		var time = formatDate(info.agreement.update_current)
 			      	this.ts={
 			      		id:info.agreement.id,
 			      		fileUrl:info.agreement.url,
-			      		img:img
+			      		img:img,
+			      		time:time
 			      	}
 		      	}
 		      	if (info.reports.length!=0) {
@@ -602,8 +618,9 @@
 		      		var self = this
 		      		info.reports.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = formatDate(list.update_current)
 		      			self.jdbg.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -612,8 +629,9 @@
 		      		var self = this
 		      		info.schedules.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = formatDate(list.update_current)
 		      			self.zsxy.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -622,8 +640,9 @@
 		      		var self = this
 		      		info.manages.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = formatDate(list.update_current)
 		      			self.thgl.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}
@@ -632,8 +651,9 @@
 		      		var self = this
 		      		info.profits.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
+		      			var time = formatDate(list.update_current)
 		      			self.tztc.push({
-			      			label:list.fileName,value:list.url,id:list.id,img:img
+			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
 		      		})	      		
 		      	}

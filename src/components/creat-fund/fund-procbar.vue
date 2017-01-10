@@ -1,9 +1,9 @@
 <template>
 	<div class="clearfix" style="margin-bottom:50px;">
-		<div class="edit" @click="rate">
+		<!-- <div class="edit" @click="rate">
 			<i class="el-icon-edit"></i>
 			节点保存
-		</div>
+		</div> -->
 		<div class="note-process">
 			<div class="unfinish">
 				
@@ -12,55 +12,55 @@
 				
 			</div>
 			<div class="finish-cont">
-				<div class="process-cir process-border" style="float:left" @click="process=1">
+				<div class="process-cir process-border" style="float:left" @click="processa(1)">
 					<i class="el-icon-check" v-if="process>0"></i>
 					<div class="process-word">
 						项目录入
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=2">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(2)">
 					<i class="el-icon-check" v-if="process>1"></i>
 					<div class="process-word">
 						同意立项
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=3">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(3)">
 					<i class="el-icon-check" v-if="process>2"></i>
 					<div class="process-word">
 						同意上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=4">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(4)">
 					<i class="el-icon-check" v-if="process>3"></i>
 					<div class="process-word" style="left:-40%">
 						已上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=5">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(5)">
 					<i class="el-icon-check" v-if="process>4"></i>
 					<div class="process-word">
 						同意投资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=6">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(6)">
 					<i class="el-icon-check" v-if="process>5"></i>
 					<div class="process-word">
 						协议签订
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=7">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(7)">
 					<i class="el-icon-check" v-if="process>6"></i>
 					<div class="process-word" style="left:-10%">
 						出资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="process=8">
+				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(8)">
 					<i class="el-icon-check" v-if="process>7"></i>
 					<div class="process-word">
 						投后管理
 					</div>
 				</div>
-				<div class="process-cir" @click="process=9">
+				<div class="process-cir" @click="processa(9)">
 					<i class="el-icon-check" v-if="process>8"></i>
 					<div class="process-word">
 						退出投资
@@ -90,12 +90,13 @@ import {Item} from '../../ajax/post.js'
 					this.state = res.data.project.state
 				}) 
 		    },
-		    rate(){
+		    processa(aprocess){
+		    	this.process = aprocess
 		    	Item({
 					type:2,
 					strProject:JSON.stringify({
 						id:this.$route.query.id,
-						project_schedule:this.process-0-1
+						project_schedule:aprocess-0-1
 					})
 				}).then((res) => {
 					this.getInfo()

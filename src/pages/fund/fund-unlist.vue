@@ -94,7 +94,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(list,index) in lists">
+				<router-link :to="{name: 'fund-detail',query:{id:list.id}}" tag="tr" v-for="(list,index) in lists">
 					<td>{{index+1}}</td>
 					<td class="fabu">
 						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
@@ -111,7 +111,7 @@
 					<td>
 						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">查看</router-link>
 					</td>
-				</tr>
+				</router-link>
 			</tbody>
 		</table>
 		<el-pagination v-if="intotal"

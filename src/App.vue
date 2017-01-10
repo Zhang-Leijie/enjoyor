@@ -41,7 +41,7 @@ export default {
     height: 100%;
     color: #666;
     position: relative;
-    font-family: "PingFang SC","Microsoft YaHei","微软雅黑", "Helvetica Neue", Helvetica,  "Hiragino Sans GB",  Arial, sans-serif;
+    font-family: "Microsoft YaHei","微软雅黑","PingFang SC", "Helvetica Neue", Helvetica,  "Hiragino Sans GB",  Arial, sans-serif;
     &:before {
         content: "";
         position: fixed;

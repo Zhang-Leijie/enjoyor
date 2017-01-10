@@ -16,14 +16,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(i,index) in lists">
+				<router-link tag="tr" :to="{name:'fund-inlist',query:{id:i.id,name:i.name}}" v-for="(i,index) in lists">
 					<td>{{index+1}}</td>
 					<td><router-link :to="{name:'fund-inlist',query:{id:i.id,name:i.name}}" class="link">{{i.name}}</router-link></td>
 					<td>{{i.responsibility}}</td>
 					<td>{{i.money}}</td>
 					<td>{{i.list_project.length}}</td>
 					<td>{{i.list_user.length}}</td>
-				</tr>
+				</router-link>
 			</tbody>
 		</table>
 	</div>

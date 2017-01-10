@@ -65,7 +65,7 @@
 					<img :src="p.logo.url" style="width:100%;height:100%">
 				</div>
 				<div class="cont-word" style="margin-top:0px;">
-					<router-link class="name" style="color:#5ac0de" :to="{name:'fund-detail'}">{{p.project_name}}</router-link><span class="name">（{{p.foundation.name}}）</span><br>
+					<router-link class="name" style="color:#5ac0de" :to="{name:'fund-detail',query:{id:p.id}}">{{p.project_name}}</router-link><span class="name">（{{p.foundation.name}}）</span><br>
 					<span>{{p.project_introduction | shorten}}</span>
 				</div>
 				<div class="cont-time">
@@ -77,7 +77,7 @@
 			<div class="block-head" style="background-color:#51ccb3">
 				公告中心<div style="float:right">更多</div>
 			</div>
-			<div class="block-cont">
+			<!-- <div class="block-cont">
 				<div style="display:inline-block">
 					<div class="cont-sign sign-light"></div>
 					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
@@ -118,12 +118,12 @@
 					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
 				</div>
 				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
 <script>
-	import {getEvaluateRecordList, getNoteList, itemList} from '../ajax/get.js'
+	import {getEvaluateRecordList, getNoteList, itemList,getMainProjectList} from '../ajax/get.js'
 
  	export default {
 		data () {
@@ -147,10 +147,8 @@
 
 				this.noteList = [].concat(type1.slice(0, 3), type0.slice(0, 3))
 			})
-			itemList({
-				project_type: 2
-			}).then((res)=>{
-				this.projects = res.data && (res.data.list || []).slice(0, 5)
+			getMainProjectList().then((res)=>{
+				this.projects = res.list && (res.list || []).slice(0, 5)
 			})
 		},
 		filters: {

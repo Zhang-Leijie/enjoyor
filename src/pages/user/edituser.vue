@@ -83,6 +83,14 @@
 				<el-input placeholder="请输入手机号码" class="edit-input" v-model="phone"></el-input>
 			</div>
 		</div>
+		<div class="sum-item">
+			<div class="item-title">
+				用户备注
+			</div>
+			<div class="item-content item-single">
+				<el-input placeholder="用户备注" class="edit-input" v-model="note"></el-input>
+			</div>
+		</div>
 		<div class="sum-item" v-if="value==5">
 			<div class="item-title">
 				选择基金
@@ -117,6 +125,7 @@ export default {
             posi:null,
             local:null,
             phone:null,
+            note:null,
             fund:[]
         }
     },
@@ -151,6 +160,7 @@ export default {
 	          	this.value = res.data.user.role.id
 	          	this.photoid = res.data.user.photo.id
 	          	this.photourl = res.data.user.photo.url
+	          	this.note = res.data.user.remark
 	          	self.lists.forEach(function(list){
 	          		res.data.user.list_foundation.forEach(function(i){
 	          			if (list.id==i.id) {
@@ -195,6 +205,9 @@ export default {
 	    	}
 	    	if (this.phone) {
 	    		data.phone = this.phone
+	    	}
+	    	if(this.note){
+	    		data.remark = this.note
 	    	}
 	    	if (this.value) {
 	    		data.role = {

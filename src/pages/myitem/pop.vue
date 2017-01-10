@@ -81,7 +81,7 @@
 		<table class="tableStyle" style="margin-top:25px;">
 			<thead>
 				<tr>
-					<!-- <th>序号</th> -->
+					<th>序号</th>
 					<th style="width:150px;">项目名称</th>
 					<th>地点</th>
 					<th>项目来源</th>
@@ -95,7 +95,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="(list,index) in lists">
-					<!-- <td>{{index+1}}</td> -->
+					<td>{{index+1}}</td>
 					<td class="fabu">
 						<router-link :to="{name: 'my-popedit',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
 					</td>

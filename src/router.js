@@ -102,7 +102,7 @@ const routes = [
             }
         },{
 	        path: "/home",
-	        redirect: '/fund-list'
+	        redirect: '/main'
     	}]
     }, {
         path: "/",
