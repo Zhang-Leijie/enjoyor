@@ -1,7 +1,11 @@
 <template>
 	<div class="fund-inlist">
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		  	<el-breadcrumb-item>
+			  	<span style="margin-left:5px;position:relative;padding-left:13px;">
+			  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
+			  	</span>
+		  	</el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
 		  	<el-breadcrumb-item>已发布项目</el-breadcrumb-item>
 		</el-breadcrumb>
@@ -94,7 +98,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(list,index) in lists">
+				<router-link :to="{name: 'my-popedit',query:{id:list.id}}" tag='tr' v-for="(list,index) in lists">
 					<td>{{index+1}}</td>
 					<td class="fabu">
 						<router-link :to="{name: 'my-popedit',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
@@ -105,14 +109,14 @@
 					<td>{{list.createUser.name}}</td>
 					<td v-if="list.foundation">{{list.foundation.name}}</td>
 					<td v-else></td>
-					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all}}</td>
+					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10/list.evaluateAvg.number}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
 					<td>
 						<router-link :to="{name: 'my-popedit',query:{id:list.id}}" class="link">编辑</router-link>
 					</td>
 					<!-- <td class="fabu" @click="fabu">发布</td> -->
-				</tr>
+				</router-link>
 			</tbody>
 		</table>
 		<el-pagination v-if="intotal"

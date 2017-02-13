@@ -33,29 +33,36 @@
             <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
             <el-menu-item-group>
               <router-link :to="{name:'my-pop'}">         
-                <el-menu-item index="4-1">已发布项目</el-menu-item>
+                <el-menu-item index="4-1" class="sub-title">已发布项目</el-menu-item>
               </router-link>         
               <router-link :to="{name:'my-drafts'}">
-                <el-menu-item index="4-2">我的草稿箱</el-menu-item>
+                <el-menu-item index="4-2" class="sub-title">我的草稿箱</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
             <template slot="title"><i class="iconfont icon-chart"></i>基金统计(正在建设中)</template>
             <el-menu-item-group>
-              <el-menu-item index="5-1" @click.native="alert">选项1</el-menu-item>
-              <el-menu-item index="5-2" @click.native="alert">选项2</el-menu-item>
-              <el-menu-item index="5-3" @click.native="alert">选项3</el-menu-item>
+              <el-menu-item index="5-1" @click.native="alert" class="sub-title">选项1</el-menu-item>
+              <el-menu-item index="5-2" @click.native="alert" class="sub-title">选项2</el-menu-item>
+              <el-menu-item index="5-3" @click.native="alert" class="sub-title">选项3</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="6">
+          <router-link :to="{name:'notice-list'}">
+            <!-- 公告中心 -->
+            <el-menu-item index="6"><i class="iconfont icon-gonggao"></i>
+              <!-- <el-badge :value="12">公告中心</el-badge> -->
+              公告中心
+            </el-menu-item>
+          </router-link>
+          <!-- <el-submenu index="6">
             <template slot="title"><i class="iconfont icon-gonggao"></i>公告中心(正在建设中)</template>
             <el-menu-item-group>
               <el-menu-item index="6-1" @click.native="alert">选项1</el-menu-item>
               <el-menu-item index="6-2" @click.native="alert">选项2</el-menu-item>
               <el-menu-item index="6-3" @click.native="alert">选项3</el-menu-item>
             </el-menu-item-group>
-          </el-submenu>
+          </el-submenu> -->
           <router-link :to="{name:'personal'}">
             <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
           </router-link>
@@ -75,8 +82,8 @@
       </el-col>
     </div>
     <div class="top-box">
-        <div class="head-image">
-          <img :src="url" style="width:100%">
+        <div class="head-image" style="border-radius:50%">
+          <img :src="url" style="width:100%;height:100%;border-radius:50%">
         </div>
         <div class="head-word">
           <span class="name">{{userA.name}}</span>
@@ -192,9 +199,17 @@ export default {
       .el-submenu .el-menu {
         background-color: #32323a;
       }
+      .sub-title{
+        margin-left: 10px;
+      }
       // .el-menu-item{
       //   background-color: #32323a;
       // }
+    }
+    .el-badge__content.is-fixed {
+       top: 15px;
+       right: 0px;
+       height: 20px;
     }
     .top-box{
       position: absolute;
@@ -202,8 +217,12 @@ export default {
       left:260px;
       right:0px;
       height: 80px;
+      border-bottom: 1px solid rgba(44, 77, 109, 0.2);
       background-color: #fff;
       padding: 10px 20px;
+      box-shadow: 0 4px 4px 0 rgba(44, 77, 109, 0.2);
+      -webkit-box-shadow: 0 0px 4px 0 rgba(44, 77, 109, 0.2);
+      -moz-box-box-shadow: 0 0px 4px 0 rgba(44, 77, 109, 0.2);
       .head-image{
         float: left;
         width: 60px;

@@ -16,12 +16,13 @@
 						<span>{{i.create_time}}</span>
 					</div>
 					<div class="note-label">
-						{{i.commentTab.name}}
+						<!-- {{i.commentTab.name}} -->
+						<img src="../../assets/fangtanjilu.png" style="width:80px">
 					</div>
 				</div>
 				<div class="clearfix">
 					<div class="talk-detail">
-						会议日期：{{i.date}}
+						会议日期：{{formatDate(i.date)}}
 					</div>
 					<div class="talk-detail">
 						会议地点：{{i.address}}
@@ -49,8 +50,12 @@
 						<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
 						<span>{{i.create_time}}</span>
 					</div>
-					<div class="note-label note-label2">
-						{{i.commentTab.name}}
+					<div class="note-label">
+						<!-- {{i.commentTab.name}} -->
+						<img v-if="i.commentTab.id==5" src="../../assets/touzidianping.png" style="width:80px">
+						<img v-if="i.commentTab.id==2" src="../../assets/tongyilixiang.png" style="width:80px">
+						<img v-if="i.commentTab.id==3" src="../../assets/tongyishanghui.png" style="width:80px">
+						<img v-if="i.commentTab.id==4" src="../../assets/tongyitouzi.png" style="width:80px">
 					</div>
 				</div>
 				<div class="right-cont" style="word-break:break-all;word-warp:break-word">
@@ -74,6 +79,7 @@
 		  <div v-if="form.type==1">
 			  	<el-date-picker type="date" placeholder="选择日期" class="pl-input" v-model="form.date">
 		    	</el-date-picker >
+		    	<!-- <el-input placeholder="会议标题" class="pl-input"></el-input> -->
 		    	<el-input placeholder="请输入会议地点" class="pl-input" v-model="form.address"></el-input>
 		    	<el-input placeholder="请输入访谈对象" class="pl-input" v-model="form.object"></el-input>
 		    	<el-input placeholder="参与者" class="pl-input" v-model="form.member"></el-input>
@@ -126,6 +132,15 @@
 		    }
 		},
 	    methods: {
+	    	formatDate(time){
+	    	  var   x = time - 0
+	    	  console.log(x)
+			  var   now = new Date(x*1000) 
+			  var   year = now.getFullYear();     
+			  var   month = "0" + (now.getMonth()+1);     
+			  var   date = "0" +(now.getDate());         
+			  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+			},
 	    	choose(type){
 	    		this.form.type = type
 	    	},
@@ -268,11 +283,11 @@
 			margin-top: 3px;
 			float: right;
 			color: #fff;
-			padding: 8px 16px;
-			background-color: #5ac0de;
+			// padding: 8px 16px;
+			// background-color: #5ac0de;
 		}
 		.note-label2{
-			background-color: #51ccb3;
+			// background-color: #51ccb3;
 		}
 	}
 </style>

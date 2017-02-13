@@ -1,6 +1,6 @@
 <template>
 	<div class="fund-video">
-		<router-link :to="{name: 'my-creat',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_edit==1">
+		<router-link :to="{name: 'my-edit',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_edit==1">
 			<div class="edit">
 				<i class="el-icon-edit"></i>
 				编辑

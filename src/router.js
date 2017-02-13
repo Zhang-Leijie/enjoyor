@@ -65,16 +65,16 @@ const routes = [
                 require(['./pages/myitem/creat-fund.vue'],resolve)
             }
         },{
+            path: "/myitem-edit",
+            name: 'my-edit',
+            component(resolve) {
+                require(['./pages/myitem/drafts-fund.vue'],resolve)
+            }
+        },{
             path: "/myitem-popedit",
             name: 'my-popedit',
             component(resolve) {
                 require(['./pages/myitem/pop-fund.vue'],resolve)
-            }
-        },{
-            path: "/myitem-draftsfund",
-            name: 'my-draftsfund',
-            component(resolve) {
-                require(['./pages/myitem/drafts-fund.vue'],resolve)
             }
         },{
             path: "/person",
@@ -99,6 +99,24 @@ const routes = [
             name: 'edit-user',
             component(resolve) {
                 require(['./pages/user/edituser.vue'],resolve)
+            }
+        },{
+            path: "/notice-list",
+            name: 'notice-list',
+            component(resolve) {
+                require(['./pages/notice/notice-list.vue'],resolve)
+            }
+        },{
+            path: "/notice-detail",
+            name: 'notice-detail',
+            component(resolve) {
+                require(['./pages/notice/notice-detail.vue'],resolve)
+            }
+        },{
+            path: "/notice-create",
+            name: 'notice-create',
+            component(resolve) {
+                require(['./pages/notice/notice-create.vue'],resolve)
             }
         },{
 	        path: "/home",

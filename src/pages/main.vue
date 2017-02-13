@@ -62,11 +62,11 @@
 			</div>
 			<div class="block-cont" v-for="p in projects">
 				<div class="cont-img img-item">
-					<img :src="p.logo.url" style="width:100%;height:100%">
+					<img v-if="p.logo" :src="p.logo.url" style="width:100%;height:100%">
 				</div>
 				<div class="cont-word" style="margin-top:0px;">
 					<router-link class="name" style="color:#5ac0de" :to="{name:'fund-detail',query:{id:p.id}}">{{p.project_name}}</router-link><span class="name">（{{p.foundation.name}}）</span><br>
-					<span>{{p.project_introduction | shorten}}</span>
+					<span v-if='p.project_introduction'>{{p.project_introduction | shorten}}</span>
 				</div>
 				<div class="cont-time">
 					{{p.invest_current | dateFormat}}
@@ -132,7 +132,7 @@
 				noteList: [],
 				projects: []
 			}
-		},		
+		},	
 		mounted () {
 			getEvaluateRecordList({
 				number: 5

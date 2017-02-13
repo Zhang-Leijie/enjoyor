@@ -7,10 +7,34 @@
 		<div class="person-box">
 			<div class="sum-item">
 				<div class="item-title">
-					融资纪录
+					个人
 				</div>
-				<div class="item-content">
-					<div class="info-box">
+				<div class="item-content clearfix">
+					<div style="float:left;">
+						<img :src="url">
+						<div class="resetpass" @click="dialogFormVisible = true">重置密码</div>
+					</div>
+					<el-form :model="formAlignRight" label-width="120px" class="information clearfix">
+					  	<el-form-item label="姓名">
+					    	{{user.name}}
+					  	</el-form-item>
+					  	<el-form-item label="职位">
+					    	{{user.position}}
+					  	</el-form-item>
+					  	<el-form-item label="地区">
+					    	{{user.address}}
+					  	</el-form-item>
+					  	<el-form-item label="手机号">
+					    	{{user.phone}}
+					  	</el-form-item>
+					  	<el-form-item label="微信号">
+					    	绑定
+					  	</el-form-item>
+					  	<el-form-item label="备注">
+					    	银江资本
+					  	</el-form-item>
+					</el-form>
+					<!-- <div class="info-box">
 						<img :src="url">
 						<el-form :model="formAlignRight" label-width="120px">
 						  	<el-form-item label="姓名">
@@ -25,24 +49,18 @@
 						  	<el-form-item label="手机号">
 						    	{{user.phone}}
 						  	</el-form-item>
-						  	<!-- <el-form-item label="微信号">
+						  	<el-form-item label="微信号">
 						    	绑定
-						  	</el-form-item> -->
-						  	<!-- <el-form-item label="备注">
+						  	</el-form-item>
+						  	<el-form-item label="备注">
 						    	银江资本
-						  	</el-form-item> -->
+						  	</el-form-item>
 						</el-form>
-					</div>
+					</div> -->
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目编码
-				</div>
-				<div class="item-content item-single" >
-					<div class="button blue" @click="dialogFormVisible = true">重置密码</div>
-				</div>
-			</div>
+		</div>
+		<div class="person-box">
 			<div class="sum-item">
 				<div class="item-title">
 					我的点评
@@ -58,9 +76,16 @@
 								<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
 								<span>{{i.create_time}}</span>
 							</div>
-							<div class="note-label note-label2">
-								{{i.commentTab.name}}
+							<div class="note-label">
+								<!-- {{i.commentTab.name}} -->
+								<img v-if="i.commentTab.id==5" src="../../assets/touzidianping.png" style="width:80px">
+								<img v-if="i.commentTab.id==2" src="../../assets/tongyilixiang.png" style="width:80px">
+								<img v-if="i.commentTab.id==3" src="../../assets/tongyishanghui.png" style="width:80px">
+								<img v-if="i.commentTab.id==4" src="../../assets/tongyitouzi.png" style="width:80px">
 							</div>
+							<!-- <div class="note-label note-label2">
+								{{i.commentTab.name}}
+							</div> -->
 						</div>
 						<div class="right-cont">
 							{{i.content}}
@@ -208,6 +233,18 @@
 	    box-shadow: 0 0 4px 0 rgba(44, 77, 109, 0.2);
 	    margin-top: 25px;
 	    padding: 20px 0px;
+	    .sum-item{
+	    	width: 95%;
+	    }
+	    .resetpass{
+	    	cursor: pointer;
+	    	text-align: center;
+	    	color: #4990e2;
+	    	text-decoration: underline;
+	    }
+	    .el-form-item {
+		     margin-bottom: 0px; 
+		}
 	    .info-box{
 	    	padding: 0px 10px;
 	    	width: 280px;
@@ -234,11 +271,11 @@
 			margin-top: 3px;
 			float: right;
 			color: #fff;
-			padding: 8px 16px;
-			background-color: #5ac0de;
+			// padding: 8px 16px;
+			// background-color: #5ac0de;
 		}
 		.note-label2{
-			background-color: #51ccb3;
+			// background-color: #51ccb3;
 		}
 	}
 	.right-cont{
@@ -248,5 +285,8 @@
 		border: 4px solid #f1f2f7;
 		// min-height: 100px;
 	}
-	
+	.information{
+		width: 300px;
+		float: left;
+	}
 </style>

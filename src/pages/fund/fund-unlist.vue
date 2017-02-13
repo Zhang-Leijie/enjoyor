@@ -1,8 +1,12 @@
 <template>
 	<div class="fund-inlist">
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
-		  	<el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item>
+		  		<span style="margin-left:5px;position:relative;padding-left:13px;">
+		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
+		  		</span>
+		  	</el-breadcrumb-item>
+		  	<!-- <el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item> -->
 		  	<el-breadcrumb-item>项目列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- <div class="tableType">
@@ -94,10 +98,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<router-link :to="{name: 'fund-detail',query:{id:list.id}}" tag="tr" v-for="(list,index) in lists">
+				<router-link :to="{name: 'fund-detail',query:{id:list.id,type:2}}" tag="tr" v-for="(list,index) in lists">
 					<td>{{index+1}}</td>
 					<td class="fabu">
-						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id,type:2}}" class="link">{{list.project_name}}</router-link>
 					</td>
 					<td>{{list.project_address}}</td>
 					<td>{{list.project_resource}}</td>
@@ -105,11 +109,11 @@
 					<td>{{list.createUser.name}}</td>
 					<td v-if="list.foundation">{{list.foundation.name}}</td>
 					<td v-else></td>
-					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10}}</td>
+					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10/list.evaluateAvg.number}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
 					<td>
-						<router-link :to="{name: 'fund-detail',query:{id:list.id}}" class="link">查看</router-link>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id,type:2}}" class="link">查看</router-link>
 					</td>
 				</router-link>
 			</tbody>

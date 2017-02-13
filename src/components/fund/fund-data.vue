@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="fund-summary">
-			<router-link :to="{name: 'my-creat',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_grade==1">
+			<router-link :to="{name: 'my-edit',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_grade==1">
 				<div class="edit">
 					<i class="el-icon-edit"></i>
 					编辑
@@ -23,23 +23,23 @@
 					{{value1}}
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item sum-double">
 				<div class="item-title">
 					公司股本总额
 				</div>
 				<div class="item-content item-single" >
-					{{info.money_totalShare}}
+					¥{{info.money_totalShare}}
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
+			<div class="sum-item sum-double">
+				<div class="item-title item-title2">
 					每股价格
 				</div>
 				<div class="item-content item-single" >
-					{{info.money_eachShare}}
+					¥{{info.money_eachShare}}
 				</div>
 			</div>
-			<div class="sum-item">
+			<!-- <div class="sum-item">
 				<div class="item-title">
 					投资／认购数量
 				</div>
@@ -54,8 +54,8 @@
 				<div class="item-content item-single" >
 					{{info.subscription_money}}
 				</div>
-			</div>
-			<div class="sum-item">
+			</div> -->
+			<div class="sum-item sum-double">
 				<div class="item-title">
 					项目来源
 				</div>
@@ -63,8 +63,8 @@
 					{{value2}}
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
+			<div class="sum-item sum-double">
+				<div class="item-title item-title2">
 					项目地点
 				</div>
 				<div class="item-content item-single" >
@@ -97,36 +97,38 @@
 					{{info.project_evaluates}}
 				</div>
 			</div> -->
-			<div class="sum-item">
+			<div class="sum-item sum-double">
 				<div class="item-title">
 					投后估值
 				</div>
 				<div class="item-content item-single">
-					{{info.valuation_afterInvest}}
+					¥{{info.valuation_afterInvest}}
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
+			<div class="sum-item sum-double">
+				<div class="item-title item-title2">
 					估值商讨状态
 				</div>
 				<div class="item-content item-single">
 					{{info.valuation_state}}
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					本轮投资总额
+			<div class="clearfix">
+				<div class="sum-item sum-double">
+					<div class="item-title">
+						本轮投资总额
+					</div>
+					<div class="item-content item-single">
+						¥{{info.money_thisTime}}		
+					</div>
 				</div>
-				<div class="item-content item-single">
-					{{info.money_thisTime}}		
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					占股
-				</div>
-				<div class="item-content item-single">
-					{{info.share_common}}	
+				<div class="sum-item sum-double">
+					<div class="item-title item-title2">
+						占股
+					</div>
+					<div class="item-content item-single">
+						{{info.share_common}}	
+					</div>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -150,7 +152,7 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					{{info.investment_enjoyor}}			
+					¥{{info.investment_enjoyor}}			
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -175,7 +177,7 @@
 						投资金额
 					</div>
 					<div class="item-content item-single">
-						{{i.investment_other}}			
+						¥{{i.investment_other}}			
 					</div>
 				</div>
 				<div class="sum-item sum-trible">

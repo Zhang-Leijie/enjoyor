@@ -13,11 +13,11 @@
   						:on-success="handlesuccess"
   						:default-file-list="fileList"
   						>
-						<div class="uploadimg" v-if="!photourl">
+						<div class="uploadimg" v-if="!photourl" style="border-radius:0px;">
 							<i class="el-icon-plus"></i>
 						</div>
-						<div class="uploadimg" v-else>
-							<img :src="photourl" style="width:100%;height:100%;border-radius:50%">
+						<div class="uploadimg" v-else style="border-radius:0px;width:150px;">
+							<img :src="photourl" style="width:100%;height:100%;">
 						</div>
 					</el-upload>
 				</div>
@@ -72,8 +72,10 @@
 				<div class="item-title">
 					项目估值
 				</div>
-				<div class="item-content item-single" >
-					<el-input class="edit-input" v-model="info.valuation" placeholder="请输入项目估值"></el-input>
+				<div class="item-content item-single">
+					<el-input class="edit-input" v-model="info.valuation" placeholder="请输入项目估值" @blur="guzhi(info.valuation)">
+						<template slot="prepend">¥</template>
+					</el-input>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -114,7 +116,7 @@
 					<!-- <div class="button blue" style="display:block;margin-top:10px;">添加</div><br> -->
 					<div class="item-team clearfix">
 						<div class="head-image">
-				          <img :src="info.createUser.photo.url" style="width:100%">
+				          <img :src="info.createUser.photo.url" style="width:100%;height:100%;">
 				        </div>
 				        <div class="head-word">
 				          <span class="name">{{info.createUser.name}}</span><br>
@@ -123,7 +125,7 @@
 			        </div>
 					<div class="item-team clearfix" v-for="(i,index) in team">
 						<div class="head-image">
-				          <img :src="i.img" style="width:100%">
+				          <img :src="i.img" style="width:100%;height:100%;border-radius:30px;">
 				        </div>
 				        <div class="head-word">
 				          <span class="name">{{i.username}}</span><br>
@@ -143,10 +145,10 @@
 					</div>
 
 					<div style="margin-top:20px;position:relative">
-						<div id="prev" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer">
+						<div id="prev" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
 							<i class="el-icon-arrow-left"></i>
 						</div>
-						<div id="next" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer">
+						<div id="next" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
 							<i class="el-icon-arrow-right"></i>
 						</div>
 						<canvas id="the-canvas" style="border:1px solid black;width:100%;"></canvas>
@@ -295,6 +297,42 @@ export default {
 		    }
 	},
   	methods: {
+  		guzhi(number){
+  			this.info.valuation = this.outputmoney(number)
+  		},
+  		outputmoney(number) {
+  			console.log(1)
+			number = number.replace(/\,/g, "");
+			if(isNaN(number) || number == "")return "";
+			number = Math.round(number * 100) / 100;
+		    if (number < 0)
+		        return '-' + this.outputdollars(Math.floor(Math.abs(number) - 0) + '') + this.outputcents(Math.abs(number) - 0);
+		    else
+		    	console.log(this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0))
+		        return this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0);
+		        // name = this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0)
+		    
+		},
+		//格式化金额
+		outputdollars(number) {
+		    if (number.length <= 3)
+		        return (number == '' ? '0' : number);
+		    else {
+		        var mod = number.length % 3;
+		        var output = (mod == 0 ? '' : (number.substring(0, mod)));
+		        for (var i = 0; i < Math.floor(number.length / 3); i++) {
+		            if ((mod == 0) && (i == 0))
+		                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+		            else
+		                output += ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+		        }
+		        return (output);
+		    }
+		},
+		outputcents(amount) {
+		    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+		    return (amount < 10 ? '.0' + amount : '.' + amount);
+		},
   		getfile(){
 	      	getProjectFile({
 	      		projectId:this.$route.query.id
@@ -549,5 +587,13 @@ export default {
 	.el-upload__files{
 		height: 30px !important;
 		overflow:hidden;
+	}
+	.money-input{
+		input{
+			text-align: right;
+		}
+	}
+	.el-input__inner{
+		height: 40px !important;
 	}
 </style>

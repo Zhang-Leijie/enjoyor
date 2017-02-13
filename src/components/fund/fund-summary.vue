@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<div class="fund-summary">
-			<router-link :to="{name: 'my-creat',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_edit==1">
+			<router-link :to="{name: 'my-edit',query:{id:$route.query.id}}" class="link" v-if="user.role.authority.project_edit==1">
 				<div class="edit">
 					<i class="el-icon-edit"></i>
 					编辑
 				</div>
 			</router-link>
 			<div class="itemimg">
-				<img :src="photourl">
+				<img :src="photourl" style="width:auto;border-radius:inherit;">
 				<div>{{info.project_name}}</div>
 			</div>
 			<div class="sum-item">
@@ -48,7 +48,7 @@
 					项目估值
 				</div>
 				<div class="item-content item-single" >
-					{{info.valuation}}
+					¥ {{info.valuation}}
 				</div>
 			</div>
 			<div class="sum-item">
@@ -65,7 +65,7 @@
 				</div>
 				<div class="item-team clearfix">
 					<div class="head-image">
-			          <img :src="info.createUser.photo.url" style="width:100%">
+			          <img :src="info.createUser.photo.url" style="width:100%;height:100%;">
 			        </div>
 			        <div class="head-word">
 			          <span class="name">{{info.createUser.name}}</span><br>
@@ -75,7 +75,7 @@
 				<div class="item-content clearfix">
 					<div class="item-team clearfix" v-for="i in team">
 						<div class="head-image">
-				          <img :src="i.img" style="width:100%">
+				          <img :src="i.img" style="width:100%;height:100%;border-radius:30px;">
 				        </div>
 				        <div class="head-word">
 				          <span class="name">{{i.username}}</span><br>
@@ -94,10 +94,10 @@
 					</div>
 
 					<div style="margin-top:20px;position:relative">
-						<div id="prev" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer">
+						<div id="prev" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
 							<i class="el-icon-arrow-left"></i>
 						</div>
-						<div id="next" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer">
+						<div id="next" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
 							<i class="el-icon-arrow-right"></i>
 						</div>
 						<canvas id="the-canvas" style="border:1px solid black;width:100%;"></canvas>
@@ -112,7 +112,7 @@
 					{{info.project_reason}}
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item sum-double">
 				<div class="item-title">
 					公司名称
 				</div>
@@ -120,8 +120,8 @@
 					{{info.company_name}}
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
+			<div class="sum-item sum-double">
+				<div class="item-title item-title2">
 					公司网站
 				</div>
 				<div class="item-content item-single" style="text-decoration:underline;color:blue">
@@ -130,7 +130,7 @@
 					</a>				
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item sum-double">
 				<div class="item-title">
 					公司app
 				</div>
@@ -138,8 +138,8 @@
 					{{info.company_app}}	
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
+			<div class="sum-item sum-double">
+				<div class="item-title item-title2">
 					公司公众号
 				</div>
 				<div class="item-content item-single">

@@ -4,7 +4,10 @@
 			创建项目
 		</div>
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		  	<el-breadcrumb-item>
+		  	<span style="margin-left:5px;position:relative;padding-left:13px;">
+		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页</span>
+		  	</el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
 		  	<el-breadcrumb-item>我的草稿箱</el-breadcrumb-item>
 		</el-breadcrumb>
@@ -108,7 +111,7 @@
 					<td>{{list.createUser.name}}</td>
 					<td v-if="list.foundation">{{list.foundation.name}}</td>
 					<td v-else></td>
-					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10}}</td>
+					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10/list.evaluateAvg.number}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
 					<td>

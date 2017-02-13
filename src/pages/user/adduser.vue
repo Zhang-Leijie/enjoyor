@@ -26,7 +26,7 @@
 				用户名
 			</div>
 			<div class="item-content item-single" >
-				<el-input placeholder="请输入邮箱" class="edit-input" v-model="email"></el-input>
+				<el-input placeholder="请输入邮箱(必填)" class="edit-input" v-model="email"></el-input>
 			</div>
 		</div>
 		<div class="sum-item">
@@ -34,7 +34,7 @@
 				密码
 			</div>
 			<div class="item-content item-single" >
-				<el-input placeholder="请输入密码" class="edit-input" v-model="pass" type="password"></el-input>
+				<el-input placeholder="请输入密码(必填)" class="edit-input" v-model="pass" type="password"></el-input>
 			</div>
 		</div>
 		<div class="sum-item">
@@ -42,7 +42,7 @@
 				选择角色
 			</div>
 			<div class="item-content item-single" >
-				<el-select v-model="value" placeholder="请选择" class="edit-input">
+				<el-select v-model="value" placeholder="请选择(必选)" class="edit-input">
 				    <el-option
 				      v-for="item in roles"
 				      :label="item.roleName"
@@ -201,16 +201,43 @@ export default {
 	    		})
 	    		data.list_foundation = this.fund
 	    	}
-	    	saveUser({
-	    		strUser:JSON.stringify(data)
-	    	}).then((res) => {
-				swal({
-                    title: "新建成功",
+
+	    	if (this.email==null||this.email=='') {
+	    		swal({
+                    title: "",
                     type: 'success',
-                    text: "新建成功",
+                    text: "请输入用户名",
                     timer: 2000,
                 })
-			}) 
+	    	}
+	    	else if (this.pass==null||this.pass=='') {
+	    		swal({
+                    title: "",
+                    type: 'success',
+                    text: "请输入密码",
+                    timer: 2000,
+                })
+	    	}
+	    	else if (this.value==null||this.value=='') {
+	    		swal({
+                    title: "",
+                    type: 'success',
+                    text: "请选择角色",
+                    timer: 2000,
+                })
+	    	}
+	    	else{
+	    		saveUser({
+		    		strUser:JSON.stringify(data)
+		    	}).then((res) => {
+					swal({
+	                    title: "新建成功",
+	                    type: 'success',
+	                    text: "新建成功",
+	                    timer: 2000,
+	                })
+				}) 
+	    	}	    	
 	    }
     },
     mounted:function(){

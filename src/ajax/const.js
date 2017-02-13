@@ -36,6 +36,14 @@ export const Factory_ = (server_url) => (method) => (url) => (params, loginSilen
             return Promise.reject(e)
         } else if(res.code==2){
             router.push({name: 'sign-in'})
+        }
+        else if(res.code==4){
+            swal({
+                title: "创建失败",
+                type: 'warning',
+                text: "命名重复，请重新输入",
+                timer: 2000,
+            })
         }else {
             console.log("error")
             // return Promise.reject(new Error(res.code))

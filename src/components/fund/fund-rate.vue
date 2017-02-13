@@ -109,7 +109,8 @@
 		<el-dialog title="项目评分" v-model="dialogFormVisible">
 		  <el-form :model="form">
 		    <el-form-item label="独角兽潜力" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_one" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="千亿市场" :label-width="formLabelWidth">
 		      <el-input auto-complete="off" v-model="itemown_two" placeholder="请输入千亿市场评分(满分10分)"></el-input>
@@ -450,5 +451,8 @@
 			right: 0px;
 			top: 10px;
 		}
+	}
+	.el-tooltip__popper{
+		display: none !important;
 	}
 </style>

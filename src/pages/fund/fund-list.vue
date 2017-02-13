@@ -1,7 +1,10 @@
 <template>
 	<div>
 		<el-breadcrumb separator="/">
-		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
+		  	<el-breadcrumb-item>
+		  	<span style="margin-left:5px;position:relative;padding-left:13px;">
+		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页</span>
+		  	</el-breadcrumb-item>
 		  	<el-breadcrumb-item>基金列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<table class="tableStyle" style="margin-top:25px;">

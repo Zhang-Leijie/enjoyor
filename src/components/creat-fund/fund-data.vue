@@ -33,7 +33,10 @@
 					公司股本总额
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="请输入公司股本总额" class="edit-input" v-model="info.money_totalShare"></el-input>
+					<el-input class="edit-input" v-model="info.money_totalShare" placeholder="请输入公司总额" @blur="gbze(info.money_totalShare)">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入公司股本总额" class="edit-input" v-model="info.money_totalShare"></el-input> -->
 				</div>
 			</div>
 			<div class="sum-item">
@@ -41,10 +44,13 @@
 					每股价格
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="请输入每股价格" class="edit-input" v-model="info.money_eachShare"></el-input>
+					<el-input class="edit-input" v-model="info.money_eachShare" placeholder="请输入每股价格" @blur="mgjg(info.money_eachShare)">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入每股价格" class="edit-input" v-model="info.money_eachShare"></el-input> -->
 				</div>
 			</div>
-			<div class="sum-item">
+			<!-- <div class="sum-item">
 				<div class="item-title">
 					投资／认购数量
 				</div>
@@ -59,7 +65,7 @@
 				<div class="item-content item-single" >
 					<el-input placeholder="请输入投资／认购金额" class="edit-input" v-model="info.subscription_money"></el-input>
 				</div>
-			</div>
+			</div> -->
 			<div class="sum-item">
 				<div class="item-title">
 					项目来源
@@ -121,7 +127,10 @@
 					投后估值
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="请输入投后估值" class="edit-input" v-model="info.valuation_afterInvest"></el-input>	
+					<el-input class="edit-input" v-model="info.valuation_afterInvest" placeholder="请输入投后估值" @blur="thgz(info.valuation_afterInvest)">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入投后估值" class="edit-input" v-model="info.valuation_afterInvest"></el-input>	 -->
 				</div>
 			</div>
 			<div class="sum-item">
@@ -137,7 +146,10 @@
 					本轮投资总额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="请输入本轮投资总额" class="edit-input" v-model="info.money_thisTime"></el-input>			
+					<el-input class="edit-input" v-model="info.money_thisTime" placeholder="请输入本轮投资总额" @blur="tzze(info.money_thisTime)">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入本轮投资总额" class="edit-input" v-model="info.money_thisTime"></el-input>	 -->		
 				</div>
 			</div>
 			<div class="sum-item">
@@ -161,7 +173,14 @@
 					银江资本投资
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.enjoyor"></el-input>		
+					<el-select v-model="info.enjoyor" style="width:150px;" placeholder="请选择" class="edit-input" v-if="options1!=[]">
+					    <el-option
+					      v-for="item in options1"
+					      :label="item.name"
+					      :value="item.name">
+					    </el-option>
+					</el-select>
+					<!-- <el-input placeholder="" class="edit-input" style="width:150px;" v-model="info.enjoyor"></el-input>	 -->	
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -169,7 +188,10 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_enjoyor"></el-input>				
+					<el-input class="edit-input" v-model="info.investment_enjoyor" placeholder="请输入投资金额" @blur="yjje(info.investment_enjoyor)" style="width:150px;">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_enjoyor"></el-input>	 -->			
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -193,7 +215,10 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					<el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_other"></el-input>				
+					<el-input class="edit-input" v-model="info.investment_other" placeholder="请输入投资金额" @blur="qtje(info.investment_other)" style="width:150px;">
+						<template slot="prepend">¥</template>
+					</el-input>
+					<!-- <el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_other"></el-input> -->				
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -221,7 +246,7 @@
 						投资金额
 					</div>
 					<div class="item-content item-single">
-						{{i.investment_other}}			
+						¥{{i.investment_other}}			
 					</div>
 				</div>
 				<div class="sum-item sum-trible">
@@ -309,6 +334,57 @@ export default {
     }
   },
   	methods: {
+  		qtje(number){
+  			this.info.investment_other = this.outputmoney(number)
+  		},
+  		yjje(number){
+  			this.info.investment_enjoyor = this.outputmoney(number)
+  		},
+  		tzze(number){
+  			this.info.money_thisTime = this.outputmoney(number)
+  		},
+  		thgz(number){
+  			this.info.valuation_afterInvest = this.outputmoney(number)
+  		},
+  		mgjg(number){
+  			this.info.money_eachShare = this.outputmoney(number)
+  		},
+  		gbze(number){
+  			this.info.money_totalShare = this.outputmoney(number)
+  		},
+  		outputmoney(number) {
+  			console.log(1)
+			number = number.replace(/\,/g, "");
+			if(isNaN(number) || number == "")return "";
+			number = Math.round(number * 100) / 100;
+		    if (number < 0)
+		        return '-' + this.outputdollars(Math.floor(Math.abs(number) - 0) + '') + this.outputcents(Math.abs(number) - 0);
+		    else
+		    	console.log(this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0))
+		        return this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0);
+		        // name = this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0)
+		    
+		},
+		//格式化金额
+		outputdollars(number) {
+		    if (number.length <= 3)
+		        return (number == '' ? '0' : number);
+		    else {
+		        var mod = number.length % 3;
+		        var output = (mod == 0 ? '' : (number.substring(0, mod)));
+		        for (var i = 0; i < Math.floor(number.length / 3); i++) {
+		            if ((mod == 0) && (i == 0))
+		                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+		            else
+		                output += ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+		        }
+		        return (output);
+		    }
+		},
+		outputcents(amount) {
+		    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+		    return (amount < 10 ? '.0' + amount : '.' + amount);
+		},
   		deletea(num){
   			console.log(1)
   			this.other.splice(num, 1);

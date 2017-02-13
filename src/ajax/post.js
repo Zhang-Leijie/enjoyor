@@ -18,3 +18,5 @@ export const saveUser = factory('/saveorupdateUser')
 export const deleteProject = factory('/deleteProject')
 //修改密码
 export const updatePassword = factory('/updatePassword')
+//发布公告
+export const saveorupdateNotice = factory('/saveorupdateNotice')

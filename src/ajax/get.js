@@ -24,3 +24,9 @@ export const getRoleList = factory('/getRoleList')
 export const getEvaluateRecordList = factory('/getEvaluateRecordList')
 //主页项目列表
 export const getMainProjectList = factory('/getMainProjectList')
+//按角色获取用户
+export const getUserListByRole = factory('/getUserListByRole')
+//公告列表
+export const getNoticeList = factory('/getNoticeList')
+//公告详情
+export const getNotice = factory('/getNotice')

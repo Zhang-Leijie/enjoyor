@@ -16,12 +16,13 @@
 						<span>{{i.create_time}}</span>
 					</div>
 					<div class="note-label">
-						{{i.commentTab.name}}
+						<!-- {{i.commentTab.name}} -->
+						<img src="../../assets/fangtanjilu.png" style="width:80px">
 					</div>
 				</div>
 				<div class="clearfix">
 					<div class="talk-detail">
-						会议日期：{{i.date}}
+						会议日期：{{formatDate(i.date)}}
 					</div>
 					<div class="talk-detail">
 						会议地点：{{i.address}}
@@ -49,8 +50,12 @@
 						<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
 						<span>{{i.create_time}}</span>
 					</div>
-					<div class="note-label note-label2">
-						{{i.commentTab.name}}
+					<div class="note-label">
+						<!-- {{i.commentTab.name}} -->
+						<img v-if="i.commentTab.id==5" src="../../assets/touzidianping.png" style="width:80px">
+						<img v-if="i.commentTab.id==2" src="../../assets/tongyilixiang.png" style="width:80px">
+						<img v-if="i.commentTab.id==3" src="../../assets/tongyishanghui.png" style="width:80px">
+						<img v-if="i.commentTab.id==4" src="../../assets/tongyitouzi.png" style="width:80px">
 					</div>
 				</div>
 				<div class="right-cont" style="word-break:break-all;word-warp:break-word">
@@ -129,6 +134,15 @@
 		    }
 		},
 	    methods: {
+	    	formatDate(time){
+	    	  var   x = time - 0
+	    	  console.log(x)
+			  var   now = new Date(x*1000) 
+			  var   year = now.getFullYear();     
+			  var   month = "0" + (now.getMonth()+1);     
+			  var   date = "0" +(now.getDate());         
+			  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+			},
 	    	choose(type){
 	    		this.form.type = type
 	    	},
@@ -163,12 +177,16 @@
 				}) 
 	    	},
 	    	note(){
+	    		var time = undefined
+	    		if (this.form.date) {
+	    			time = (new Date(this.form.date)).valueOf()
+	    		}
 	    		Note({
 	    			strNote:JSON.stringify({
 	    				project:{id:this.$route.query.id},
 	    				commentTab:{id:this.form.region},
 	    				content:this.form.content,
-	    				date:this.form.date,
+	    				date:time,
 	    				address:this.form.address,
 	    				member:this.form.member,
 	    				object:this.form.object
@@ -271,11 +289,11 @@
 			margin-top: 3px;
 			float: right;
 			color: #fff;
-			padding: 8px 16px;
-			background-color: #5ac0de;
+			// padding: 8px 16px;
+			// background-color: #5ac0de;
 		}
 		.note-label2{
-			background-color: #51ccb3;
+			// background-color: #51ccb3;
 		}
 	}
 </style>

@@ -353,9 +353,14 @@
 	import { getProjectFile } from '../../ajax/get.js'
 	import { File } from '../../ajax/post.js'
   	import  F_Probar from './fund-procbar'
-  	function   formatDate(time)   {  
-  	  return new Date(parseInt(time)).toLocaleString().substr(0,10)
-    }    
+  	// function   formatDate(time)   {  
+  	//   return new Date(parseInt(time)).toLocaleString()
+   //  }
+    function formatDate(time){
+  		var d = new Date(time);
+    	var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    	return sd
+  	}
   	function doctype(name){
 		var img
 		var x = name.split('.')[1]

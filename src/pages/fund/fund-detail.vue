@@ -1,13 +1,19 @@
 <template>
 	<div>
 		<el-breadcrumb separator="/" style="float:left">
-		  	<el-breadcrumb-item><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
-		  	<el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item>
+		  		<span style="margin-left:5px;position:relative;padding-left:13px;">
+		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
+		  		</span>
+		  	</el-breadcrumb-item>
+		  	<el-breadcrumb-item v-if="$route.query.type==1" :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item v-if="$route.query.type==1" :to="{name:'fund-inlist',query:{id:$route.query.listid,name:$route.query.name}}">项目列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item v-if="$route.query.type==2" :to="{name:'fund-unlist'}">项目列表</el-breadcrumb-item>
 		  	<el-breadcrumb-item>项目</el-breadcrumb-item>
 		</el-breadcrumb>
-		<a href="javascript:history.back(-1)">
+		<!-- <a href="javascript:history.back(-1)">
 			<div class="blue button" style="float:right">返回</div>
-		</a>
+		</a> -->
 		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;margin-top:25px;">
 		    <el-tab-pane label="项目概要">
 		    	<div class="fund-box">
@@ -41,6 +47,11 @@
 		    	</div>
 		    </el-tab-pane>
 	  	</el-tabs>
+	  	<!-- <div style="text-align:center;margin-top:15px;">
+		  	<a href="javascript:history.back(-1)">
+				<div class="blue button">返回</div>
+			</a>
+		</div> -->
 	</div>
 </template>
 <script>
