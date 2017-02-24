@@ -106,37 +106,47 @@
 				</div>
 			</div>
 		</div>
-		<el-dialog title="项目评分" v-model="dialogFormVisible">
+		<el-dialog title="项目评分" v-model="dialogFormVisible" class="ratebox">
 		  <el-form :model="form">
 		    <el-form-item label="独角兽潜力" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_one" placeholder="请输入独角兽潜力评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_one" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="千亿市场" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_two" placeholder="请输入千亿市场评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_two" placeholder="请输入千亿市场评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_two" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="前两名机会" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_three" placeholder="请输入前两名机会评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_three" placeholder="请输入前两名机会评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_three" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="银江生态" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_four" placeholder="请输入银江生态评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_four" placeholder="请输入银江生态评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_four" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="变现造血能力" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_five" placeholder="请输入变现造血能力评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_five" placeholder="请输入变现造血能力评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_five" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="复制和扩张" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_six" placeholder="请输入复制和扩张评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_six" placeholder="请输入复制和扩张评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_six" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="CEO综合" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_seven" placeholder="请输入CEO综合评分(满分15分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_seven" placeholder="请输入CEO综合评分(满分15分)"></el-input> -->
+		      <el-slider v-model="itemown_seven" show-input :step="0.1" :min="0" :max="15"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="团队运营" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_eight" placeholder="请输入团队运营评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_eight" placeholder="请输入团队运营评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_eight" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="估值性价比" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_nine" placeholder="请输入估值性价比评分(满分10分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_nine" placeholder="请输入估值性价比评分(满分10分)"></el-input> -->
+		      <el-slider v-model="itemown_nine" show-input :step="0.1" :min="0" :max="10"></el-slider>
 		    </el-form-item>
 		    <el-form-item label="融资退出" :label-width="formLabelWidth">
-		      <el-input auto-complete="off" v-model="itemown_ten" placeholder="请输入融资退出评分(满分15分)"></el-input>
+		      <!-- <el-input auto-complete="off" v-model="itemown_ten" placeholder="请输入融资退出评分(满分15分)"></el-input> -->
+		      <el-slider v-model="itemown_ten" show-input :step="0.1" :min="0" :max="15"></el-slider>
 		    </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer" style="text-align:center">
@@ -196,7 +206,7 @@
 	// 引入 ECharts 主模块
 	var echarts = require('echarts/lib/echarts');
 	//引入折线图
-	require('echarts/lib/chart/line');
+	require('echarts/lib/chart/radar');
 	// 引入提示框和标题组件
 	require('echarts/lib/component/tooltip');
 	require('echarts/lib/component/title');
@@ -229,17 +239,17 @@
 		          desc: ''
 		        },
 		        formLabelWidth: '100px',
-		        itemown_one:'',
-		        itemown_two:'',
-		        itemown_three:'',
-		        itemown_four:'',
-		        itemown_five:'',
-		        itemown_six:'',
-		        itemown_seven:'',
-		        itemown_eight:'',
-		        itemown_nine:'',
-		        itemown_ten:'',
-		        itemown_all:'',
+		        itemown_one:0,
+		        itemown_two:0,
+		        itemown_three:0,
+		        itemown_four:0,
+		        itemown_five:0,
+		        itemown_six:0,
+		        itemown_seven:0,
+		        itemown_eight:0,
+		        itemown_nine:0,
+		        itemown_ten:0,
+		        itemown_all:0,
 		        item_one:'',
 		        item_two:'',
 		        item_three:'',
@@ -276,119 +286,92 @@
 				}) 
 			},
 			postRate(){
-				this.itemown_all = (this.itemown_one-0) + (this.itemown_two-0) + (this.itemown_three-0) + (this.itemown_four-0) + (this.itemown_five-0) + (this.itemown_six-0) +  (this.itemown_seven-0) + (this.itemown_eight-0) + (this.itemown_nine-0) + (this.itemown_ten-0)
-				Rate({
-					strEvaluate:JSON.stringify({
-			      		project:{
-			      			id:this.$route.query.id
-			      		},
-			      		item_one:Math.floor((this.itemown_one-0)*10),
-			      		item_two:Math.floor((this.itemown_two-0)*10),
-			      		item_three:Math.floor((this.itemown_three-0)*10),
-			      		item_four:Math.floor((this.itemown_four-0)*10),
-			      		item_five:Math.floor((this.itemown_five-0)*10),
-			      		item_six:Math.floor((this.itemown_six-0)*10),
-			      		item_seven:Math.floor((this.itemown_seven-0)*10),
-			      		item_eight:Math.floor((this.itemown_eight-0)*10),
-			      		item_nine:Math.floor((this.itemown_nine-0)*10),
-			      		item_ten:Math.floor((this.itemown_ten-0)*10),
-			      		item_all:Math.floor((this.itemown_all-0)*10)
-		      		})
-		      	}).then((res) => {
-		      		this.getList()
-		      		this.getPersonList()
-					swal({
-	                    title: "评价成功",
-	                    type: 'success',
-	                    text: "评价成功",
-	                    timer: 2000,
-	                })
-	                this.dialogFormVisible = false
-				}).catch((e) => {
-	                swal({
-	                    title: "输入有误",
-	                    type: 'warn',
-	                    text: "输入有误",
-	                    timer: 2000,
-	                })
-	            }) 
+				var self = this
+				swal({
+			        title: "",
+			        text: "确定评分",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "是",
+			        cancelButtonText: "否",
+			        closeOnConfirm: true,
+			        html: false
+			    }, function(){
+			        self.itemown_all = (self.itemown_one-0) + (self.itemown_two-0) + (self.itemown_three-0) + (self.itemown_four-0) + (self.itemown_five-0) + (self.itemown_six-0) +  (self.itemown_seven-0) + (self.itemown_eight-0) + (self.itemown_nine-0) + (self.itemown_ten-0)
+					Rate({
+						strEvaluate:JSON.stringify({
+				      		project:{
+				      			id:self.$route.query.id
+				      		},
+				      		item_one:Math.floor((self.itemown_one-0)*10),
+				      		item_two:Math.floor((self.itemown_two-0)*10),
+				      		item_three:Math.floor((self.itemown_three-0)*10),
+				      		item_four:Math.floor((self.itemown_four-0)*10),
+				      		item_five:Math.floor((self.itemown_five-0)*10),
+				      		item_six:Math.floor((self.itemown_six-0)*10),
+				      		item_seven:Math.floor((self.itemown_seven-0)*10),
+				      		item_eight:Math.floor((self.itemown_eight-0)*10),
+				      		item_nine:Math.floor((self.itemown_nine-0)*10),
+				      		item_ten:Math.floor((self.itemown_ten-0)*10),
+				      		item_all:Math.floor((self.itemown_all-0)*10)
+			      		})
+			      	}).then((res) => {
+			      		self.getList()
+			      		self.getPersonList()
+						swal({
+		                    title: "评价成功",
+		                    type: 'success',
+		                    text: "评价成功",
+		                    timer: 2000,
+		                })
+		                self.dialogFormVisible = false
+					}).catch((e) => {
+		                swal({
+		                    title: "输入有误",
+		                    type: 'warn',
+		                    text: "输入有误",
+		                    timer: 2000,
+		                })
+		            }) 
+			    })
 			},	
 		  	getDate(){
 		  		var myChart = echarts.init(document.getElementById('ratechart'))
 				myChart.setOption({
 			        title: {
-			            
-			        },
-			        tooltip: {
-			            trigger: 'axis'
-			        },
-			        xAxis: {
-			        	type: 'category',
-	        			boundaryGap: false,
-			        	name:'',
-			            data: ['独角兽潜力','千亿市场','前两名机会','银江生态','变现造血能力','复制和扩张','CEO综合','团队运营','估值性价比','融资退出'],
-			            splitLine: {
-			                show: true,
-			                interval:0
-			            },
-			            axisTick:{
-			            	interval:0,
-			            	length:1
-			            }
-			        },
-			        yAxis: {
-			        	type: 'value',
-			        	name:'评分',
-			            splitLine: {
-			                show: false
-			            },
-			           	axisLine:{
-			           		show:false
-			           	},
-			           	axisTick:{
-			           		show:false,
-			           		interval:0
-			           	},
-			           	max:'15'
-			        },
-			        backgroundColor:{
-			        	color:'#ceeffa'
-			        },
-			        toolbox: {
-			            feature: {
-				            saveAsImage: {}
-				        },
-				        itemsize:10
-			        },
-			        series: {
-			            name: '得分',
-			            type: 'line',
-			            data: [this.item_one,this.item_two,this.item_three,this.item_four,this.item_five,this.item_six,this.item_seven,this.item_eight,this.item_nine,this.item_ten],
-			            lineStyle:{
-			            	normal:{
-			            		color:'#3a92e2'
-			            	}
-			            },
-			            itemStyle:{
-			            	normal:{
-			            		borderColor:'#3a92e2',
-			            		borderWidth:2
-			            	}		            	
-			            },
-			            areaStyle: {
-			                normal: {
-			                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-			                        offset: 0,
-			                        color: '#61fcee'
-			                    }, {
-			                        offset: 1,
-			                        color: '#679eff'                        
-			                    }])
-			                }
-			            },
-			            smooth:true
-			        },
-			        animation:false
+				        text: ''
+				    },
+				    tooltip: {},
+				    // legend: {
+				    //     data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+				    // },
+				    radar: {
+				        // shape: 'circle',
+				        indicator: [
+				           { name: '独角兽潜力', max: 10},
+				           { name: '千亿市场', max: 10},
+				           { name: '前两名机会', max: 10},
+				           { name: '银江生态', max: 10},
+				           { name: '变现造血能力', max: 10},
+				           { name: '复制和扩张', max: 10},
+				           { name: 'CEO综合', max: 15},
+				           { name: '团队运营', max: 10},
+				           { name: '估值性价比', max: 10},
+				           { name: '融资退出', max: 15},
+				        ]
+				    },
+				    series: [{
+				        name: '评分',
+				        type: 'radar',
+				        // areaStyle: {normal: {}},
+				        data : [
+				            {
+				                value : [this.item_one,this.item_two,this.item_three,this.item_four,this.item_five,this.item_six,this.item_seven,this.item_eight,this.item_nine,this.item_ten],
+				                name : ''
+				            }
+				        ]
+				    }]
 			    });
 		  	},
 		  	getList(){
@@ -407,7 +390,8 @@
 		      			this.item_eight = (res.data.list[0].item_eight/10)
 		      			this.item_nine = (res.data.list[0].item_nine/10)
 		      			this.item_ten = (res.data.list[0].item_ten/10)
-		      			this.item_all = (this.item_one-0) + (this.item_two-0) + (this.item_three-0) + (this.item_four-0) + (this.item_five-0) + (this.item_six-0) +  (this.item_seven-0) + (this.item_eight-0) + (this.item_nine-0) + (this.item_ten-0)
+		      			// this.item_all = (this.item_one-0) + (this.item_two-0) + (this.item_three-0) + (this.item_four-0) + (this.item_five-0) + (this.item_six-0) +  (this.item_seven-0) + (this.item_eight-0) + (this.item_nine-0) + (this.item_ten-0)
+		      			this.item_all = (res.data.list[0].item_all/10)
 		      			this.time = res.data.list[0].updateTime
 		      			this.quarter = res.data.list[0].quarter
 		      		}
@@ -430,6 +414,14 @@
 	}
 </script>
 <style lang="less">
+	.el-input-number__decrease, .el-input-number__increase{
+		top: 3px;
+	} 
+	.el-input .el-input--small{
+		.el-input__inner{
+			height: 30px !important;
+		}
+	}
 	.ratechart{
 		width: 1000px;
 		margin: 40px auto 0;
@@ -449,6 +441,13 @@
 			position: absolute;
 			right: 0px;
 			top: 10px;
+		}
+	}
+	@media(max-width:1200px){
+		.ratechart{
+			width: 700px;
+			margin: 40px auto 0;
+			height: 350px;
 		}
 	}
 </style>

@@ -3,12 +3,32 @@
 		<div class="main-block">
 			<div class="block-head" style="background-color:#474e57">
 				新增项目评级
-				<div class="head-btn" v-if="recordList.length > 0">
+				<!-- <div class="head-btn" v-if="recordList.length > 0">
 					<span  @click="$refs.record.swiper.slidePrev()"><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
 					<span  @click="$refs.record.swiper.slideNext()" style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
-				</div>
+				</div> -->
 			</div>
-			<swiper v-if="recordList.length > 0" ref="record">
+		    <el-carousel height="90px" v-if="recordList.length!=0">
+		      <el-carousel-item v-for="r in recordList">
+		        <div class="block-cont">
+					<div class="cont-img">
+						<img :src="r.user.photo.url" style="width:100%;height:100%">
+					</div>
+					<div class="cont-word" style="margin-top:-7px;">
+						<span class="name">{{r.user.name}}</span>
+						<span style="margin-left:10px;">{{r.user.position}}</span><br>
+						<span>{{r.quarter | getSeason}}评估</span>
+						<span style="margin-left:20px;">总分：<span style="color:#4990e2;font-weight:bold">{{r.item_all | getScore}}</span></span><br>
+						<!-- <span style="margin-left:20px;">级别：<span style="color:#d0011b;font-weight:bold">A</span></span><br> -->
+						<span>项目名称：{{r.project.project_name}}</span>
+					</div>
+					<div class="cont-time">
+						{{r.updateTime}}
+					</div>
+				</div>
+		      </el-carousel-item>
+		    </el-carousel>
+			<!-- <swiper v-if="recordList.length > 0" ref="record">
 		        <swiper-slide v-for="r in recordList">
 		        	<div class="block-cont">
 						<div class="cont-img">
@@ -18,7 +38,7 @@
 							<span class="name">{{r.user.name}}</span>
 							<span style="margin-left:10px;">{{r.user.position}}</span><br>
 							<span>{{r.quarter | getSeason}}评估</span>
-							<span style="margin-left:20px;">总分：<span style="color:#4990e2;font-weight:bold">{{r.item_all | getScore}}</span></span>
+							<span style="margin-left:20px;">总分：<span style="color:#4990e2;font-weight:bold">{{r.item_all | getScore}}</span></span><br>
 							<span style="margin-left:20px;">级别：<span style="color:#d0011b;font-weight:bold">A</span></span><br>
 							<span>项目名称：{{r.project.project_name}}</span>
 						</div>
@@ -27,17 +47,35 @@
 						</div>
 					</div>
 		        </swiper-slide>
-		    </swiper>
+		    </swiper> -->
 		</div>
 		<div class="main-block">
 			<div class="block-head" style="background-color:#474e57">
 				新增项目评论
-				<div class="head-btn" v-if="noteList.length > 0">
+				<!-- <div class="head-btn" v-if="noteList.length > 0">
 					<span @click="$refs.note.swiper.slidePrev()"><i class="el-icon-arrow-left" style="margin-left:6px;margin-top:6px"></i></span>
 					<span @click="$refs.note.swiper.slideNext()" style="margin-left:5px;"><i class="el-icon-arrow-right" style="margin-left:7px;margin-top:6px"></i></span>
-				</div>
+				</div> -->
 			</div>
-			<swiper v-if="noteList.length > 0" ref="note">
+			<el-carousel height="90px" v-if="noteList.length!=0">
+		      <el-carousel-item v-for="n in noteList">
+		        <div class="block-cont">
+					<div class="cont-img">
+						<img :src="n.user.photo.url" style="width:100%;height:100%">
+					</div>
+					<div class="cont-word" style="margin-top:-7px;">
+						<span class="name">{{n.user.name}}</span>
+						<span style="margin-left:10px;">{{n.user.position}}</span><br>
+						<span>{{n.content | shorten}}</span><br>
+						<span>项目名称：{{n.project.project_name}}</span>
+					</div>
+					<div class="cont-time">
+						{{n.create_time}}
+					</div>
+				</div>
+		      </el-carousel-item>
+		    </el-carousel>
+			<!-- <swiper v-if="noteList.length > 0" ref="note">
 		        <swiper-slide v-for="n in noteList">
 		        	<div class="block-cont">
 						<div class="cont-img">
@@ -54,7 +92,7 @@
 						</div>
 					</div>
 		        </swiper-slide>
-		    </swiper>
+		    </swiper> -->
 		</div>
 		<div class="main-block">
 			<div class="block-head" style="background-color:#5ac0de">
@@ -75,62 +113,28 @@
 		</div>
 		<div class="main-block">
 			<div class="block-head" style="background-color:#51ccb3">
-				公告中心<div style="float:right">更多</div>
+				公告中心<router-link style="float:right" :to="{name:'notice-list'}">更多</router-link>
 			</div>
-			<!-- <div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-light"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
-			<div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-light"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
-			<div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-dark"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
-			<div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-dark"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
-			<div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-dark"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div>
-			<div class="block-cont">
-				<div style="display:inline-block">
-					<div class="cont-sign sign-dark"></div>
-					<div class="cont-word">银江资本基金管理有限公司合伙协议公告</div>
-				</div>
-				<div style="text-align:right;color:#888">2016/11/30 12:38</div>
-			</div> -->
+			<router-link  style="display:inline-block" class="block-cont" v-for="i in notice" :to="{name:'notice-detail',query:{id:i.id}}">
+				<router-link style="display:inline-block" :to="{name:'notice-detail',query:{id:i.id}}">
+					<!-- <div class="cont-sign sign-light"></div> -->
+					<div class="cont-word">{{i.title}}</div>
+				</router-link>
+				<div style="text-align:right;color:#888">{{i.publish_time | dateFormat}}</div>
+			</router-link>
 		</div>
 	</div>
 </template>
 <script>
-	import {getEvaluateRecordList, getNoteList, itemList,getMainProjectList} from '../ajax/get.js'
+	import {getEvaluateRecordList, getNoteList, itemList,getMainProjectList,getNoticeList} from '../ajax/get.js'
 
  	export default {
 		data () {
 			return {
 				recordList: [],
 				noteList: [],
-				projects: []
+				projects: [],
+				notice:[]
 			}
 		},	
 		mounted () {
@@ -150,6 +154,13 @@
 			getMainProjectList().then((res)=>{
 				this.projects = res.list && (res.list || []).slice(0, 5)
 			})
+			getNoticeList({
+	    		page:1,
+				line:5
+	    	}).then((res) => {
+				this.notice = res.noticeList
+				
+			}) 
 		},
 		filters: {
 			getScore(_s){
@@ -260,7 +271,7 @@
 			.cont-time{
 				position: absolute;
 				font-size: 12px;
-				top: 20px;
+				top: 10px;
 				right: 10px;
 				color: #888;
 				margin-top: 4px;

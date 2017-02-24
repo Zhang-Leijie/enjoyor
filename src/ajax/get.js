@@ -30,3 +30,39 @@ export const getUserListByRole = factory('/getUserListByRole')
 export const getNoticeList = factory('/getNoticeList')
 //公告详情
 export const getNotice = factory('/getNotice')
+//获取省份列表
+export const getProvinceList = factory('/getProvinceList')
+//获取城市列表
+export const getCityList = factory('/getCityList')
+//城市搜素列表
+export const getSearchCityList = factory('/getSearchCityList')
+//微信公众号文章列表
+export const getMaterialList = factory('/getMaterialList')
+//获得标签一级列表
+export const vocationOneList = factory('/vocationOneList')
+//获得标签二级列表
+export const vocationTwoList = factory('/vocationTwoList')
+//获得标签三级列表
+export const vocationThreeList = factory('/vocationThreeList')
+//统计已投项目
+export const getType0 = factory('/getType0')
+//统计退出项目
+export const getType1 = factory('/getType1')
+//统计未投项目
+export const getType2 = factory('/getType2')
+//统计新增项目统计
+export const getType3 = factory('/getType3')
+//统计-标签
+export const vocation_project = factory('/vocation_project')
+//统计-除标签外
+export const statistics_project = factory('/statistics_project')
+//统计-搜索列表
+export const getSearchList = factory('/getSearchList')
+//获取个人点评
+export const getNoteListByUserId = factory('/getNoteListByUserId')
+
+
+
+
+
+

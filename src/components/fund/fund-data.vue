@@ -28,7 +28,7 @@
 					公司股本总额
 				</div>
 				<div class="item-content item-single" >
-					¥{{info.money_totalShare}}
+					<span v-if="info.money_totalShare">¥{{info.money_totalShare}}万元</span>
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -36,7 +36,7 @@
 					每股价格
 				</div>
 				<div class="item-content item-single" >
-					¥{{info.money_eachShare}}
+					<span v-if="info.money_eachShare">¥{{info.money_eachShare}}</span>
 				</div>
 			</div>
 			<!-- <div class="sum-item">
@@ -68,7 +68,7 @@
 					项目地点
 				</div>
 				<div class="item-content item-single" >
-					{{info.project_address}}
+					{{info.province_name}} {{info.city_name}}
 				</div>
 			</div>
 			<div class="clearfix">
@@ -99,10 +99,10 @@
 			</div> -->
 			<div class="sum-item sum-double">
 				<div class="item-title">
-					投后估值
+					最新估值
 				</div>
 				<div class="item-content item-single">
-					¥{{info.valuation_afterInvest}}
+					<span v-if="info.valuation_afterInvest">¥{{info.valuation_afterInvest}}万元</span>
 				</div>
 			</div>
 			<div class="sum-item sum-double">
@@ -119,7 +119,7 @@
 						本轮投资总额
 					</div>
 					<div class="item-content item-single">
-						¥{{info.money_thisTime}}		
+						<span v-if="info.money_thisTime">¥{{info.money_thisTime}}万元</span>	
 					</div>
 				</div>
 				<div class="sum-item sum-double">
@@ -152,7 +152,7 @@
 					投资金额
 				</div>
 				<div class="item-content item-single">
-					¥{{info.investment_enjoyor}}			
+					<span v-if="info.investment_enjoyor">¥{{info.investment_enjoyor}} 万元</span>			
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -177,7 +177,7 @@
 						投资金额
 					</div>
 					<div class="item-content item-single">
-						¥{{i.investment_other}}			
+						<span v-if="i.investment_other">¥{{i.investment_other}}万元</span>			
 					</div>
 				</div>
 				<div class="sum-item sum-trible">
@@ -224,3 +224,12 @@ export default {
 	}
 }
 </script>
+<style lang='less' scoped>
+	@media(max-width:1200px){
+		.sum-trible{
+		    width: 33%;
+		    float: left;
+		    padding-left: 140px !important;
+		}
+	}
+</style>

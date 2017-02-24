@@ -48,7 +48,7 @@
 					项目估值
 				</div>
 				<div class="item-content item-single" >
-					¥ {{info.valuation}}
+					<span v-if="info.valuation">¥ {{info.valuation}} 万元</span>
 				</div>
 			</div>
 			<div class="sum-item">
@@ -56,7 +56,7 @@
 					行业／领域
 				</div>
 				<div class="item-content" >
-					<span class="item-label" v-for="i in tags">{{i.name}}</span>
+					<span class="item-label" v-for="i in tags" v-bind:class="{label1:i.type==0,label2:i.type==1,label3:i.type==2}">{{i.name}}</span>
 				</div>
 			</div>
 			<div class="sum-item" style="width:100%">
@@ -101,6 +101,9 @@
 							<i class="el-icon-arrow-right"></i>
 						</div>
 						<canvas id="the-canvas" style="border:1px solid black;width:100%;"></canvas>
+					</div>
+					<div style="text-align:center">
+						<div class="blue button" @click="showbigimg" style="margin:5px auto">查看大图</div>
 					</div>
 				</div>
 			</div>
@@ -179,215 +182,22 @@
 				</div>
 			</div>
 		</div>
-		<!-- <div class="fund-summary" v-show="edit==true">
-			<div class="sum-item">
-				<div class="item-title">
-					项目LOGO
+		<el-dialog title="查看大图" v-model="bigimgshow" size="large">
+		  	<div class="item-content" style="margin-bottom:20px;">
+				<div style="text-align:center">  
+					<span>页数: <span id="page_num2"></span> / <span id="page_count2"></span></span>
 				</div>
-				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input"></el-input>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目名称
-				</div>
-				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input"></el-input>
+				<div style="margin-top:20px;position:relative">
+					<div id="prev2" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
+						<i class="el-icon-arrow-left"></i>
+					</div>
+					<div id="next2" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
+						<i class="el-icon-arrow-right"></i>
+					</div>
+					<canvas id="the-canvass" style="border:1px solid black;width:100%;"></canvas>
 				</div>
 			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目简介
-				</div>
-				<div class="item-content item-single" >
-					<textarea class="pl-textarea"></textarea>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目编码
-				</div>
-				<div class="item-content item-single" >
-					001
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目评级
-				</div>
-				<div class="item-content item-single" >
-					未评级
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目阶段
-				</div>
-				<div class="item-content item-single" >
-					<el-select v-model="value" placeholder="请选择" class="edit-input">
-					    <el-option
-					      v-for="item in options"
-					      :label="item.label"
-					      :value="item.value">
-					    </el-option>
-					</el-select>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					项目估值
-				</div>
-				<div class="item-content item-single" >
-					<el-input placeholder="" class="edit-input"></el-input>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					行业／领域
-				</div>
-				<div class="item-content" >
-					<el-input placeholder="" class="edit-input" style="display:inline-block"></el-input>
-					<span class="item-label">共享经济</span>
-					<span class="item-label">共享经济</span>
-				</div>
-			</div>
-			<div class="sum-item" style="width:100%">
-				<div class="item-title">
-					项目团队
-				</div>
-				<div class="item-content clearfix" style="padding-top:20px;">
-					<div class="item-team clearfix">
-						<div class="head-image">
-				          <img src="../../assets/touxiang.png" style="width:100%">
-				        </div>
-				        <div class="head-word">
-				          <span class="name">林木木</span><br>
-				          <span class="position">投资经理（上海）</span>
-				        </div>
-			        </div>
-			        <div class="item-team clearfix">
-						<div class="head-image">
-				          <img src="../../assets/touxiang.png" style="width:100%">
-				        </div>
-				        <div class="head-word">
-				          <span class="name">林木木</span><br>
-				          <span class="position">投资经理（上海）</span>
-				        </div>
-			        </div>
-			        <div class="item-team clearfix">
-						<div class="head-image">
-				          <img src="../../assets/touxiang.png" style="width:100%">
-				        </div>
-				        <div class="head-word">
-				          <span class="name">林木木</span><br>
-				          <span class="position">投资经理（上海）</span>
-				        </div>
-			        </div>
-			        <div class="item-team clearfix">
-						<div class="head-image">
-				          <img src="../../assets/touxiang.png" style="width:100%">
-				        </div>
-				        <div class="head-word">
-				          <span class="name">林木木</span><br>
-				          <span class="position">投资经理（上海）</span>
-				        </div>
-			        </div>
-			        <div class="item-team clearfix">
-						<div class="head-image">
-				          <img src="../../assets/touxiang.png" style="width:100%">
-				        </div>
-				        <div class="head-word">
-				          <span class="name">林木木</span><br>
-				          <span class="position">投资经理（上海）</span>
-				        </div>
-			        </div>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					商业计划书
-				</div>
-				<div class="item-content" style="padding-top:40px;">
-					<img src="../../assets/beijing.png" style="width:210px;height:140px;border:5px solid #d4dbe1">
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					立项理由
-				</div>
-				<div class="item-content item-single">
-					<textarea class="pl-textarea"></textarea>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					公司名称
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					公司网站
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>				
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					公司app
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>	
-				</div>
-			</div>
-			<div class="sum-item">
-				<div class="item-title">
-					公司公众号
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>			
-				</div>
-			</div>
-			<div class="sum-item sum-double">
-				<div class="item-title">
-					公司创始人
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>			
-				</div>
-			</div>
-			<div class="sum-item sum-double">
-				<div class="item-title item-title2">
-					联系方式
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>			
-				</div>
-			</div>
-			<div class="sum-item sum-double">
-				<div class="item-title">
-					公司联系人
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>		
-				</div>
-			</div>
-			<div class="sum-item sum-double">
-				<div class="item-title item-title2">
-					联系方式
-				</div>
-				<div class="item-content item-single">
-					<el-input placeholder="" class="edit-input"></el-input>	
-				</div>
-			</div>
-			<div style="text-align:center">
-				<div class="button blue" @click="edit=!edit">保存</div>
-			</div>
-		</div> -->
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -403,6 +213,7 @@ export default {
 	},
   	data () {
 	    return {
+	    	bigimgshow:false,
 	    	pdf:null,
     	  team:[],
     	  value2:'',
@@ -453,6 +264,100 @@ export default {
 	    }
   	},
   	methods:{
+  		showbigimg(){
+  				var self = this
+  				this.bigimgshow = true
+  				function bigimg(){
+  					var url = self.pdf;
+  					console.log(1)
+  					console.log(url)
+				    var pdfDoc = null,
+				      pageNum = 1,
+				      pageRendering = false,
+				      pageNumPending = null,
+				      scale = 0.8,
+				      canvas = document.getElementById('the-canvass')
+				      // console.log(canvas)
+				      var ctx = canvas.getContext('2d');
+				      ctx.clearRect(0,0,canvas.width,canvas.height);
+				  function renderPage(num) {
+				    pageRendering = true;
+				    // Using promise to fetch the page
+				    pdfDoc.getPage(num).then(function(page) {
+				      var viewport = page.getViewport(scale);
+				      canvas.height = viewport.height;
+				      canvas.width = viewport.width;
+
+				      // Render PDF page into canvas context
+				      var renderContext = {
+				        canvasContext: ctx,
+				        viewport: viewport
+				      };
+				      var renderTask = page.render(renderContext);
+
+				      // Wait for rendering to finish
+				      renderTask.promise.then(function () {
+				        pageRendering = false;
+				        if (pageNumPending !== null) {
+				          // New page rendering is pending
+				          renderPage(pageNumPending);
+				          pageNumPending = null;
+				        }
+				      });
+				    });
+
+				    // Update page counters
+				    document.getElementById('page_num2').textContent = pageNum;
+				  }
+
+				  /**
+				   * If another page rendering in progress, waits until the rendering is
+				   * finised. Otherwise, executes rendering immediately.
+				   */
+				  function queueRenderPage(num) {
+				    if (pageRendering) {
+				      pageNumPending = num;
+				    } else {
+				      renderPage(num);
+				    }
+				  }
+
+				  function onPrevPage() {
+				    if (pageNum <= 1) {
+				      return;
+				    }
+				    pageNum--;
+				    queueRenderPage(pageNum);
+				  }
+				  document.getElementById('prev2').addEventListener('click', onPrevPage);
+
+				  /**
+				   * Displays next page.
+				   */
+				  function onNextPage() {
+				    if (pageNum >= pdfDoc.numPages) {
+				      return;
+				    }
+				    pageNum++;
+				    queueRenderPage(pageNum);
+				  }
+				  document.getElementById('next2').addEventListener('click', onNextPage);
+
+				  /**
+				   * Asynchronously downloads PDF.
+				   */
+				  PDFJS.getDocument(url).then(function (pdfDoc_) {
+				    pdfDoc = pdfDoc_;
+				    document.getElementById('page_count2').textContent = pdfDoc.numPages;
+
+				    // Initial/first page rendering
+				    renderPage(pageNum);
+				  });
+  				}
+  				if (document.getElementById('the-canvass')==null) {
+  					window.setTimeout(bigimg,1000); 
+  				}
+  		},
   		getfile(){
 	      	getProjectFile({
 	      		projectId:this.$route.query.id
@@ -550,11 +455,18 @@ export default {
 				this.photoid = this.info.logo.id
 				this.photourl = this.info.logo.url
 			}
-			if (this.info.tab) {
+			// if (this.info.tab) {
+			// 	var self = this
+			// 	self.tags = []
+			// 	this.info.tab.forEach(function(list){
+			// 		self.tags.push({name:list})
+			// 	})
+			// }
+			if (this.info.vocations) {
 				var self = this
 				self.tags = []
-				this.info.tab.forEach(function(list){
-					self.tags.push({name:list})
+				this.info.vocations.forEach(function(list){
+					self.tags.push({name:list.name,id:list.id,type:list.type})
 				})
 			}
 			if (this.info.project_member) {
@@ -596,5 +508,14 @@ export default {
 <style lang="less">
 	.item-content{
 		min-height: 40px;
+	}
+	.label1{
+		background-color: #5ac0de !important;
+	}
+	.label2{
+		background-color: #de635a !important;
+	}
+	.label3{
+		background-color: #deb05a !important;
 	}
 </style>

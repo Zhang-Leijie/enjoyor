@@ -52,7 +52,18 @@
 			      :value="item.value">
 			    </el-option>
 			</el-select>
-			<el-input placeholder="项目地点" class="searinfo2" v-model="search.address"></el-input>
+			<el-select v-model="search.address" placeholder="项目地点" class="searinfo2" filterable>
+				<el-option
+			      label="无"
+			      :value="undefined">
+			    </el-option>
+			    <el-option
+			      v-for="item in city"
+			      :label="item"
+			      :value="item">
+			    </el-option>
+			</el-select>
+			<!-- <el-input placeholder="项目地点" class="searinfo2" v-model="search.address"></el-input> -->
 			<el-select v-model="search.resource" placeholder="项目来源" class="searinfo2">
 				<el-option
 			      label="全部"
@@ -108,7 +119,7 @@
 					<td class="fabu">
 						<router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" class="link">{{list.project_name}}</router-link>
 					</td>
-					<td>{{list.project_address}}</td>
+					<td>{{list.province_name}}{{list.city_name}}</td>
 					<td>{{list.project_resource}}</td>
 					<td>{{list.project_stage}}</td>
 					<td>{{list.createUser.name}}</td>
@@ -134,10 +145,11 @@
 </template>
 <script>
 	import {Item} from '../../ajax/post.js'
-	import {itemList,getUserList} from '../../ajax/get.js'
+	import {itemList,getUserList,getSearchCityList} from '../../ajax/get.js'
 	export default {
 	    data() {
 	      return {
+	      	city:"",
 	      	search:{
 	      		namecode:null,
 	      		timeB:null,
@@ -262,6 +274,14 @@
 	      }
 	    },
 	    methods:{
+	    	getCityList(){
+		    	getSearchCityList({
+		    		type:3,
+		    		foundationId:this.$route.query.id
+		    	}).then((res) => {
+					this.city = res.data.list
+				}) 
+		    },
 	    	reset(){
 	    		this.search={
 		      		namecode:null,
@@ -281,14 +301,87 @@
 		    handleCurrentChange(val) {
 		        this.currentPage = val;
 		        console.log(`当前页: ${val}`);
-		        itemList({
-    				project_type:0,
-    				page:val,
-    				line:10
-    			}).then((res) => {
+		        function FormatDate (strTime) {
+				    var date =(new Date(strTime)).valueOf();
+				    return date
+				}
+				var timeB
+				var timeE
+				if (this.search.timeB==null) {
+					timeB = null					
+				}
+				else{
+					timeB = FormatDate(this.search.timeB);
+				}
+				if (this.search.timeE==null) {
+					timeE = null
+				}
+				else{
+					timeE = FormatDate(this.search.timeE);
+				}
+				var data={
+					project_type:5,
+					page:val,
+    				line:10,
+    				foundationId:this.$route.query.id
+				}
+				if (this.search.project_type&&this.search.project_type!='10000') {
+					data.project_type=this.search.project_type
+				}
+				if (this.search.namecode) {
+					data.nameorcode = this.search.namecode
+				}
+				if (timeB) {
+					data.begin_time = timeB
+				}
+				if (timeE) {
+					data.end_time = timeE
+				}
+				if (this.search.schedule&&this.search.schedule!='10000') {
+					data.schedule = this.search.schedule
+				}
+				if (this.search.address) {
+					data.address = this.search.address
+				}
+				if (this.search.resource&&this.search.resource!='10000') {
+					data.resource = this.search.resource
+				}
+				if (this.search.userId&&this.search.userId!='10000') {
+					data.userId = this.search.userId
+				}
+	    		itemList(data).then((res) => {
+    				res.data.list.forEach(function(list){
+    					if (list.project_schedule==0) {
+    						list.project_schedule_name = '项目录入'
+    					}
+    					else if(list.project_schedule==1){
+    						list.project_schedule_name = '同意立项'
+    					}
+    					else if(list.project_schedule==2){
+    						list.project_schedule_name = '同意上会'
+    					}
+    					else if(list.project_schedule==3){
+    						list.project_schedule_name = '已上会'
+    					}
+    					else if(list.project_schedule==4){
+    						list.project_schedule_name = '同意投资'
+    					}
+    					else if(list.project_schedule==5){
+    						list.project_schedule_name = '协议签订'
+    					}
+    					else if(list.project_schedule==6){
+    						list.project_schedule_name = '出资'
+    					}
+    					else if(list.project_schedule==7){
+    						list.project_schedule_name = '投后管理'
+    					}
+    					else if(list.project_schedule==8){
+    						list.project_schedule_name = '退出投资'
+    					}
+    				})
 					this.lists = res.data.list
 					this.intotal = parseInt(res.data.count)
-				})  
+				})    
 		    },
 		    getUserList(){
 		    	getUserList({
@@ -428,6 +521,7 @@
 	    	}
 	    },
 	    mounted:function(){
+	    	this.getCityList()
 	    	this.getList()
 	    	this.getUserList()
 	    }

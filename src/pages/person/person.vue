@@ -11,7 +11,7 @@
 				</div>
 				<div class="item-content clearfix">
 					<div style="float:left;">
-						<img :src="url">
+						<img :src="url" style="width:60px;height:60px;border-radius:50%">
 						<div class="resetpass" @click="dialogFormVisible = true">重置密码</div>
 					</div>
 					<el-form :model="formAlignRight" label-width="120px" class="information clearfix">
@@ -65,16 +65,16 @@
 				<div class="item-title">
 					我的点评
 				</div>
-				<div class="item-content" v-for="i in list.type0">
-					<div style="margin-bottom:10px;">
+				<div class="item-content" v-for="i in list">
+					<div style="margin-bottom:10px;" v-if="i.commentTab.id!=1">
 						<div class="block-cont n-margin">
-							<div class="cont-img">
+							<!-- <div class="cont-img">
 								<img :src="i.user.photo.url" style="width:100%;height:100%">
-							</div>
+							</div> -->
 							<div class="cont-word" style="margin-top:2px;">
-								<span class="name">{{i.user.name}}</span>
-								<span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
-								<span>{{i.create_time}}</span>
+								<span class="name" style="line-height:30px;">{{i.project.project_name}}</span>
+								<!-- <span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
+								<span>{{i.create_time}}</span> -->
 							</div>
 							<div class="note-label">
 								<!-- {{i.commentTab.name}} -->
@@ -88,6 +88,39 @@
 							</div> -->
 						</div>
 						<div class="right-cont">
+							{{i.content}}
+						</div>
+					</div>
+					<div style="margin-bottom:10px;" v-if="i.commentTab.id==1" class='note-left'>
+						<div class="block-cont">
+							<!-- <div class="cont-img">
+								<img :src="i.photo.url" style="width:100%;height:100%">
+							</div> -->
+							<div class="cont-word" style="margin-top:2px;">
+								<span class="name">{{i.user.name}}</span>
+								<!-- <span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
+								<span>{{i.create_time}}</span> -->
+							</div>
+							<div class="note-label">
+								{{i.commentTab.name}}
+								<img src="../../assets/fangtanjilu.png" style="width:80px">
+							</div>
+						</div>
+						<div class="clearfix">
+							<div class="talk-detail">
+								会议日期：{{formatDate(i.date)}}
+							</div>
+							<div class="talk-detail">
+								会议地点：{{i.address}}
+							</div>
+							<div class="talk-detail">
+								访谈对象：{{i.object}}
+							</div>
+							<div class="talk-detail">
+								参与者：{{i.member}}
+							</div>
+						</div>
+						<div class="talk-cont" style="word-break:break-all;word-warp:break-word">
 							{{i.content}}
 						</div>
 					</div>
@@ -115,7 +148,7 @@
 </template>
 <script>
 	import {updatePassword} from '../../ajax/post.js'
-	import {getUser,getNoteList} from '../../ajax/get.js'
+	import {getUser,getNoteList,getNoteListByUserId} from '../../ajax/get.js'
 	export default {
 	    data() {
 	      return {
@@ -135,6 +168,15 @@
 	      };
 	    },
 	    methods:{
+	    	formatDate(time){
+	    	  var   x = time - 0
+	    	  console.log(x)
+			  var   now = new Date(x) 
+			  var   year = now.getFullYear();     
+			  var   month = "0" + (now.getMonth()+1);     
+			  var   date = "0" +(now.getDate());         
+			  return   year+"-"+month.substr(-2)+"-"+date.substr(-2)  
+			},
 	    	changepass(){
 	    		if (this.oldpass=="") {
 		    		swal({
@@ -195,10 +237,7 @@
 		    	}	
 	    	},
 	    	getnote(){
-	    		getNoteList({
-	    			userId:this.user.id,
-	    			number:0
-	    		}).then((res) => {
+	    		getNoteListByUserId().then((res) => {
 	    			this.list = res.data
 				}) 
 	    	},
@@ -217,6 +256,28 @@
 	}
 </script>
 <style lang="less">
+	.note-left{
+		.talk-detail{
+			&:nth-child(2n){
+				margin-left: 1%;
+			}
+			margin-bottom: 3px;
+			height: 30px;
+			background-color: #f1f2f7;
+			float: left;
+			width: 49.5%;
+			padding: 0px 10px;
+			line-height: 30px;
+		}
+		.talk-cont{
+			padding: 10px 5px;
+			font-size: 14px;
+			color: #333;
+			width: 100%;
+			border: 4px solid #f1f2f7;
+			min-height: 100px;
+		}
+	}
 	.person{
 		.edit-input.el-input{
 			margin: 0 auto;

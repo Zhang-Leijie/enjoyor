@@ -119,6 +119,54 @@ const routes = [
                 require(['./pages/notice/notice-create.vue'],resolve)
             }
         },{
+            path: "/wechat",
+            name: 'wechat',
+            component(resolve) {
+                require(['./pages/wechat/wechat.vue'],resolve)
+            }
+        },{
+            path: "/count-all",
+            name: 'count-all',
+            component(resolve) {
+                require(['./pages/count/count-all.vue'],resolve)
+            }
+        },{
+            path: "/count-label",
+            name: 'count-label',
+            component(resolve) {
+                require(['./pages/count/count-label.vue'],resolve)
+            }
+        },{
+            path: "/count-local",
+            name: 'count-local',
+            component(resolve) {
+                require(['./pages/count/count-local.vue'],resolve)
+            }
+        },{
+            path: "/count-stage",
+            name: 'count-stage',
+            component(resolve) {
+                require(['./pages/count/count-stage.vue'],resolve)
+            }
+        },{
+            path: "/count-rate",
+            name: 'count-rate',
+            component(resolve) {
+                require(['./pages/count/count-rate.vue'],resolve)
+            }
+        },{
+            path: "/count-source",
+            name: 'count-source',
+            component(resolve) {
+                require(['./pages/count/count-source.vue'],resolve)
+            }
+        },{
+            path: "/count-user",
+            name: 'count-user',
+            component(resolve) {
+                require(['./pages/count/count-user.vue'],resolve)
+            }
+        },{
 	        path: "/home",
 	        redirect: '/main'
     	}]

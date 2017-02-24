@@ -22,7 +22,7 @@
 				付款金额
 			</div>
 			<div class="item-content item-single">
-				{{info.pay_money}}
+				<span v-if="info.pay_money">¥ {{info.pay_money}} 万元</span>
 			</div>
 		</div>
 		<div class="uploadcontent clearfix">	
@@ -70,7 +70,9 @@
 					</div>
 				</div>
 				<div class="upload_name">TS协议框架<div style="width:140px">更新时间：<span v-if="ts">{{ts.time}}</span></div></div>
-			</div>		
+			</div>
+		</div>
+		<div class="uploadcontent clearfix">	
 			<div style="float:left">
 				<div class="clearfix">
 					<div class="upload_block">
@@ -201,6 +203,11 @@
 	import { getProjectFile } from '../../ajax/get.js'
 	import { File } from '../../ajax/post.js'
   	import  F_Probar from './fund-procbar'
+  	function formatDate(time){
+  		var d = new Date(time);
+    	var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    	return sd
+  	}
   	function localdata(time){
   		var d = new Date(time);
     	var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
@@ -401,9 +408,9 @@
 	      		projectId:this.$route.query.id
 	      	}).then((res) => {
 	      		var info = res.data.projectFile
-	      		var time = localdata(info.briefing.update_current)
 	      		if (info.briefing) {
 	      			var img = doctype(info.briefing.url)
+	      			var time = formatDate(info.briefing.update_current)
 		      		this.xmjb={
 			      		id:info.briefing.id,
 			      		fileUrl:info.briefing.url,
@@ -413,7 +420,7 @@
 		      	}
 		      	if (info.proposal) {
 		      		var img = doctype(info.proposal.url)
-		      		var time = localdata(info.proposal.update_current)
+		      		var time = formatDate(info.proposal.update_current)
 			      	this.syjhs={
 			      		id:info.proposal.id,
 			      		fileUrl:info.proposal.url,
@@ -423,7 +430,7 @@
 		      	}
 		      	if (info.agreement) {
 		      		var img = doctype(info.agreement.url)
-		      		var time = localdata(info.agreement.update_current)
+		      		var time = formatDate(info.agreement.update_current)
 			      	this.ts={
 			      		id:info.agreement.id,
 			      		fileUrl:info.agreement.url,
@@ -436,7 +443,7 @@
 		      		var self = this
 		      		info.reports.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
-		      			var time = localdata(list.update_current)
+		      			var time = formatDate(list.update_current)
 		      			self.jdbg.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
@@ -447,7 +454,7 @@
 		      		var self = this
 		      		info.schedules.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
-		      			var time = localdata(list.update_current)
+		      			var time = formatDate(list.update_current)
 		      			self.zsxy.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
@@ -458,7 +465,7 @@
 		      		var self = this
 		      		info.manages.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
-		      			var time = localdata(list.update_current)
+		      			var time = formatDate(list.update_current)
 		      			self.thgl.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
@@ -469,7 +476,7 @@
 		      		var self = this
 		      		info.profits.reverse().forEach(function(list){
 		      			var img = doctype(list.url)
-		      			var time = localdata(list.update_current)
+		      			var time = formatDate(list.update_current)
 		      			self.tztc.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
@@ -497,8 +504,9 @@
 			width: 130px;
 			height: 130px;
 			float: left;
-			margin-right: 120px;
-			margin-bottom: 50px;
+			// margin-right: 120px;
+			// margin-bottom: 50px;
+			margin: 0px 50px 50px;
 			&:nth-child(4n){
 				margin-right: 0px;
 			}
@@ -558,5 +566,68 @@
 	}
 	.pa{
 		padding-top:10px !important;
+	}
+	@media(max-width:1200px){
+		.uploadcontent{
+			width: 100%;
+			padding: 20px;
+			.upload_block{
+				width: 130px;
+				height: 130px;
+				float: left;
+				// margin-right: 50px;
+				// margin-bottom: 50px;
+				margin: 0px 40px 50px;
+				&:nth-child(4n){
+					margin-right: 0px;
+				}
+				.upload_none{
+					background-color: #f6f7f9;
+					width: 100%;
+					height: 100%;
+					text-align: center;
+					color: #ccc;
+					position: relative;
+					.upload_img{
+						position: absolute;
+						top: 0px;
+						bottom: 0px;
+						left: 0px;
+						right: 0px;
+						img{
+							width: 100%;
+							height: 100%;
+						}
+					}
+					.up_hover{
+						&:hover{
+							opacity: 1;
+						}				
+						// display: none;
+						transition:0.5s;
+						-moz-transition:0.5s; /* Firefox 4 */
+						-webkit-transition:0.5s; /* Safari and Chrome */
+						-o-transition:0.5s; /* Opera */
+						opacity: 0;
+						text-align: center;
+						position: absolute;
+						top: 0px;
+						bottom: 0px;
+						left: 0px;
+						right: 0px;
+						background-color: rgba(0, 0, 0, 0.5);
+						.button{
+							margin:45px auto;
+						}
+					}			
+				}
+				.upload_name{
+					text-align: center;
+					font-size: 14px;
+					color: #333;
+					line-height: 25px;
+				}
+			}
+		}
 	}
 </style>

@@ -34,7 +34,7 @@
 				</div>
 				<div class="item-content item-single" >
 					<el-input class="edit-input" v-model="info.money_totalShare" placeholder="请输入公司总额" @blur="gbze(info.money_totalShare)">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 					<!-- <el-input placeholder="请输入公司股本总额" class="edit-input" v-model="info.money_totalShare"></el-input> -->
 				</div>
@@ -80,12 +80,28 @@
 					</el-select>
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item" style="width:100%;">
 				<div class="item-title">
 					项目地点
 				</div>
 				<div class="item-content item-single" >
-					<el-input placeholder="请输入项目地点" class="edit-input" v-model="info.project_address"></el-input>
+					<!-- <el-input placeholder="请输入项目地点" class="edit-input" v-model="info.project_address"></el-input> -->
+					<el-select v-model="provinceId" placeholder="请选择省份" class="edit-input" style="float:left;margin-right:20px;" @change="getCity">
+					    <el-option
+					      v-for="item in province"
+					      :label="item.province"
+					      :value="item.provinceid"
+					      @click.native="provinceName=item.province;cityId=''">
+					    </el-option>
+					</el-select>
+					<el-select v-model="cityId" placeholder="请选择城市" class="edit-input" style="float:left">
+					    <el-option
+					      v-for="item in city"
+					      :label="item.city"
+					      :value="item.cityid"
+					      @click.native="cityName=item.city">
+					    </el-option>
+					</el-select>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -124,11 +140,11 @@
 			</div> -->
 			<div class="sum-item">
 				<div class="item-title">
-					投后估值
+					最新估值
 				</div>
 				<div class="item-content item-single">
 					<el-input class="edit-input" v-model="info.valuation_afterInvest" placeholder="请输入投后估值" @blur="thgz(info.valuation_afterInvest)">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 					<!-- <el-input placeholder="请输入投后估值" class="edit-input" v-model="info.valuation_afterInvest"></el-input>	 -->
 				</div>
@@ -147,7 +163,7 @@
 				</div>
 				<div class="item-content item-single">
 					<el-input class="edit-input" v-model="info.money_thisTime" placeholder="请输入本轮投资总额" @blur="tzze(info.money_thisTime)">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 					<!-- <el-input placeholder="请输入本轮投资总额" class="edit-input" v-model="info.money_thisTime"></el-input>	 -->		
 				</div>
@@ -174,6 +190,10 @@
 				</div>
 				<div class="item-content item-single">
 					<el-select v-model="info.enjoyor" style="width:150px;" placeholder="请选择" class="edit-input" v-if="options1!=[]">
+						<el-option
+					      label="无"
+					      value="null">
+					    </el-option>
 					    <el-option
 					      v-for="item in options1"
 					      :label="item.name"
@@ -189,7 +209,7 @@
 				</div>
 				<div class="item-content item-single">
 					<el-input class="edit-input" v-model="info.investment_enjoyor" placeholder="请输入投资金额" @blur="yjje(info.investment_enjoyor)" style="width:150px;">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 					<!-- <el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_enjoyor"></el-input>	 -->			
 				</div>
@@ -200,6 +220,33 @@
 				</div>
 				<div class="item-content item-single">
 					<el-input placeholder="请输入占股" class="edit-input" style="width:150px;" v-model="info.share_enjoyor"></el-input>			
+				</div>
+			</div>
+			<div v-for="(i,index) in other">
+				<div class="sum-item sum-trible">
+					<div class="item-title">
+						其他投资方
+					</div>
+					<div class="item-content item-single">
+						{{i.other}}		
+					</div>
+				</div>
+				<div class="sum-item sum-trible">
+					<div class="item-title item-title2">
+						投资金额
+					</div>
+					<div class="item-content item-single">
+						<span v-if="i.investment_other">¥{{i.investment_other}}万元</span>			
+					</div>
+				</div>
+				<div class="sum-item sum-trible">
+					<div class="item-title item-title2">
+						占股
+					</div>
+					<div class="item-content item-single">
+						{{i.share_other}}
+						<i class="el-icon-close" style="cursor:pointer;margin-left:20px;" @click="deletea(index)" ></i>
+					</div>
 				</div>
 			</div>
 			<div class="sum-item sum-trible">
@@ -216,7 +263,7 @@
 				</div>
 				<div class="item-content item-single">
 					<el-input class="edit-input" v-model="info.investment_other" placeholder="请输入投资金额" @blur="qtje(info.investment_other)" style="width:150px;">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 					<!-- <el-input placeholder="请输入投资金额" class="edit-input" style="width:150px;" v-model="info.investment_other"></el-input> -->				
 				</div>
@@ -232,33 +279,6 @@
 			<div style="text-align:center;margin-bottom:15px;">
 				<div class="button blue" @click="addother" style="width:150px;">添加投资方</div>
 			</div>
-			<div v-for="(i,index) in other">
-				<div class="sum-item sum-trible">
-					<div class="item-title">
-						其他投资方
-					</div>
-					<div class="item-content item-single">
-						{{i.other}}		
-					</div>
-				</div>
-				<div class="sum-item sum-trible">
-					<div class="item-title item-title2">
-						投资金额
-					</div>
-					<div class="item-content item-single">
-						¥{{i.investment_other}}			
-					</div>
-				</div>
-				<div class="sum-item sum-trible">
-					<div class="item-title item-title2">
-						占股
-					</div>
-					<div class="item-content item-single">
-						{{i.share_other}}
-						<i class="el-icon-close" style="cursor:pointer;margin-left:20px;" @click="deletea(index)" ></i>
-					</div>
-				</div>
-			</div>
 			<div style="text-align:center">
 				<div class="button blue" @click="save" style="width:150px;">保存</div>
 			</div>
@@ -266,7 +286,7 @@
 	</div>
 </template>
 <script>
-import {itemDetail,getUserList,getFoundationList} from '../../ajax/get.js'
+import {itemDetail,getUserList,getFoundationList,getProvinceList,getCityList} from '../../ajax/get.js'
 import {Item} from '../../ajax/post.js'
 
 export default {
@@ -277,6 +297,12 @@ export default {
 	},
   data () {
     return {
+    	city:[],
+    	province:[],
+    	provinceName:[],
+    	cityName:[],
+    	provinceId:'',
+    	cityId:'',
     	other:[],
     	num:2,
     	value2:'',
@@ -334,6 +360,31 @@ export default {
     }
   },
   	methods: {
+  		useid(){
+  			if (this.info.province_id) {
+  				this.provinceId = this.info.province_id.toString()
+  			}
+  			if (this.info.city_id) {
+				this.cityId = this.info.city_id.toString()
+  			}
+  			this.cityName = this.info.city_name
+  			this.provinceName = this.info.province_name
+  		},
+  		getCity(){
+  			// this.cityId = ''
+  			getCityList({
+				provinceid:this.provinceId
+			}).then((res) => {
+				this.city = res.cities
+			}) 
+  		},
+  		getprovince(){
+	    	getProvinceList({
+				
+			}).then((res) => {
+				this.province = res.provinces
+			}) 
+	    },
   		qtje(number){
   			this.info.investment_other = this.outputmoney(number)
   		},
@@ -363,7 +414,6 @@ export default {
 		    	console.log(this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0))
 		        return this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0);
 		        // name = this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0)
-		    
 		},
 		//格式化金额
 		outputdollars(number) {
@@ -460,13 +510,44 @@ export default {
 	    			id:this.value1
 	    		}
 	    	}
-	    	var other
+	    	// var other = []
 	    	if (this.other.length==0) {
-	    		other = null
+	    		if (this.info.other==null||this.info.other=="") {
+	    			// this.other = null
+	    		}
+	    		else{
+	    			var x = this.info.other
+		  			var y = this.info.investment_other
+		  			var z = this.info.share_other
+		  			this.other.push({
+		  				project:{
+		  					id:this.$route.query.id
+		  				},
+		  				other:x,
+		  				investment_other:y,
+		  				share_other:z
+		  			})
+	    		}
 	    	}
 	    	else{
-	    		other = this.other
+	    		if (this.info.other==null||this.info.other=="") {
+	    			// this.other = null
+	    		}
+	    		else{
+		    		var x = this.info.other
+		  			var y = this.info.investment_other
+		  			var z = this.info.share_other
+		  			this.other.push({
+		  				project:{
+		  					id:this.$route.query.id
+		  				},
+		  				other:x,
+		  				investment_other:y,
+		  				share_other:z
+		  			})
+	  			}
 	    	}
+	    	console.log(this.other)
 	      	Item({
 				type:1,
 				strProject:JSON.stringify({
@@ -478,7 +559,11 @@ export default {
 					subscription_amount:this.info.subscription_amount,
 					subscription_money:this.info.subscription_money,
 					project_resource:this.value2,
-					project_address:this.info.project_address,
+					// project_address:this.info.project_address,
+					province_id:this.provinceId,
+					city_id:this.cityId,
+					province_name:this.provinceName,
+					city_name:this.cityName,
 					project_introducer:this.info.project_introducer,
 					project_introducer_tel:this.info.project_introducer_tel,
 					project_evaluates:this.info.project_evaluates,
@@ -491,10 +576,13 @@ export default {
 					investment_enjoyor:this.info.investment_enjoyor,
 					share_enjoyor:this.info.share_enjoyor,
 					// other:this.info.other,
-					investment_others:other,
+					investment_others:this.other,
 					// share_other:this.info.share_other
 				})			
 			}).then((res) => {
+				this.info.other = ''
+  				this.info.investment_other = ''
+  				this.info.share_other = ''
 				// this.getInfodata()
 				swal({
 	                title: "修改成功",
@@ -506,8 +594,37 @@ export default {
       	}
   	},
   	mounted:function(){
+  		this.getprovince()
   		this.getInfoin()
   		this.getfundlist()
+  		this.useid()
   	}
 }
 </script>
+<style lang="less" scoped>
+	.el-upload__files{
+		height: 30px !important;
+		overflow:hidden;
+	}
+	.money-input{
+		input{
+			text-align: right;
+		}
+	}
+	.el-input__inner{
+		height: 40px !important;
+	}
+	@media(max-width:1200px){
+	  .sum-double{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .sum-trible{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .item-title2{
+	  	border-radius: 0 20px 20px 0 !important;
+	  }
+	}
+</style>

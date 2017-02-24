@@ -11,7 +11,7 @@
 		<!-- <a href="javascript:history.back(-1)">
 			<div class="blue button" style="float:right">返回</div>
 		</a> -->
-		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;margin-top:25px;">
+		<el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove" style="width:100%;padding-top:25px;">
 		    <el-tab-pane label="项目概要">
 		    	<div class="fund-box">
 		    		<f-summary :info="info" v-if="info.id"></f-summary>
@@ -96,6 +96,15 @@
   };
 </script>
 <style lang="less">
+	.el-tabs--card>.el-tabs__header>.el-tabs__item {
+	    border: 1px solid #d3dce6;
+	    transition: all .3s cubic-bezier(.645,.045,.355,1);
+	}
+	.el-tabs--card>.el-tabs__header>.el-tabs__item.is-active {
+	    border: 1px solid #d1dbe5;
+	    border-bottom-color: #fff;
+	     border-radius: 8px 8px 0 0; 
+	}
 	.fund-box{
 		min-height: 300px;
 	}
@@ -109,7 +118,7 @@
 		box-shadow:0 0 4px 0 rgba(44,77,109,0.20);
 	}
 	.el-tabs__item{
-		width: 140px;
+		width: 15%;
 		text-align: center;
 		font-size: 14px;
 		color: #333;

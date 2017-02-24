@@ -5,10 +5,10 @@
 		  	<el-breadcrumb-item>公告中心</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="inlist-search clearfix">
-			<el-date-picker type="date" class="searinfo" v-model="search.timeB" placeholder="选择日期"></el-date-picker>
-			<span style="margin-right:20px;">至</span>			
-			<el-date-picker type="date" class="searinfo" v-model="search.timeE" placeholder="选择日期"></el-date-picker>
-			<div class="button grey" style="display:inline-block;margin-left:15px;" @click="searchlist">
+			<el-date-picker type="date" class="searinfo" v-model="search.timeB" placeholder="选择日期" style="margin-right:10px;"></el-date-picker>
+			<span style="margin-right:10px;">至</span>			
+			<el-date-picker type="date" class="searinfo" v-model="search.timeE" placeholder="选择日期" style="margin-right:10px;"></el-date-picker>
+			<div class="button grey" style="display:inline-block;margin-left:5px;" @click="searchlist">
 				查询
 			</div>
 			<router-link :to="{name: 'notice-create'}" class="button blue" style="float:right">
@@ -150,7 +150,7 @@
 	    }
 	}
 </script>
-<style lang="less">
+<style lang="less" scoped>
 	.fund-inlist{
 		position: relative;
 		.tableType{
@@ -181,14 +181,14 @@
 			padding: 20px;
 			position: relative;
 			.searinfo{
-				margin-right: 20px;
+				margin-right: 10px;
 				display: inline-block;
 				width: 240px;
 				height: 40px;
 			}
 			.searinfo2{
 				margin-top: 15px;
-				margin-right: 20px;
+				margin-right: 10px;
 				display: inline-block;
 				width: 168px;
 				height: 40px;

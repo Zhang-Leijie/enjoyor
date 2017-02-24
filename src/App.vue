@@ -36,7 +36,7 @@ export default {
   color: #2c3e50;
 }
 .mainBody{
-    min-width: 1280px;
+    min-width: 960px;
     width: 100%;
     height: 100%;
     color: #666;

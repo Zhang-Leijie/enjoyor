@@ -10,7 +10,7 @@
 				协议签署日期
 			</div>
 			<div class="item-content item-single">
-				<el-date-picker v-model="info.sign_date" type="date" placeholder="选择日期" class="pl-input">
+				<el-date-picker v-model="info.sign_date" type="date" placeholder="选择日期" class="pl-input" style="width:220px;">
 		    	</el-date-picker>		
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 				付款日期
 			</div>
 			<div class="item-content item-single">
-				<el-date-picker type="date" placeholder="选择日期" class="pl-input" v-model="info.pay_date">
+				<el-date-picker type="date" placeholder="选择日期" class="pl-input" v-model="info.pay_date" style="width:220px;">
 		    	</el-date-picker>		
 			</div>
 		</div>
@@ -28,7 +28,10 @@
 				付款金额
 			</div>
 			<div class="item-content item-single">
-				<el-input placeholder="请输入付款金额" class="edit-input" style="width:150px;" v-model="info.pay_money"></el-input>	
+				<!-- <el-input placeholder="请输入付款金额" class="edit-input" v-model="info.pay_money" style="width:220px;"></el-input> -->	
+				<el-input class="edit-input" v-model="info.pay_money" style="width:220px;" placeholder="请输入请输入付款金额" @blur="fkje(info.pay_money)">
+					<template slot="prepend">¥(万元)</template>
+				</el-input>
 			</div>
 		</div>
 		<div class="uploadcontent clearfix" style="padding:20px">
@@ -411,6 +414,42 @@
       }
     },
     methods: {
+    	fkje(number){
+  			this.info.pay_money = this.outputmoney(number)
+  		},
+  		outputmoney(number) {
+  			console.log(1)
+			number = number.replace(/\,/g, "");
+			if(isNaN(number) || number == "")return "";
+			number = Math.round(number * 100) / 100;
+		    if (number < 0)
+		        return '-' + this.outputdollars(Math.floor(Math.abs(number) - 0) + '') + this.outputcents(Math.abs(number) - 0);
+		    else
+		    	console.log(this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0))
+		        return this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0);
+		        // name = this.outputdollars(Math.floor(number - 0) + '') + this.outputcents(number - 0)
+		    
+		},
+		//格式化金额
+		outputdollars(number) {
+		    if (number.length <= 3)
+		        return (number == '' ? '0' : number);
+		    else {
+		        var mod = number.length % 3;
+		        var output = (mod == 0 ? '' : (number.substring(0, mod)));
+		        for (var i = 0; i < Math.floor(number.length / 3); i++) {
+		            if ((mod == 0) && (i == 0))
+		                output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+		            else
+		                output += ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+		        }
+		        return (output);
+		    }
+		},
+		outputcents(amount) {
+		    amount = Math.round(((amount) - Math.floor(amount)) * 100);
+		    return (amount < 10 ? '.0' + amount : '.' + amount);
+		},
     	// getdata(){
     	// 	if (this.info.sign_date==null) {
     	// 		this.valued1 = ''
@@ -684,8 +723,9 @@
 			width: 130px;
 			height: 130px;
 			float: left;
-			margin-right: 120px;
-			margin-bottom: 50px;
+			// margin-right: 120px;
+			// margin-bottom: 50px;
+			margin: 0px 50px 50px;
 			&:nth-child(4n){
 				margin-right: 0px;
 			}
@@ -751,6 +791,69 @@
 	    /* margin: 0 0 10px; */
 	    padding: 0;
 	    list-style: none;
+	}
+	@media(max-width:1200px){
+		.uploadcontent{
+			width: 100%;
+			padding: 20px;
+			.upload_block{
+				width: 130px;
+				height: 130px;
+				float: left;
+				// margin-right: 50px;
+				// margin-bottom: 50px;
+				margin: 0px 40px 50px;
+				&:nth-child(4n){
+					margin-right: 0px;
+				}
+				.upload_none{
+					background-color: #f6f7f9;
+					width: 100%;
+					height: 100%;
+					text-align: center;
+					color: #ccc;
+					position: relative;
+					.upload_img{
+						position: absolute;
+						top: 0px;
+						bottom: 0px;
+						left: 0px;
+						right: 0px;
+						img{
+							width: 100%;
+							height: 100%;
+						}
+					}
+					.up_hover{
+						&:hover{
+							opacity: 1;
+						}				
+						// display: none;
+						transition:0.5s;
+						-moz-transition:0.5s; /* Firefox 4 */
+						-webkit-transition:0.5s; /* Safari and Chrome */
+						-o-transition:0.5s; /* Opera */
+						opacity: 0;
+						text-align: center;
+						position: absolute;
+						top: 0px;
+						bottom: 0px;
+						left: 0px;
+						right: 0px;
+						background-color: rgba(0, 0, 0, 0.5);
+						.button{
+							margin:45px auto;
+						}
+					}			
+				}
+				.upload_name{
+					text-align: center;
+					font-size: 14px;
+					color: #333;
+					line-height: 25px;
+				}
+			}
+		}
 	}
 	// .el-upload__file{
 	// 	margin-top: -60px;

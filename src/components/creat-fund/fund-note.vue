@@ -175,12 +175,16 @@
 				}) 
 	    	},
 	    	note(){
+	    		var time = undefined
+	    		if (this.form.date) {
+	    			time = (new Date(this.form.date)).valueOf()
+	    		}
 	    		Note({
 	    			strNote:JSON.stringify({
 	    				project:{id:this.$route.query.id},
 	    				commentTab:{id:this.form.region},
 	    				content:this.form.content,
-	    				date:this.form.date,
+	    				date:time,
 	    				address:this.form.address,
 	    				member:this.form.member,
 	    				object:this.form.object

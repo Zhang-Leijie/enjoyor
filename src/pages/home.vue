@@ -41,16 +41,34 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
-            <template slot="title"><i class="iconfont icon-chart"></i>基金统计(正在建设中)</template>
+            <template slot="title"><i class="iconfont icon-chart"></i>基金统计</template>
             <el-menu-item-group>
-              <el-menu-item index="5-1" @click.native="alert" class="sub-title">选项1</el-menu-item>
-              <el-menu-item index="5-2" @click.native="alert" class="sub-title">选项2</el-menu-item>
-              <el-menu-item index="5-3" @click.native="alert" class="sub-title">选项3</el-menu-item>
+              <router-link :to="{name:'count-all'}">
+                <el-menu-item index="5-1" class="sub-title">统计总览</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-label'}">
+                <el-menu-item index="5-2" class="sub-title">项目标签统计</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-local'}">
+                <el-menu-item index="5-3" class="sub-title">项目地区统计</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-stage'}">
+                <el-menu-item index="5-4" class="sub-title">项目阶段统计</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-rate'}">
+                <el-menu-item index="5-5" class="sub-title">项目评级统计</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-source'}">
+                <el-menu-item index="5-6" class="sub-title">项目来源统计</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'count-user'}">
+                <el-menu-item index="5-7" class="sub-title">项目负责人统计</el-menu-item>
+              </router-link>
             </el-menu-item-group>
           </el-submenu>
           <router-link :to="{name:'notice-list'}">
             <!-- 公告中心 -->
-            <el-menu-item index="6"><i class="iconfont icon-gonggao"></i>
+            <el-menu-item index="6"><i class="iconfont icon-gonggao" style="margin-right:13px;"></i>
               <!-- <el-badge :value="12">公告中心</el-badge> -->
               公告中心
             </el-menu-item>
@@ -66,15 +84,17 @@
           <router-link :to="{name:'personal'}">
             <el-menu-item index="7"><i class="iconfont icon-zl_lianxiren"></i>个人中心</el-menu-item>
           </router-link>
-          <el-menu-item index="8" @click.native="alert"><i class="iconfont icon-yiwancheng"></i>公众号文章(正在建设中)</el-menu-item>
+          <router-link :to="{name:'wechat'}">
+            <el-menu-item index="8"><i class="iconfont icon-yiwancheng"></i>公众号文章</el-menu-item>
+          </router-link>
           <el-submenu index="9" v-if="type.type==2">
             <template slot="title"><i class="el-icon-setting" style="margin-right:18px;"></i>帐号管理</template>
             <el-menu-item-group>
               <router-link :to="{name:'add-user'}">
-                <el-menu-item index="9-1">新建帐号</el-menu-item>
+                <el-menu-item index="9-1" class="sub-title">新建帐号</el-menu-item>
               </router-link>
               <router-link :to="{name:'list-user'}">
-                <el-menu-item index="9-2">账号列表</el-menu-item>
+                <el-menu-item index="9-2" class="sub-title">账号列表</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
@@ -200,7 +220,9 @@ export default {
         background-color: #32323a;
       }
       .sub-title{
-        margin-left: 10px;
+        padding-left: 50px !important;
+        height: 40px;
+        line-height: 40px;
       }
       // .el-menu-item{
       //   background-color: #32323a;

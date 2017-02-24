@@ -74,16 +74,40 @@
 				</div>
 				<div class="item-content item-single">
 					<el-input class="edit-input" v-model="info.valuation" placeholder="请输入项目估值" @blur="guzhi(info.valuation)">
-						<template slot="prepend">¥</template>
+						<template slot="prepend">¥(万元)</template>
 					</el-input>
 				</div>
 			</div>
-			<div class="sum-item">
+			<div class="sum-item" style="width:95%">
 				<div class="item-title">
 					行业／领域
 				</div>
 				<div class="item-content" >
-					<el-input placeholder="请输入行业／领域" class="edit-input" style="display:inline-block" v-model="labelval"></el-input>
+					<!-- <el-input placeholder="请输入行业／领域" class="edit-input" style="display:inline-block" v-model="labelval"></el-input> -->
+					<el-select v-model="onetag" placeholder="请选择一级标签" class="edit-input" style="display:inline-block" @change="gettwolist">
+					    <el-option
+					      v-for="item in onetaglist"
+					      :label="item.name"
+					      :value="item.id"
+					      @click.native="twotag='';threetag='';labelval1=item.name;labeltype='1';labelid=item.id;labelval2='';labelval3=''">
+					    </el-option>
+					</el-select>
+					<el-select v-model="twotag" placeholder="请选择二级标签" class="edit-input" style="display:inline-block" clearable @change="getthreelist">
+					    <el-option
+					      v-for="item in twotaglist"
+					      :label="item.name"
+					      :value="item.id"
+					      @click.native="threetag='';labelval2=item.name;labeltype='2';labelid=item.id;;labelval3=''">
+					    </el-option>
+					</el-select>
+					<el-select v-model="threetag" placeholder="请选择三级标签" class="edit-input" style="display:inline-block" clearable>
+					    <el-option
+					      v-for="item in threetaglist"
+					      :label="item.name"
+					      :value="item.id"
+					      @click.native="labelval3=item.name;labeltype='3';labelid=item.id">
+					    </el-option>
+					</el-select>
 					<div class="blue button" @click="addLabel">添加</div><br>
 					<!-- <span class="item-label">共享经济</span>
 					<span class="item-label">共享经济</span> -->
@@ -105,12 +129,12 @@
 					项目团队
 				</div>
 				<div class="item-content clearfix">
-					<el-select v-model="value2" placeholder="请选择" class="edit-input">
+					<el-select v-model="value2" placeholder="请选择" class="edit-input" style="display:block">
 					    <el-option
 					      v-for="item in options2"
 					      :label="item.username"
 					      :value="item.id"
-					      @click.native="addteam(item.id,item.image,item.username,item.rolename,item.address)">
+					      @click.native="addteam(item.id,item.image,item.username,item.rolename,item.address,item.position)">
 					    </el-option>
 					</el-select>
 					<!-- <div class="button blue" style="display:block;margin-top:10px;">添加</div><br> -->
@@ -129,7 +153,7 @@
 				        </div>
 				        <div class="head-word">
 				          <span class="name">{{i.username}}</span><br>
-				          <span class="position">{{i.role}}({{i.address}})</span>
+				          <span class="position">{{i.position}}({{i.address}})</span>
 				        </div>
 				        <i class="el-icon-close" style="cursor:pointer" @click="delteam(index)"></i>
 			        </div>
@@ -152,6 +176,9 @@
 							<i class="el-icon-arrow-right"></i>
 						</div>
 						<canvas id="the-canvas" style="border:1px solid black;width:100%;"></canvas>
+					</div>
+					<div style="text-align:center">
+						<div class="blue button" @click="showbigimg" style="margin:5px auto">查看大图</div>
 					</div>
 				</div>
 			</div>
@@ -231,10 +258,26 @@
 				<div class="button blue" @click="save">保存</div>
 			</div>
 		</div>
+		<el-dialog title="查看大图" v-model="bigimgshow" size="large">
+		  	<div class="item-content" style="margin-bottom:20px;">
+				<div style="text-align:center">  
+					<span>页数: <span id="page_num2"></span> / <span id="page_count2"></span></span>
+				</div>
+				<div style="margin-top:20px;position:relative">
+					<div id="prev2" style="top:50%;left:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
+						<i class="el-icon-arrow-left"></i>
+					</div>
+					<div id="next2" style="top:50%;right:0px;position:absolute;font-size:40px;cursor:pointer;transform: translateY(-50%)">
+						<i class="el-icon-arrow-right"></i>
+					</div>
+					<canvas id="the-canvass" style="border:1px solid black;width:100%;"></canvas>
+				</div>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script>
-import {itemDetail,getUserList,getProjectFile} from '../../ajax/get.js'
+import {itemDetail,getUserList,getProjectFile,vocationOneList,vocationTwoList,vocationThreeList} from '../../ajax/get.js'
 import {Item} from '../../ajax/post.js'
 
 export default {
@@ -245,12 +288,23 @@ export default {
 	},
 	data () {
 	    return {
+	    	bigimgshow:false,
+	    	onetag:"",
+	    	twotag:"",
+	    	threetag:"",
+	    	onetaglist:"",
+	    	twotaglist:"",
+	    	threetaglist:"",
 	    	fileList:[],
 	    	pdf:'',
 	    	team:[],
 	    	value2:'',
 	    	options2:[],
-	    	labelval:'',
+	    	labelval1:'',
+	    	labelval2:'',
+	    	labelval3:'',
+	    	labeltype:'',
+	    	labelid:'',
 	    	tags:[],
 	    	// info:'',
 	    	photoid:null,
@@ -297,6 +351,119 @@ export default {
 		    }
 	},
   	methods: {
+  		showbigimg(){
+  				var self = this
+  				this.bigimgshow = true
+  				function bigimg(){
+  					var url = self.pdf;
+  					console.log(1)
+  					console.log(url)
+				    var pdfDoc = null,
+				      pageNum = 1,
+				      pageRendering = false,
+				      pageNumPending = null,
+				      scale = 0.8,
+				      canvas = document.getElementById('the-canvass')
+				      // console.log(canvas)
+				      var ctx = canvas.getContext('2d');
+				      ctx.clearRect(0,0,canvas.width,canvas.height);
+				  function renderPage(num) {
+				    pageRendering = true;
+				    // Using promise to fetch the page
+				    pdfDoc.getPage(num).then(function(page) {
+				      var viewport = page.getViewport(scale);
+				      canvas.height = viewport.height;
+				      canvas.width = viewport.width;
+
+				      // Render PDF page into canvas context
+				      var renderContext = {
+				        canvasContext: ctx,
+				        viewport: viewport
+				      };
+				      var renderTask = page.render(renderContext);
+
+				      // Wait for rendering to finish
+				      renderTask.promise.then(function () {
+				        pageRendering = false;
+				        if (pageNumPending !== null) {
+				          // New page rendering is pending
+				          renderPage(pageNumPending);
+				          pageNumPending = null;
+				        }
+				      });
+				    });
+
+				    // Update page counters
+				    document.getElementById('page_num2').textContent = pageNum;
+				  }
+
+				  /**
+				   * If another page rendering in progress, waits until the rendering is
+				   * finised. Otherwise, executes rendering immediately.
+				   */
+				  function queueRenderPage(num) {
+				    if (pageRendering) {
+				      pageNumPending = num;
+				    } else {
+				      renderPage(num);
+				    }
+				  }
+
+				  function onPrevPage() {
+				    if (pageNum <= 1) {
+				      return;
+				    }
+				    pageNum--;
+				    queueRenderPage(pageNum);
+				  }
+				  document.getElementById('prev2').addEventListener('click', onPrevPage);
+
+				  /**
+				   * Displays next page.
+				   */
+				  function onNextPage() {
+				    if (pageNum >= pdfDoc.numPages) {
+				      return;
+				    }
+				    pageNum++;
+				    queueRenderPage(pageNum);
+				  }
+				  document.getElementById('next2').addEventListener('click', onNextPage);
+
+				  /**
+				   * Asynchronously downloads PDF.
+				   */
+				  PDFJS.getDocument(url).then(function (pdfDoc_) {
+				    pdfDoc = pdfDoc_;
+				    document.getElementById('page_count2').textContent = pdfDoc.numPages;
+
+				    // Initial/first page rendering
+				    renderPage(pageNum);
+				  });
+  				}
+  				if (document.getElementById('the-canvass')==null) {
+  					window.setTimeout(bigimg,1000); 
+  				}
+  		},
+  		getonelist(){
+  			vocationOneList().then((res) => {
+				this.onetaglist = res.vocationOneList
+			})  
+  		},
+  		gettwolist(){
+  			vocationTwoList({
+  				vocationOneId:this.onetag
+  			}).then((res) => {
+				this.twotaglist = res.vocationTwoList
+			})  
+  		},
+  		getthreelist(){
+  			vocationThreeList({
+  				vocationTwoId:this.twotag
+  			}).then((res) => {
+				this.threetaglist = res.vocationThreeList
+			})  
+  		},
   		guzhi(number){
   			this.info.valuation = this.outputmoney(number)
   		},
@@ -428,7 +595,7 @@ export default {
   			console.log(num)
   			this.team.splice(num, 1);
   		},
-  		addteam(id,img,username,role,address){
+  		addteam(id,img,username,role,address,position){
   			var add = 0
   			this.team.forEach(function(list){
   				if(list.id==id){
@@ -436,7 +603,7 @@ export default {
   				} 
   			})
   			if (add==0) {
-  				this.team.push({id:id,img:img,username:username,role:role,address:address})
+  				this.team.push({id:id,img:img,username:username,role:role,address:address,position:position})
   			}
   			else{
   				swal({
@@ -448,7 +615,7 @@ export default {
   			} 			
   		},
   		addLabel(){
-  			if (this.labelval=='') {
+  			if (this.labelval1=='') {
   				swal({
 	                title: "请输入标签",
 	                type: 'warning',
@@ -457,8 +624,8 @@ export default {
 	            })
   			}
   			else{
-  				this.tags.push({name:this.labelval})
-  				this.labelval = ""
+  				this.tags.push({name:this.labelval1+' '+this.labelval2+' '+this.labelval3,type:this.labeltype,id:this.labelid})
+  				// this.labelval = ""
   			}			
   		},
 	    handleRemove(file, fileList) {
@@ -504,7 +671,7 @@ export default {
 						photo = "../static/img/touxiang.png"
 					}
 
-					self.team.push({id:list.id,img:photo,username:list.name,role:list.role.roleName,address:list.address})
+					self.team.push({id:list.id,img:photo,username:list.name,role:list.role.roleName,address:list.address,position:list.position})
 				})
 			}
 	    },
@@ -521,14 +688,25 @@ export default {
 					else{
 						photo = "../static/img/touxiang.png"
 					}
-					self.options2.push({address:list.address,id:list.id,username:list.name,rolename:list.role.roleName,image:photo})
+					self.options2.push({address:list.address,id:list.id,username:list.name,rolename:list.role.roleName,image:photo,position:list.position})
 				})
 			})  
 	    },
 	    save(){
-	    	var tab = []
+	    	var alltags = []
+	    	// var twotags = []
+	    	// var threetags = []
 	    	this.tags.forEach(function(list){
-	    		tab.push(list.name)
+	    		// if (list.type=='1') {
+	    		// 	onetags.push({id:list.id})
+	    		// }
+	    		// if (list.type=='2') {
+	    		// 	twotags.push({id:list.id})
+	    		// }
+	    		// if (list.type=='3') {
+	    		// 	threetags.push({id:list.id})
+	    		// }	
+	    		alltags.push({id:list.id})
 	    	})
 	    	var member = []
 	    	this.team.forEach(function(list){
@@ -561,7 +739,8 @@ export default {
 					company_tel:this.info.company_tel,
 					company_contact:this.info.company_contact,
 					contact_phone:this.info.contact_phone,
-					tab:tab,
+					// tab:tab,
+					vocations:alltags,
 					project_member:member,
 					project_stage:this.info.project_stage
 				})			
@@ -577,9 +756,14 @@ export default {
       	}
     },
     mounted:function(){
+    	var self = this
+    	this.getonelist()
     	this.getfile()
     	this.getInfoin()
     	this.getUser()
+    	this.info.vocations.forEach(function(list){
+    		self.tags.push({id:list.id,name:list.name})
+    	})
     }
 }
 </script>
@@ -594,6 +778,22 @@ export default {
 		}
 	}
 	.el-input__inner{
-		height: 40px !important;
+		height: 40px;
+	}
+	
+</style>
+<style lang="less" scoped>
+	@media(max-width:1200px){
+	  .sum-double{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .sum-trible{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .item-title2{
+	  	border-radius: 0 20px 20px 0 !important;
+	  }
 	}
 </style>

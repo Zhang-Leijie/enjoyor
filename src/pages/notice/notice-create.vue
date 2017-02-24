@@ -330,6 +330,7 @@ export default {
 	    			self.lookup[list.id] = false
 	    		})
     		}
+    		console.log(Object(this.lookup))
     		// var ceoid =[]
     		// this.ceo.forEach(function(list){
     		// 	ceoid.push(list.id)
@@ -494,5 +495,18 @@ export default {
 				}
 			}
 		}
+	}
+	@media(max-width:1200px){
+	  .sum-double{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .sum-trible{
+	    width: 80% !important;
+	    float: none !important;
+	  }
+	  .item-title2{
+	  	border-radius: 0 20px 20px 0 !important;
+	  }
 	}
 </style>

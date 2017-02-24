@@ -12,49 +12,49 @@
 				
 			</div>
 			<div class="finish-cont">
-				<div class="process-cir process-border" style="float:left" @click="processa(1)">
+				<div class="process-cir process-border" style="float:left;margin-left:0px;" @click="processa(1)">
 					<i class="el-icon-check" v-if="process>0"></i>
 					<div class="process-word">
 						项目录入
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(2)">
+				<div class="process-cir process-border" style="float:left" @click="processa(2)">
 					<i class="el-icon-check" v-if="process>1"></i>
 					<div class="process-word">
 						同意立项
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(3)">
+				<div class="process-cir process-border" style="float:left" @click="processa(3)">
 					<i class="el-icon-check" v-if="process>2"></i>
 					<div class="process-word">
 						同意上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(4)">
+				<div class="process-cir process-border" style="float:left" @click="processa(4)">
 					<i class="el-icon-check" v-if="process>3"></i>
 					<div class="process-word" style="left:-40%">
 						已上会
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(5)">
+				<div class="process-cir process-border" style="float:left" @click="processa(5)">
 					<i class="el-icon-check" v-if="process>4"></i>
 					<div class="process-word">
 						同意投资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(6)">
+				<div class="process-cir process-border" style="float:left" @click="processa(6)">
 					<i class="el-icon-check" v-if="process>5"></i>
 					<div class="process-word">
 						协议签订
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(7)">
+				<div class="process-cir process-border" style="float:left" @click="processa(7)">
 					<i class="el-icon-check" v-if="process>6"></i>
 					<div class="process-word" style="left:-10%">
 						出资
 					</div>
 				</div>
-				<div class="process-cir process-border" style="float:left;margin-left:77px;" @click="processa(8)">
+				<div class="process-cir process-border" style="float:left" @click="processa(8)">
 					<i class="el-icon-check" v-if="process>7"></i>
 					<div class="process-word">
 						投后管理
@@ -163,6 +163,7 @@ import {Item} from '../../ajax/post.js'
 				background-color: #fff;
 				cursor: pointer;
 				position: relative;
+				margin-left:76px;
 				.el-icon-check{
 					color: #4793de;
 					margin-left: 1px;
@@ -176,5 +177,124 @@ import {Item} from '../../ajax/post.js'
 				}
 			}
 		}		
-	}	
+	}
+	.width1{
+	  width: 25px !important;
+	}
+	.width2{
+	  width: 122px !important;
+	}
+	.width3{
+	  width: 219px !important;
+	}
+	.width4{
+	  width: 316px !important;
+	}
+	.width5{
+	  width: 413px !important;
+	}
+	.width6{
+	  width: 510px !important;
+	}
+	.width7{
+	  width: 607px !important;
+	}
+	.width8{
+	  width:704px !important;
+	}
+	.width9{
+	  width: 100% !important;
+	}
+	@media(max-width:1200px){
+		.width1{
+		  width: 25px !important;
+		}
+		.width2{
+		  width: 98px !important;
+		}
+		.width3{
+		  width: 171px !important;
+		}
+		.width4{
+		  width: 244px !important;
+		}
+		.width5{
+		  width: 317px !important;
+		}
+		.width6{
+		  width: 390px !important;
+		}
+		.width7{
+		  width: 463px !important;
+		}
+		.width8{
+		  width:536px !important;
+		}
+		.width9{
+		  width: 100% !important;
+		}
+		.note-process{
+			margin-left: 20px;
+			margin-top: 20px;
+			float: left;
+			padding: 2px;
+			width: 600px !important;
+			height: 24px;
+			position: relative;
+			// background-color: #f1f2f7;
+			border-radius: 12px;
+			.unfinish{
+				border-radius: 24px;
+				z-index: 1;
+				top: 0px;
+				bottom: 0px;
+				position: absolute;
+				width: 100%;
+				height: 24px;
+				background-color: #f1f2f7;
+			}
+			.finish{
+				z-index: 2;
+				top: 0px;
+				bottom: 0px;
+				position: absolute;
+				width: 0%;
+				height: 24px;
+				background-image:linear-gradient(-90deg, #b5fa72 0%, #20b4ac 62%, #4990e2 100%);
+				border-radius:24px;
+				height:24px;
+			}
+			.finish-cont{
+				z-index: 3;
+				position: absolute;
+				top: 2px;
+				left: 5px;
+				right: 1px;
+				position: absolute;
+				height: 24px;
+				.process-cir{
+					z-index: 2;
+					float: right;
+					width: 20px;
+					height: 20px;
+					border-radius: 50%;
+					background-color: #fff;
+					cursor: pointer;
+					position: relative;
+					margin-left:51px;
+					.el-icon-check{
+						color: #4793de;
+						margin-left: 1px;
+						margin-top: 5px;
+					}
+					.process-word{
+						width: 100px;
+						position: absolute;
+						bottom: -25px;
+						left: -70%;
+					}
+				}
+			}		
+		}
+	}
 </style>

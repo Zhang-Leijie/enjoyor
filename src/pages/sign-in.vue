@@ -6,10 +6,10 @@
     </div>
     <div class="logo-box">
         <input placeholder="请输入用户名" v-model="username" class="input"></input>
-        <input placeholder="请输入登陆密码" v-model="password" type="password" class="input" style="margin-bottom:60px;"></input>
-        <!-- <div class="remember">
-            <el-checkbox checked style="color:#4990e2">记住密码</el-checkbox>
-        </div> -->
+        <input placeholder="请输入登陆密码" v-model="password" type="password" class="input"></input>
+        <div class="remember">
+            <el-checkbox style="color:#4990e2" v-model="remember">记住密码</el-checkbox>
+        </div>
         <div class="log" v-bind:class="{blue:username!=''&&password!=''}" @click="signin">
             登 录
         </div>
@@ -27,7 +27,8 @@ export default {
     data() {
         return {
             username:'',
-            password:''
+            password:'',
+            remember:true,
         }
     },
     methods: {
@@ -55,6 +56,10 @@ export default {
                         })
                     }
                     else{
+                        if (this.remember==true) {
+                            localStorage.setItem("name", this.username);
+                            localStorage.setItem("pass", this.password);
+                        }
                         router.push({name:"home"}) 
                     }                               
                 }).catch((e) => {
@@ -62,6 +67,10 @@ export default {
                 })
             }
         }
+    },
+    mounted:function(){
+        this.username = localStorage.getItem("name");
+        this.password = localStorage.getItem("pass");
     }
 }
 </script>
