@@ -1,18 +1,13 @@
 <template>
-	<div class="fund-inlist">
+	<div class="fund-inlist">		
 		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-		  		<span style="margin-left:5px;position:relative;padding-left:13px;">
-		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
-		  		</span>
+		  	<el-breadcrumb-item>
+		  	<span style="margin-left:5px;position:relative;padding-left:13px;">
+		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页</span>
 		  	</el-breadcrumb-item>
-		  	<el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
-		  	<el-breadcrumb-item>{{$route.query.name}}项目列表</el-breadcrumb-item>
-		  	<!-- <el-breadcrumb-item>项目列表</el-breadcrumb-item> -->
+		  	<el-breadcrumb-item>我的项目</el-breadcrumb-item>
+		  	<el-breadcrumb-item>我的回收站</el-breadcrumb-item>
 		</el-breadcrumb>
-		<!-- <div class="tableType">
-			列表形式: <span>默认</span><span>项目图标</span> <span>投资基金</span> <span>投资评级</span> 
-		</div> -->
 		<div class="inlist-search clearfix" v-if="highsearch==true">
 			<input type="text" class="fund-input" placeholder="项目名称或编码" style="float:left" v-model="search.namecode">
 			<div class="button grey" style="float:left;margin-left:15px;" @click="getsearchList">
@@ -23,6 +18,9 @@
 			</div>
 			<div class="button blue" style="float:right" @click="highsearch=false">
 				高级搜索
+			</div>
+			<div class="button blue" style="float:right;margin-right:10px;" @click="clearAll">
+				清空回收站
 			</div>
 		</div>
 		<div class="inlist-highsearch" v-else>
@@ -41,17 +39,13 @@
 			      :value="item.value">
 			    </el-option>
 			</el-select>
-			<el-select v-model="search.project_type" placeholder="项目分类" class="searinfo2">
-				<el-option
-			      label="全部"
-			      :value="10000">
-			    </el-option>
+			<!-- <el-select v-model="search.project_type" placeholder="项目分类" class="searinfo2">
 			    <el-option
 			      v-for="item in options2"
 			      :label="item.label"
 			      :value="item.value">
 			    </el-option>
-			</el-select>
+			</el-select> -->
 			<el-select v-model="search.address" placeholder="项目地点" class="searinfo2" filterable>
 				<el-option
 			      label="无"
@@ -65,7 +59,7 @@
 			</el-select>
 			<!-- <el-input placeholder="项目地点" class="searinfo2" v-model="search.address"></el-input> -->
 			<el-select v-model="search.resource" placeholder="项目来源" class="searinfo2">
-				<el-option
+			<el-option
 			      label="全部"
 			      :value="10000">
 			    </el-option>
@@ -76,7 +70,7 @@
 			    </el-option>
 			</el-select>
 			<el-select v-model="search.userId" placeholder="项目负责人" class="searinfo2" style="margin-right:0px;">
-				<el-option
+			<el-option
 			      label="全部"
 			      :value="10000">
 			    </el-option>
@@ -114,10 +108,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" tag="tr" v-for="(list,index) in lists">
-					<td>{{(currentPage-1)*10+index+1}}</td>
+				<tr v-for="(list,index) in lists">
+					<td>{{index+1}}</td>
 					<td class="fabu">
-						<router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" class="link">{{list.project_name}}</router-link>
+						<router-link :to="{name: 'my-creat',query:{id:list.id}}" class="link">{{list.project_name}}</router-link>
 					</td>
 					<td>{{list.province_name}}{{list.city_name}}</td>
 					<td>{{list.project_resource}}</td>
@@ -128,8 +122,11 @@
 					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10/list.evaluateAvg.number}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
-					<td><router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" class="link">查看</router-link></td>
-				</router-link>
+					<td>
+						<span @click="fabu(list.id)" class="link" style="cursor:pointer">还原</span>
+						<span @click="deleteitem(list.id)" class="link" style="cursor:pointer">删除</span>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<el-pagination v-if="intotal"
@@ -141,10 +138,21 @@
 	      :total='intotal'
 	      style="margin:20px auto;text-align:center">
 	    </el-pagination>
+		<el-dialog title="创建项目" v-model="dialogFormVisible">
+		  <el-form>
+		    <el-form-item>
+		      	<el-input placeholder="请输入项目名称" v-model="itemname"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer" style="text-align:center">
+		  	<div class="button grey" style="margin-right:15px;" @click="dialogFormVisible = false">取消</div>
+		  	<div class="button blue" @click="gocreat()">确定</div>
+		  </div>
+		</el-dialog>
 	</div>
 </template>
 <script>
-	import {Item} from '../../ajax/post.js'
+	import {Item, deleteProject ,recoverProject ,cleanRecycleBin} from '../../ajax/post.js'
 	import {itemList,getUserList,getSearchCityList} from '../../ajax/get.js'
 	export default {
 	    data() {
@@ -155,12 +163,11 @@
 	      		timeB:null,
 	      		timeE:null,
 	      		schedule:null,
-	      		project_type:null,
+	      		project_type:0,
 	      		address:null,
 	      		resource:null,
 	      		userId:null
 	      	},
-	      	currentPage: 1,
 	      	lists:'',
 	      	intotal:'',
 	        pickerOptions0: {
@@ -175,6 +182,19 @@
 	        svalue3: '',
 	        svalue4: '',
 	        svalue5: '',
+	        options: [{
+	          value: '选项1',
+	          label: '选项1'
+	        }, {
+	          value: '选项2',
+	          label: '选项2'
+	        }],
+	        highsearch:true,
+	        dialogTableVisible: false,
+        	dialogFormVisible: false,
+        	itemname:"",
+	        formLabelWidth: '80px',
+	        currentPage: 1,
 	        options1:[{
 	        	value: '0',
 	          	label: '项目录入'
@@ -220,6 +240,9 @@
 			      value: '创业比赛',
 			      label: '创业比赛'
 			  }, {
+			      value: '创业比赛',
+			      label: '创业比赛'
+			  }, {
 			      value: '高校创业',
 			      label: '高校创业'
 			  }, {
@@ -259,128 +282,97 @@
 			      value: '股东/高管推送',
 			      label: '股东/高管推送'
 			  }],
-			options4:[],
-	        options: [{
-	          value: '选项1',
-	          label: '选项1'
-	        }, {
-	          value: '选项2',
-	          label: '选项2'
-	        }],
-	        highsearch:true
+			options4:[]
 	      }
 	    },
 	    methods:{
 	    	getCityList(){
 		    	getSearchCityList({
-		    		type:3,
-		    		foundationId:this.$route.query.id
+		    		type:0,
+		    		foundationId:0
 		    	}).then((res) => {
 					this.city = res.data.list
 				}) 
 		    },
+		    clearAll(){
+		    	var self = this
+		    	swal({
+			        title: "确定删除全部",
+			        text: "确定删除全部？",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "是",
+			        cancelButtonText: "否",
+			        closeOnConfirm: true,
+			        html: false
+			    }, function(){
+			        cleanRecycleBin().then((res) => {
+						swal({
+		                    title: "删除成功",
+		                    type: 'success',
+		                    text: "删除成功",
+		                    timer: 2000,
+		                })
+		                self.getList()
+					})
+			    })
+		    },
+	    	deleteitem(id){
+	    		var self= this
+	    		swal({
+			        title: "确定删除",
+			        text: "确定删除？",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "是",
+			        cancelButtonText: "否",
+			        closeOnConfirm: true,
+			        html: false
+			    }, function(){
+			        recoverProject({
+			        	type:1,
+	    				projectId:id
+	    			}).then((res) => {
+						swal({
+		                    title: "删除成功",
+		                    type: 'success',
+		                    text: "删除成功",
+		                    timer: 2000,
+		                })
+		                self.getList()
+					})
+			    })
+	    	},
 	    	reset(){
 	    		this.search={
 		      		namecode:null,
 		      		timeB:null,
 		      		timeE:null,
 		      		schedule:null,
-		      		project_type:null,
+		      		project_type:0,
 		      		address:null,
 		      		resource:null,
 		      		userId:null
 		      	}
 		      	this.getList()
 	    	},
-	    	handleSizeChange(val) {
-		        console.log(`每页 ${val} 条`);
-		    },
-		    handleCurrentChange(val) {
-		        this.currentPage = val;
-		        console.log(`当前页: ${val}`);
-		        function FormatDate (strTime) {
-				    var date =(new Date(strTime)).valueOf();
-				    return date
-				}
-				var timeB
-				var timeE
-				if (this.search.timeB==null) {
-					timeB = null					
-				}
-				else{
-					timeB = FormatDate(this.search.timeB);
-				}
-				if (this.search.timeE==null) {
-					timeE = null
-				}
-				else{
-					timeE = FormatDate(this.search.timeE);
-				}
-				var data={
-					project_type:5,
-					page:val,
-    				line:10,
-    				foundationId:this.$route.query.id
-				}
-				if (this.search.project_type&&this.search.project_type!='10000') {
-					data.project_type=this.search.project_type
-				}
-				if (this.search.namecode) {
-					data.nameorcode = this.search.namecode
-				}
-				if (timeB) {
-					data.begin_time = timeB
-				}
-				if (timeE) {
-					data.end_time = timeE
-				}
-				if (this.search.schedule&&this.search.schedule!='10000') {
-					data.schedule = this.search.schedule
-				}
-				if (this.search.address) {
-					data.address = this.search.address
-				}
-				if (this.search.resource&&this.search.resource!='10000') {
-					data.resource = this.search.resource
-				}
-				if (this.search.userId&&this.search.userId!='10000') {
-					data.userId = this.search.userId
-				}
-	    		itemList(data).then((res) => {
-    				res.data.list.forEach(function(list){
-    					if (list.project_schedule==0) {
-    						list.project_schedule_name = '项目录入'
-    					}
-    					else if(list.project_schedule==1){
-    						list.project_schedule_name = '同意立项'
-    					}
-    					else if(list.project_schedule==2){
-    						list.project_schedule_name = '同意上会'
-    					}
-    					else if(list.project_schedule==3){
-    						list.project_schedule_name = '已上会'
-    					}
-    					else if(list.project_schedule==4){
-    						list.project_schedule_name = '同意投资'
-    					}
-    					else if(list.project_schedule==5){
-    						list.project_schedule_name = '协议签订'
-    					}
-    					else if(list.project_schedule==6){
-    						list.project_schedule_name = '出资'
-    					}
-    					else if(list.project_schedule==7){
-    						list.project_schedule_name = '投后管理'
-    					}
-    					else if(list.project_schedule==8){
-    						list.project_schedule_name = '退出投资'
-    					}
-    				})
-					this.lists = res.data.list
-					this.intotal = parseInt(res.data.count)
-				})    
-		    },
-		    getUserList(){
+	    	fabu(id){
+	    		recoverProject({
+    				type:0,
+    				projectId:id
+    			}).then((res) => {
+					swal({
+	                    title: "还原成功",
+	                    type: 'success',
+	                    text: "还原成功",
+	                    timer: 2000,
+	                })
+	                this.getList()
+				}) 
+	    	},
+	    	getUserList(){
 		    	getUserList({
 					type:3
 				}).then((res) => {
@@ -413,12 +405,11 @@
 					timeE = FormatDate(this.search.timeE);
 				}
 				var data={
-					project_type:5,
+					project_type:6,
 					page:1,
-    				line:10,
-    				foundationId:this.$route.query.id
+    				line:10
 				}
-				if (this.search.project_type&&this.search.project_type!='10000') {
+				if (this.search.project_type) {
 					data.project_type=this.search.project_type
 				}
 				if (this.search.namecode) {
@@ -478,10 +469,9 @@
 	    	},
 	    	getList(){
 	    		itemList({
-    				project_type:5,
+    				project_type:6,
     				page:1,
-    				line:10,
-    				foundationId:this.$route.query.id
+    				line:10
     			}).then((res) => {
     				res.data.list.forEach(function(list){
     					if (list.project_schedule==0) {
@@ -515,12 +505,100 @@
 					this.lists = res.data.list
 					this.intotal = parseInt(res.data.count)
 				})    
-	    	}
+	    	},
+	    	
+	    	handleSizeChange(val) {
+		        console.log(`每页 ${val} 条`);
+		    },
+		    handleCurrentChange(val) {
+		        this.currentPage = val;
+		        console.log(`当前页: ${val}`);
+		        function FormatDate (strTime) {
+				    var date =(new Date(strTime)).valueOf();
+				    return date
+				}
+				var timeB
+				var timeE
+				if (this.search.timeB==null) {
+					timeB = null					
+				}
+				else{
+					timeB = FormatDate(this.search.timeB);
+				}
+				if (this.search.timeE==null) {
+					timeE = null
+				}
+				else{
+					timeE = FormatDate(this.search.timeE);
+				}
+				var data={
+					project_type:6,
+					page:val,
+    				line:10
+				}
+				if (this.search.project_type) {
+					data.project_type=this.search.project_type
+				}
+				if (this.search.namecode) {
+					data.nameorcode = this.search.namecode
+				}
+				if (timeB) {
+					data.begin_time = timeB
+				}
+				if (timeE) {
+					data.end_time = timeE
+				}
+				if (this.search.schedule&&this.search.schedule!='10000') {
+					data.schedule = this.search.schedule
+				}
+				if (this.search.address) {
+					data.address = this.search.address
+				}
+				if (this.search.resource&&this.search.resource!='10000') {
+					data.resource = this.search.resource
+				}
+				if (this.search.userId&&this.search.userId!='10000') {
+					data.userId = this.search.userId
+				}
+	    		itemList(data).then((res) => {
+    				res.data.list.forEach(function(list){
+    					if (list.project_schedule==0) {
+    						list.project_schedule_name = '项目录入'
+    					}
+    					else if(list.project_schedule==1){
+    						list.project_schedule_name = '同意立项'
+    					}
+    					else if(list.project_schedule==2){
+    						list.project_schedule_name = '同意上会'
+    					}
+    					else if(list.project_schedule==3){
+    						list.project_schedule_name = '已上会'
+    					}
+    					else if(list.project_schedule==4){
+    						list.project_schedule_name = '同意投资'
+    					}
+    					else if(list.project_schedule==5){
+    						list.project_schedule_name = '协议签订'
+    					}
+    					else if(list.project_schedule==6){
+    						list.project_schedule_name = '出资'
+    					}
+    					else if(list.project_schedule==7){
+    						list.project_schedule_name = '投后管理'
+    					}
+    					else if(list.project_schedule==8){
+    						list.project_schedule_name = '退出投资'
+    					}
+    				})
+					this.lists = res.data.list
+					this.intotal = parseInt(res.data.count)
+				})     
+		    }
 	    },
 	    mounted:function(){
-	    	this.getCityList()
 	    	this.getList()
 	    	this.getUserList()
+	    	this.getCityList()
 	    }
 	}
 </script>
@@ -538,51 +616,14 @@
 				cursor: pointer;
 			}
 		}
-		.inlist-search{
-			margin-top: 20px;
-		}
-		.inlist-highsearch{
-			width: 100%;
-			min-height: 200px;
-			background-color: #fff;
-			margin-top: 20px;
-			padding: 20px;
-			position: relative;
-			.searinfo{
-				margin-right: 20px;
-				display: inline-block;
-				width: 240px;
-				height: 40px;
-			}
-			.searinfo2{
-				margin-top: 15px;
-				margin-right: 20px;
-				display: inline-block;
-				width: 168px;
-				height: 40px;
-			}
-			.btns{
-				width: 100%;
-				margin-top: 20px;
-				text-align: center;
-			}
-			.close{
-				top: -20px;
-				right: -20px;
-				position: absolute;
-				background-color: #4990e2;
-				width: 60px;
-				height: 60px;
-				border-radius: 50%;
-				border: 10px solid #f1f2f7;
-				text-align: center;
-				.i-close{
-					cursor: pointer;
-					font-size: 20px;
-					color: #fff;
-					margin-top: 10px;
-				}
-			}
+		.addnew{
+			position: fixed;
+			top: 400px !important;
+			right: 0px !important;
+			z-index: 999;
+			top: 120px;
+			right: -20px;
+			opacity: 0.8
 		}
 	}
 	.fund-input{
@@ -590,6 +631,12 @@
 		width: 240px;
 		height: 40px;
 		padding: 12px 10px;
+	}
+	.fabu{
+		&:hover{
+			color: #4990e2;
+			cursor: pointer;
+		}
 	}
 	.link{
 		&:hover{

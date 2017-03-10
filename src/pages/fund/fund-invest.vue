@@ -1,18 +1,13 @@
 <template>
 	<div class="fund-inlist">
 		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
+		  	<el-breadcrumb-item>
 		  		<span style="margin-left:5px;position:relative;padding-left:13px;">
-		  		<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
+		  			<i class="iconfont icon-shouye" style="position:absolute;font-size:18px;left:-5px;top:-1px;"></i>主页
 		  		</span>
 		  	</el-breadcrumb-item>
-		  	<el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
-		  	<el-breadcrumb-item>{{$route.query.name}}项目列表</el-breadcrumb-item>
-		  	<!-- <el-breadcrumb-item>项目列表</el-breadcrumb-item> -->
+		  	<el-breadcrumb-item>已投项目列表</el-breadcrumb-item>
 		</el-breadcrumb>
-		<!-- <div class="tableType">
-			列表形式: <span>默认</span><span>项目图标</span> <span>投资基金</span> <span>投资评级</span> 
-		</div> -->
 		<div class="inlist-search clearfix" v-if="highsearch==true">
 			<input type="text" class="fund-input" placeholder="项目名称或编码" style="float:left" v-model="search.namecode">
 			<div class="button grey" style="float:left;margin-left:15px;" @click="getsearchList">
@@ -41,18 +36,14 @@
 			      :value="item.value">
 			    </el-option>
 			</el-select>
-			<el-select v-model="search.project_type" placeholder="项目分类" class="searinfo2">
-				<el-option
-			      label="全部"
-			      :value="10000">
-			    </el-option>
+			<!-- <el-select v-model="search.project_type" placeholder="项目分类" class="searinfo2">
 			    <el-option
 			      v-for="item in options2"
 			      :label="item.label"
 			      :value="item.value">
 			    </el-option>
-			</el-select>
-			<el-select v-model="search.address" placeholder="项目地点" class="searinfo2" filterable>
+			</el-select> -->
+			<!-- <el-select v-model="search.address" placeholder="项目地点" class="searinfo2" filterable>
 				<el-option
 			      label="无"
 			      :value="undefined">
@@ -62,7 +53,7 @@
 			      :label="item"
 			      :value="item">
 			    </el-option>
-			</el-select>
+			</el-select> -->
 			<!-- <el-input placeholder="项目地点" class="searinfo2" v-model="search.address"></el-input> -->
 			<el-select v-model="search.resource" placeholder="项目来源" class="searinfo2">
 				<el-option
@@ -76,7 +67,7 @@
 			    </el-option>
 			</el-select>
 			<el-select v-model="search.userId" placeholder="项目负责人" class="searinfo2" style="margin-right:0px;">
-				<el-option
+			<el-option
 			      label="全部"
 			      :value="10000">
 			    </el-option>
@@ -114,10 +105,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" tag="tr" v-for="(list,index) in lists">
+				<router-link :to="{name: 'fund-detail',query:{id:list.id,type:3}}" tag="tr" v-for="(list,index) in lists">
 					<td>{{(currentPage-1)*10+index+1}}</td>
 					<td class="fabu">
-						<router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" class="link">{{list.project_name}}</router-link>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id,type:3}}" class="link">{{list.project_name}}</router-link>
 					</td>
 					<td>{{list.province_name}}{{list.city_name}}</td>
 					<td>{{list.project_resource}}</td>
@@ -128,7 +119,9 @@
 					<td v-if="list.evaluateAvg">{{list.evaluateAvg.item_all/10/list.evaluateAvg.number}}</td>
 					<td v-else></td>
 					<td>{{list.project_schedule_name}}</td>
-					<td><router-link :to="{name: 'fund-detail',query:{id:list.id,name:$route.query.name,listid:$route.query.id,type:1}}" class="link">查看</router-link></td>
+					<td>
+						<router-link :to="{name: 'fund-detail',query:{id:list.id,type:3}}" class="link">查看</router-link>
+					</td>
 				</router-link>
 			</tbody>
 		</table>
@@ -149,13 +142,14 @@
 	export default {
 	    data() {
 	      return {
+	      	pagenum:'',
 	      	city:"",
 	      	search:{
 	      		namecode:null,
 	      		timeB:null,
 	      		timeE:null,
 	      		schedule:null,
-	      		project_type:null,
+	      		project_type:7,
 	      		address:null,
 	      		resource:null,
 	      		userId:null
@@ -273,8 +267,8 @@
 	    methods:{
 	    	getCityList(){
 		    	getSearchCityList({
-		    		type:3,
-		    		foundationId:this.$route.query.id
+		    		type:2,
+		    		foundationId:0
 		    	}).then((res) => {
 					this.city = res.data.list
 				}) 
@@ -285,7 +279,7 @@
 		      		timeB:null,
 		      		timeE:null,
 		      		schedule:null,
-		      		project_type:null,
+		      		project_type:7,
 		      		address:null,
 		      		resource:null,
 		      		userId:null
@@ -317,12 +311,11 @@
 					timeE = FormatDate(this.search.timeE);
 				}
 				var data={
-					project_type:5,
+					project_type:7,
 					page:val,
-    				line:10,
-    				foundationId:this.$route.query.id
+    				line:10
 				}
-				if (this.search.project_type&&this.search.project_type!='10000') {
+				if (this.search.project_type) {
 					data.project_type=this.search.project_type
 				}
 				if (this.search.namecode) {
@@ -378,7 +371,7 @@
     				})
 					this.lists = res.data.list
 					this.intotal = parseInt(res.data.count)
-				})    
+				})     
 		    },
 		    getUserList(){
 		    	getUserList({
@@ -413,12 +406,11 @@
 					timeE = FormatDate(this.search.timeE);
 				}
 				var data={
-					project_type:5,
+					project_type:7,
 					page:1,
-    				line:10,
-    				foundationId:this.$route.query.id
+    				line:10
 				}
-				if (this.search.project_type&&this.search.project_type!='10000') {
+				if (this.search.project_type) {
 					data.project_type=this.search.project_type
 				}
 				if (this.search.namecode) {
@@ -478,7 +470,7 @@
 	    	},
 	    	getList(){
 	    		itemList({
-    				project_type:5,
+    				project_type:7,
     				page:1,
     				line:10,
     				foundationId:this.$route.query.id

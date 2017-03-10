@@ -28,12 +28,12 @@
 			</thead>
 			<tbody>
 				<router-link :to="{name: 'notice-detail',query:{id:list.id}}" tag="tr" v-for="(list,index) in lists" style="cursor:pointer">
-					<td>{{index+1}}</td>
+					<td>{{(currentPage-1)*10+index+1}}</td>
 					<td>{{list.type}}</td>
 					<td>{{list.title}}</td>
 					<td class="thenmore">{{list.content}}</td>
 					<td>{{formatDate(list.notice_time)}}</td>
-					<td>{{list.send_user.userName}}</td>
+					<td>{{list.send_user.name}}</td>
 				</router-link>
 			</tbody>
 		</table>
@@ -102,8 +102,8 @@
     				page:val,
     				line:10
     			}).then((res) => {
-					this.lists = res.data.list
-					this.intotal = parseInt(res.data.count)
+					this.lists = res.noticeList
+					this.intotal = parseInt(res.count)
 				})  
 		    },
 		    getList(){

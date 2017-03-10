@@ -135,7 +135,7 @@
 	    	formatDate(time){
 	    	  var   x = time - 0
 	    	  console.log(x)
-			  var   now = new Date(x*1000) 
+			  var   now = new Date(x) 
 			  var   year = now.getFullYear();     
 			  var   month = "0" + (now.getMonth()+1);     
 			  var   date = "0" +(now.getDate());         
@@ -168,7 +168,7 @@
 	    						url:'../static/img/touxiang.png'
 	    					}
 	    				}
-	    				list.date = list.date.substring(0,10)
+	    				// list.date = list.date.substring(0,10)
 	    			})
 	    			this.type0 = res.data.type0
 	    			this.type1 = res.data.type1

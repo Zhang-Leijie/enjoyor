@@ -60,9 +60,13 @@ export const statistics_project = factory('/statistics_project')
 export const getSearchList = factory('/getSearchList')
 //获取个人点评
 export const getNoteListByUserId = factory('/getNoteListByUserId')
-
-
-
-
+//个人中心我的评论项目列表
+export const getProjectListByUser = factory('/getProjectListByUser')
+//对应项目我的评价
+export const getNoteListByProject = factory('/getNoteListByProject')
+//获取上会项目
+export const getProjectListFromMeeting = factory('/getProjectListFromMeeting')
+//获得基金对应投资人
+export const getInvestByFoundationId = factory('/getInvestByFoundationId')
 
 

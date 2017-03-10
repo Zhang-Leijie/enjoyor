@@ -47,6 +47,18 @@ const routes = [
                 require(['./pages/fund/fund-unlist.vue'],resolve)
             }
         },{
+            path: "/fund-meeting",
+            name: 'fund-meeting',
+            component(resolve) {
+                require(['./pages/fund/fund-meeting.vue'],resolve)
+            }
+        },{
+            path: "/fund-invest",
+            name: 'fund-invest',
+            component(resolve) {
+                require(['./pages/fund/fund-invest.vue'],resolve)
+            }
+        },{
             path: "/myitem-drafts",
             name: 'my-drafts',
             component(resolve) {
@@ -57,6 +69,12 @@ const routes = [
             name: 'my-pop',
             component(resolve) {
                 require(['./pages/myitem/pop.vue'],resolve)
+            }
+        },{
+            path: "/myitem-recycle",
+            name: 'my-recycle',
+            component(resolve) {
+                require(['./pages/myitem/recycle.vue'],resolve)
             }
         },{
             path: "/myitem-creat",
@@ -81,6 +99,12 @@ const routes = [
             name: 'personal',
             component(resolve) {
                 require(['./pages/person/person.vue'],resolve)
+            }
+        },{
+            path: "/person-note",
+            name: 'person-note',
+            component(resolve) {
+                require(['./pages/person/person-note.vue'],resolve)
             }
         },{
             path: "/user-add",

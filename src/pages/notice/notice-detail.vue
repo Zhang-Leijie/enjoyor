@@ -38,7 +38,17 @@
 						发送人
 					</div>
 					<div class="item-content item-single clearfix" >
-						{{user.userName}}
+						{{user.name}}
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="sum-item">
+					<div class="item-title">
+						公告名称
+					</div>
+					<div class="item-content item-single" >
+						{{info.title}}
 					</div>
 				</div>
 			</div>

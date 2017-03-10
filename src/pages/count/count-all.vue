@@ -17,7 +17,7 @@
 				<table class="tableStyle">
 					<thead>
 						<tr>
-							<th>名称</th>
+							<th>基金名称</th>
 							<th>项目数量</th>
 							<th>投资总额</th>
 							<th>估值总额</th>
@@ -48,7 +48,7 @@
 				<table class="tableStyle">
 					<thead>
 						<tr>
-							<th>名称</th>
+							<th>基金名称</th>
 							<th>退出项目数量</th>
 						</tr>
 					</thead>

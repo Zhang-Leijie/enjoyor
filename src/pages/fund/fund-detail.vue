@@ -9,6 +9,8 @@
 		  	<el-breadcrumb-item v-if="$route.query.type==1" :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item>
 		  	<el-breadcrumb-item v-if="$route.query.type==1" :to="{name:'fund-inlist',query:{id:$route.query.listid,name:$route.query.name}}">项目列表</el-breadcrumb-item>
 		  	<el-breadcrumb-item v-if="$route.query.type==2" :to="{name:'fund-unlist'}">项目列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item v-if="$route.query.type==3" :to="{name:'fund-invest'}">项目列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item v-if="$route.query.type==4" :to="{name:'fund-meeting'}">项目列表</el-breadcrumb-item>
 		  	<el-breadcrumb-item>项目</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- <a href="javascript:history.back(-1)">

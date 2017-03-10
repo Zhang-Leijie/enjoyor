@@ -124,6 +124,19 @@
 					      @click.native="rolechange(item.id,item.roleName)">
 					    </el-option>
 					</el-select>
+					<el-select v-model="value1" placeholder="请选择" class="edit-input" v-if="fund==true">
+						<el-option
+					      label="全部基金"
+					      value="10000"
+					      @click.native="rolechange(5,'投资人')">
+					    </el-option>
+					    <el-option
+					      v-for="item in options1"
+					      :label="item.name"
+					      :value="item.id"
+					      @click.native="tzrchange(item.id)">
+					    </el-option>
+					</el-select>
 					<div class="personbox">
 						<div class="title">
 							<div class="name">{{rolename}}</div>
@@ -152,7 +165,7 @@
 </template>
 <script>
 import {saveUser,saveorupdateNotice} from '../../ajax/post.js'
-import {getFoundationList,getRoleList,getUserList,getUserListByRole} from '../../ajax/get.js'
+import {getFoundationList,getRoleList,getUserList,getUserListByRole,getInvestByFoundationId} from '../../ajax/get.js'
 function doctype(name){
 	var img
 	var x = name.split('.')[1]
@@ -178,6 +191,9 @@ function FormatDate (strTime) {
 export default {
     data() {
         return {
+        	fund:false,
+        	options1:[],
+        	value1:'10000',
         	rolename:'',
         	valuerole:'',
         	value3:'',
@@ -197,6 +213,17 @@ export default {
         }
     },
     methods: {
+    	getfundlist(){
+	    	var self = this
+	    	getFoundationList().then((res) => {
+				res.data.list.forEach(function(list){
+					self.options1.push({
+						id:list.id,
+						name:list.name
+					})
+				})
+			})  
+	    },
     	isChecked(id){
 			return !!this.lookup[id]
 			console.log(Object.keys(this.lookup))
@@ -208,7 +235,35 @@ export default {
 				console.log(Object.keys(this.lookup))
 			}
 		},
+		tzrchange(id){
+			this.checkAll1 = true
+    		this.ceo = []
+    		this.rolename = name
+    		var self = this
+    		getInvestByFoundationId({
+	      		foundationId:id
+	      	}).then((res) => {
+				res.list.forEach(function(list){
+					self.ceo.push({
+						id:list.id,
+						name:list.name
+					})
+				})
+				this.ceo.forEach(function(list){
+					if (self.lookup[list.id]==null||self.lookup[list.id]==false) {
+						self.checkAll1 = false
+					}
+				})
+			})
+		},
     	rolechange(id,name){
+    		if (id == 5) {
+    			this.fund = true
+    		}
+    		else{
+    			this.fund = false
+    			this.value1 = '10000'
+    		}
     		this.checkAll1 = true
     		this.ceo = []
     		this.rolename = name
@@ -419,6 +474,7 @@ export default {
     	// this.getRoleuser()
     	this.getUser()
     	this.getrole()
+    	this.getfundlist()
     }
 }
 </script>

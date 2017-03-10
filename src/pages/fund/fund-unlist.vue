@@ -7,7 +7,7 @@
 		  		</span>
 		  	</el-breadcrumb-item>
 		  	<!-- <el-breadcrumb-item :to="{ name: 'fund-list' }">基金列表</el-breadcrumb-item> -->
-		  	<el-breadcrumb-item>项目列表</el-breadcrumb-item>
+		  	<el-breadcrumb-item>未投项目列表</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- <div class="tableType">
 			列表形式: <span>默认</span><span>项目图标</span> <span>投资基金</span> <span>投资评级</span> 
@@ -110,7 +110,7 @@
 			</thead>
 			<tbody>
 				<router-link :to="{name: 'fund-detail',query:{id:list.id,type:2}}" tag="tr" v-for="(list,index) in lists">
-					<td>{{index+1}}</td>
+					<td>{{(currentPage-1)*10+index+1}}</td>
 					<td class="fabu">
 						<router-link :to="{name: 'fund-detail',query:{id:list.id,type:2}}" class="link">{{list.project_name}}</router-link>
 					</td>
@@ -146,6 +146,7 @@
 	export default {
 	    data() {
 	      return {
+	      	pagenum:'',
 	      	city:"",
 	      	search:{
 	      		namecode:null,
@@ -213,9 +214,6 @@
 			  }, {
 			      value: '管理或合作基金',
 			      label: '管理或合作基金'
-			  }, {
-			      value: '创业比赛',
-			      label: '创业比赛'
 			  }, {
 			      value: '创业比赛',
 			      label: '创业比赛'

@@ -447,7 +447,11 @@
 		      			self.jdbg.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
-		      		})	      		
+		      		})
+		      		var array = info.reports.reverse()
+		      		if (array[0]) {
+		      			this.value =  array[0].url 
+		      		}		
 		      	}
 		      	if (info.schedules.length!=0) {
 		      		this.zsxy = []
@@ -458,7 +462,11 @@
 		      			self.zsxy.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
-		      		})	      		
+		      		})
+		      		var array = info.schedules.reverse()
+		      		if (array[0]) {
+		      			this.value2 =  array[0].url 
+		      		}      		
 		      	}
 		      	if (info.manages.length!=0) {
 		      		this.thgl = []
@@ -469,7 +477,11 @@
 		      			self.thgl.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
-		      		})	      		
+		      		})	 
+		      		var array = info.manages.reverse()
+		      		if (array[0]) {
+		      			this.value3 =  array[0].url 
+		      		}     		
 		      	}
 		      	if (info.profits.length!=0) {
 		      		this.tztc = []
@@ -480,7 +492,11 @@
 		      			self.tztc.push({
 			      			label:list.fileName,value:list.url,id:list.id,img:img,time:time
 			      		})
-		      		})	      		
+		      		})	
+		      		var array = info.profits.reverse()
+		      		if (array[0]) {
+		      			this.value4 =  array[0].url 
+		      		}        		
 		      	}
 			}).catch((e) => {
                 

@@ -20,4 +20,9 @@ export const deleteProject = factory('/deleteProject')
 export const updatePassword = factory('/updatePassword')
 //发布公告
 export const saveorupdateNotice = factory('/saveorupdateNotice')
-
+//删除评论
+export const deleteNote = factory('/deleteNote')
+//回收站操作
+export const recoverProject = factory('/recoverProject')
+//清空回收站
+export const cleanRecycleBin = factory('/cleanRecycleBin')

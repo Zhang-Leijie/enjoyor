@@ -4,7 +4,7 @@
 		  	<el-breadcrumb-item :to="{ name: 'main' }"><i class="el-icon-menu"></i><span style="margin-left:5px;">主页</span></el-breadcrumb-item>
 		  	<el-breadcrumb-item>个人中心</el-breadcrumb-item>
 		</el-breadcrumb>
-		<div class="person-box">
+		<div class="person-box" style="margin-top:25px;">
 			<div class="sum-item">
 				<div class="item-title">
 					个人
@@ -65,67 +65,24 @@
 				<div class="item-title">
 					我的点评
 				</div>
-				<div class="item-content" v-for="i in list">
-					<div style="margin-bottom:10px;" v-if="i.commentTab.id!=1">
-						<div class="block-cont n-margin">
-							<!-- <div class="cont-img">
-								<img :src="i.user.photo.url" style="width:100%;height:100%">
-							</div> -->
-							<div class="cont-word" style="margin-top:2px;">
-								<span class="name" style="line-height:30px;">{{i.project.project_name}}</span>
-								<!-- <span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
-								<span>{{i.create_time}}</span> -->
-							</div>
-							<div class="note-label">
-								<!-- {{i.commentTab.name}} -->
-								<img v-if="i.commentTab.id==5" src="../../assets/touzidianping.png" style="width:80px">
-								<img v-if="i.commentTab.id==2" src="../../assets/tongyilixiang.png" style="width:80px">
-								<img v-if="i.commentTab.id==3" src="../../assets/tongyishanghui.png" style="width:80px">
-								<img v-if="i.commentTab.id==4" src="../../assets/tongyitouzi.png" style="width:80px">
-							</div>
-							<!-- <div class="note-label note-label2">
-								{{i.commentTab.name}}
-							</div> -->
-						</div>
-						<div class="right-cont">
-							{{i.content}}
-						</div>
-					</div>
-					<div style="margin-bottom:10px;" v-if="i.commentTab.id==1" class='note-left'>
-						<div class="block-cont">
-							<!-- <div class="cont-img">
-								<img :src="i.photo.url" style="width:100%;height:100%">
-							</div> -->
-							<div class="cont-word" style="margin-top:2px;">
-								<span class="name">{{i.user.name}}</span>
-								<!-- <span style="margin-left:10px;">{{i.user.position}}（{{i.user.address}}）</span><br>
-								<span>{{i.create_time}}</span> -->
-							</div>
-							<div class="note-label">
-								{{i.commentTab.name}}
-								<img src="../../assets/fangtanjilu.png" style="width:80px">
-							</div>
-						</div>
-						<div class="clearfix">
-							<div class="talk-detail">
-								会议日期：{{formatDate(i.date)}}
-							</div>
-							<div class="talk-detail">
-								会议地点：{{i.address}}
-							</div>
-							<div class="talk-detail">
-								访谈对象：{{i.object}}
-							</div>
-							<div class="talk-detail">
-								参与者：{{i.member}}
-							</div>
-						</div>
-						<div class="talk-cont" style="word-break:break-all;word-warp:break-word">
-							{{i.content}}
-						</div>
-					</div>
-				</div>
 			</div>
+			<table class="tableStyle" style="width:90%;margin:0 auto;margin-top:50px;">
+				<thead>
+					<tr>
+						<th>项目名称</th>
+						<th>操作</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="i in list">
+						<td>{{i.project_name}}</td>
+						<td>
+							<router-link :to="{name:'person-note',query:{id:i.project_id}}" class="link">查看我的点评</router-link>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<el-dialog title="重置密码" v-model="dialogFormVisible">
 		  	<el-form :model="formAlignRight">
@@ -148,7 +105,7 @@
 </template>
 <script>
 	import {updatePassword} from '../../ajax/post.js'
-	import {getUser,getNoteList,getNoteListByUserId} from '../../ajax/get.js'
+	import {getUser,getNoteList,getNoteListByUserId,getProjectListByUser} from '../../ajax/get.js'
 	export default {
 	    data() {
 	      return {
@@ -237,9 +194,9 @@
 		    	}	
 	    	},
 	    	getnote(){
-	    		getNoteListByUserId().then((res) => {
-	    			this.list = res.data
-				}) 
+	    		getProjectListByUser().then((res) => {
+		          this.list = res.data
+		        })
 	    	},
 	    	getuser(){
 		        getUser().then((res) => {

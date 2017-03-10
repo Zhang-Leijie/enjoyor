@@ -14,7 +14,6 @@
 					所属基金
 				</div>
 				<div class="item-content item-single" >
-
 					<el-select v-model="value1" placeholder="请选择" class="edit-input" v-if="options1!=[]">
 						<el-option
 					      label="未归属"
@@ -301,11 +300,11 @@ export default {
     	province:[],
     	provinceName:[],
     	cityName:[],
-    	provinceId:'',
-    	cityId:'',
+    	provinceId:null,
+    	cityId:null,
     	other:[],
     	num:2,
-    	value2:'',
+    	value2:null,
     	value1:null,
     	options1:[],
     	options2: [{

@@ -26,9 +26,16 @@
               </router-link>
             </el-menu-item-group>
           </el-submenu> -->
+          <router-link :to="{name:'fund-invest'}" v-if="type.type!=1">      
+            <el-menu-item index="12"><i class="iconfont icon-gonggao"></i>已投项目</el-menu-item>
+          </router-link>
           <router-link :to="{name:'fund-unlist'}" v-if="type.type!=1">      
             <el-menu-item index="3"><i class="iconfont icon-icon23"></i>未投项目</el-menu-item>
-          </router-link> 
+          </router-link>
+          <router-link :to="{name:'fund-meeting'}" v-if="type.type!=1">      
+            <el-menu-item index="11"><i class="iconfont icon-gonggao"></i>上会项目</el-menu-item>
+          </router-link>
+          <!-- <el-menu-item index="11" @click.native="alert"><i class="iconfont icon-gonggao"></i>上会项目(正在建设中)</el-menu-item> -->
           <el-submenu index="4" v-if="type.type!=1&&authority.project_create==1">
             <template slot="title"><i class="iconfont icon-wenjianjiafolder79"></i>我的项目</template>
             <el-menu-item-group>
@@ -37,6 +44,9 @@
               </router-link>         
               <router-link :to="{name:'my-drafts'}">
                 <el-menu-item index="4-2" class="sub-title">我的草稿箱</el-menu-item>
+              </router-link>
+              <router-link :to="{name:'my-recycle'}">
+                <el-menu-item index="4-3" class="sub-title">我的回收站</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
@@ -200,9 +210,13 @@ export default {
         height: 80px;
         background-color: #2c4c6d;
       }
+      .el-menu-item{
+        font-size: 16px;
+      }
       .el-menu-item, .el-submenu__title{
         color: #fff;
         height: 50px;
+        font-size: 16px;
       }
       .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
         color: #20a0ff !important;
@@ -220,6 +234,7 @@ export default {
         background-color: #32323a;
       }
       .sub-title{
+        font-size: 14px;
         padding-left: 50px !important;
         height: 40px;
         line-height: 40px;

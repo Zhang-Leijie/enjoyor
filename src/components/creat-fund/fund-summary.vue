@@ -362,7 +362,7 @@ export default {
 				      pageNum = 1,
 				      pageRendering = false,
 				      pageNumPending = null,
-				      scale = 0.8,
+				      scale = 2,
 				      canvas = document.getElementById('the-canvass')
 				      // console.log(canvas)
 				      var ctx = canvas.getContext('2d');
@@ -511,7 +511,7 @@ export default {
 			      pageNum = 1,
 			      pageRendering = false,
 			      pageNumPending = null,
-			      scale = 0.8,
+			      scale = 2,
 			      canvas = document.getElementById('the-canvas'),
 			      ctx = canvas.getContext('2d');
 			  function renderPage(num) {
